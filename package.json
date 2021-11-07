@@ -1,0 +1,21 @@
+{
+  "name": "linfo1212_f",
+  "version": "1.0.0",
+  "description": "projet final du cours de projet d'approfondissement en sciences informatiques",
+  "main": "app.js",
+  "scripts": {
+    "prestart": "mongod --dbpath database&",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aperence/LINFO1212_F.git"
+  },
+  "author": "Kevin Sanglier, Arthur Fraipont, Anthony Doeraene",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aperence/LINFO1212_F/issues"
+  },
+  "homepage": "https://github.com/Aperence/LINFO1212_F#readme",
+  "private" : true
+}
