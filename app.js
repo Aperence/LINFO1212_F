@@ -28,16 +28,17 @@ app.use(session({
 
 app.use("/modif",dataModifs.DataModifiers)
 
-app.use(express.static('static'));
-
-
 //temporaire
 app.get("/",(req,res)=>{
     res.redirect("/modif/animalmodif")
 })
 
+app.get("/upnav_site",(req,res)=>{
+    return res.render("upnav_site.html")
+})
 
 
+app.use(express.static('static'));
 
 https.createServer({
     key: fs.readFileSync('./key.pem'),

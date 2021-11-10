@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modification de l'attribution des{{title}} </title>   <!-- animaux / employés -->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/modifiers.js"></script>
+
+</head>
+<body onload="loadUpnav()">
+    <div id="upnav"></div>
+    
+
+    <div class = "BoxAnimalOrDate">
+        <div class = "BoxBorder"> Nom de l'employé {{StaffAnimalName}}</div>
+        <div class = "BoxBorder">Date actuelle {{ActualDate}}</div>
+    </div>
+
+    <div class = "tableHeader">
+        <form>
+            <select name="dateSelection" id="dateSelection">
+                {{#dateSelection}}
+                <option value={{exactDate}}>{{dateText}}</option>   <!-- prend la date côté serveur -->
+                {{/dateSelection}}
+              </select>
+        </form>
+    </div>
+    <table>
+        <tr>
+            <th>Status</th>
+            <th>Heure</th>
+            <th>Assignation</th>
+        </tr>
+
+    </table>
+
+
+</body>
+</html>
