@@ -10,6 +10,7 @@ var ObjectId = require('mongodb').ObjectId;
 const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcryptjs");
+var dataModifs = require("./src/DataModifiers")
 
 var app = express ();
 
@@ -25,7 +26,13 @@ app.use(session({
     }
 }));
 
+app.use("/modif",dataModifs.DataModifiers)
 
+
+//temporaire
+app.get("/",(req,res)=>{
+    res.redirect("/modif/animalmodif")
+})
 
 
 
