@@ -28,6 +28,8 @@ app.use(session({
 
 app.use("/modif",dataModifs.DataModifiers)
 
+app.use(express.static('static'));
+
 
 //temporaire
 app.get("/",(req,res)=>{
