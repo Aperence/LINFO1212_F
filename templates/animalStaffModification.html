@@ -4,39 +4,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modification de l'attribution des{{title}} </title>   <!-- animaux / employés -->
-
-
+    <title>Modification de l'attribution des {{title}} </title>   <!-- animaux / employés -->
+    <link href="style/bootstrap.min.css" rel="stylesheet">
+    <link rel = "stylesheet" href = "style/{{Mode}}Version.css">
+    <link rel = "stylesheet" href = "style/general.css">
+    <link rel = "stylesheet" href = "style/Modification.css">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="scripts/modifiers.js"></script>
+    <script type="text/javascript" src="/scripts/Modifiers.js"></script>
 
 </head>
 <body onload="loadUpnav()">
     <div id="upnav"></div>
     
+    <div class="Maincontent">
+        <div class = "NameDateBorder flex-box">
+            <div class = "BoxBorder flex-box"> Nom de l'employé {{StaffAnimalName}}</div>
+            <div class = "BoxBorder flex-box">Date actuelle {{ActualDate}}</div>
+        </div>
 
-    <div class = "BoxAnimalOrDate">
-        <div class = "BoxBorder"> Nom de l'employé {{StaffAnimalName}}</div>
-        <div class = "BoxBorder">Date actuelle {{ActualDate}}</div>
+        <div class = "tableHeader">
+            <form>
+                <select name="dateSelection" id="dateSelection">
+                    {{#dateSelection}}
+                    <option value={{exactDate}}>{{dateText}}</option>   <!-- prend la date côté serveur -->
+                    {{/dateSelection}}
+                </select>
+            </form>
+        </div>
+        <table>
+            <tr>
+                <th>Status</th>
+                <th>Heure</th>
+                <th>Assignation</th>
+            </tr>
+            {{#TimeTable}}
+            <tr>
+                <td style="min-width: 50px;" value={{status}}></td>
+                <td style="min-width: 100px;" value={{time}}></td>
+                <td style="min-width: 200px;" value={{name}}></td>
+            </tr>
+            {{/TimeTable}}
+
+        </table>
     </div>
-
-    <div class = "tableHeader">
-        <form>
-            <select name="dateSelection" id="dateSelection">
-                {{#dateSelection}}
-                <option value={{exactDate}}>{{dateText}}</option>   <!-- prend la date côté serveur -->
-                {{/dateSelection}}
-              </select>
-        </form>
-    </div>
-    <table>
-        <tr>
-            <th>Status</th>
-            <th>Heure</th>
-            <th>Assignation</th>
-        </tr>
-
-    </table>
 
 
 </body>

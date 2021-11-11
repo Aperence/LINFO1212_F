@@ -30,11 +30,21 @@ app.use("/modif",dataModifs.DataModifiers)
 
 //temporaire
 app.get("/",(req,res)=>{
+    req.session.lastpage = "/"
     res.redirect("/modif/animalmodif")
 })
 
 app.get("/upnav_site",(req,res)=>{
     return res.render("upnav_site.html")
+})
+
+app.get("/upnav_prov",(req,res)=>{
+    return res.render("upnav_prov.html")
+})
+
+app.get('/ChangeMode', (req,res)=>{
+    req.session.theme = req.session.theme === "light" || !(req.session.theme) ? "dark" : "light"
+    res.redirect(req.session.lastpage)
 })
 
 
