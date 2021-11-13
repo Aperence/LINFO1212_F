@@ -1,5 +1,21 @@
 {
-    "animalName" : "Lion",
+    "animalName" : "test",
     "staffName" : "Georges",
-    "time" : "0:30"
+    "time" : "00:30",
+    "day" : "Mardi",
+    "date" : "16/11/2021"
+}
+{
+    "animalName" : "test",
+    "staffName" : "Julien",
+    "time" : "12:30",
+    "day" : "Lundi",
+    "date" : "15/11/2021"
+}
+{
+    "animalName" : "test",
+    "staffName" : "null",
+    "time" : "16:30",
+    "day" : "Lundi",
+    "date" : "15/11/2021"
 }

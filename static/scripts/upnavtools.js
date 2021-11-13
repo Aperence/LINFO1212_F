@@ -1,3 +1,0 @@
-function ShowProfileOption(){
-    $("#dropdown").toggle();
-}

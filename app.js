@@ -26,8 +26,6 @@ app.use(session({
     }
 }));
 
-app.use("/modif",dataModifs.DataModifiers)
-
 //temporaire
 app.get("/",(req,res)=>{
     req.session.lastpage = "/"
@@ -46,6 +44,9 @@ app.get('/ChangeMode', (req,res)=>{
     req.session.theme = req.session.theme === "light" || !(req.session.theme) ? "dark" : "light"
     res.redirect(req.session.lastpage)
 })
+
+// ajouts de routeurs
+app.use("/modif",dataModifs.DataModifiers)
 
 
 app.use(express.static('static'));
