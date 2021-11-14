@@ -2,11 +2,14 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    width: 60%;
+    position: relative;
+    left: 20%;
 }
 
 .NameDateBorder{
     width: 90%;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     margin : 20px 0px;
 }
@@ -15,6 +18,9 @@
     border: solid 5px black;
     padding: 15px;
     border-radius: 25px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 7px;
 }
 
 .tableHeader{
@@ -33,9 +39,34 @@ table, th, td{
     text-align: center;
 }
 
+th{
+    height: 75px;
+}
+
+td{
+    height : 50px;
+}
+
 .submitButton{
     margin: 10px;
     width: 125px;
     height: 34px;
     border-radius: 30px;
+}
+
+.Border{
+    position: fixed;
+    height: 100%;
+    width: 140%;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+}
+
+@media (max-width:700px){
+
+    .Maincontent{
+        width: 100%;
+        left: 0%;
+    }
 }

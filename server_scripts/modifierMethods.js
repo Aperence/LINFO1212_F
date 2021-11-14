@@ -1,7 +1,9 @@
 function makeRenderObject(isAnimal, Name, Request){
     /**
-     * @pre : 
-     * @post : 
+     * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé
+     * @pre : Name : le nom de l'animal/employé
+     * @pre : Request : l'objet permettant de récupérer les requêtes
+     * @post : retourne l'objet pour remplir la template animalStaffModification.html
      */
     var date = new Date();
     var day = date.getDate();
@@ -22,8 +24,9 @@ function makeRenderObject(isAnimal, Name, Request){
 
 function calculateListNextWeek(date){
     /**
-     * @pre : 
-     * @post : 
+     * @pre : date : un objet de type Date
+     * @post : retourne un array contenant les 7 prochains jours ainsi que leur date
+     * exemple : ["Lundi 15/11/2021", "Mardi 16/11/2021", ... , "Dimanche 21/11/2021"]
      */
     const DayList = ["Dimanche","Lundi" , "Mardi" , "Mercredi" , "Jeudi", "Vendredi" , "Samedi" ]  
     var dateHelp = date;
@@ -39,8 +42,27 @@ function calculateListNextWeek(date){
 }
 
 
-function createListItem(isAnimal, TimeTable, DatabaseDocument){
+function createListItem(isAnimal, DatabaseDocument){
+    /**
+     * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé
+     * @pre : DatabaseDocument : un array d'objets JSON de la forme {
+     *                                                                 "animalName" : "test",
+     *                                                                 "staffName" : "Georges",
+     *                                                                 "time" : "00:30",
+     *                                                                 "day" : "Mardi",
+     *                                                                 "date" : "16/11/2021"
+     *                                                              }  
+     * (Il s'agit du format de la collection timetable)
+     * 
+     * @post : retourne un array d'objet ayant le format suivant:
+     * {status : status, time : exactHour, name : name}
+     * avec status : si le champs est requis, non-requis ou déjà remplis
+     *      time : heure suivant le format "HH:MM" avec HH qui est une heure appartenant à [0,23] et MM, une demi-heure appartienant à {0, 30}
+     *      name : nom de l'animal/employé
+     *      
+     */
     var item;
+    var TimeTable = []
     for (var hour = 0; hour<24; hour++){    
         for (var halfhour = 0; halfhour <2 ; halfhour++){
             var exactHour =  formatHourString([hour,halfhour*30])
@@ -50,10 +72,24 @@ function createListItem(isAnimal, TimeTable, DatabaseDocument){
             TimeTable.push({status : status, time : exactHour, name : name})
         }
     }
+    return TimeTable
 }
 
 
 function getIfTimesExists(DatabaseDocument,exactHour){
+    /**
+     * @pre : DatabaseDocument : un array d'objet JSON du type {
+     *                                                           "animalName" : "test",
+     *                                                           "staffName" : "Georges",
+     *                                                           "time" : "00:30",
+     *                                                           "day" : "Mardi",
+     *                                                           "date" : "16/11/2021"
+     *                                                          }
+     * @pre : exactHour : un string représentant une heure sous le format "HH:MM" avec 
+     * HH qui est une heure appartenant à [0,23] et MM, une demi-heure appartienant à {0, 30}
+     * @post : retourne l'objet dont le champ "time" est égal à exactHour, 
+     * s'il n'y en a pas, retourne un objet vide
+     */
     for(let item of DatabaseDocument){
         if (item.time === exactHour){
             return item
@@ -63,6 +99,13 @@ function getIfTimesExists(DatabaseDocument,exactHour){
 }
 
 function defineState(item, isAnimal){
+    /**
+     * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé
+     * @pre : item : un objet possédant un champ name
+     * @post : retourne : - "requiredField" si l'objet est une objet vide       => champ nécessaire de compléter
+     *                    - "unrequiredField" si l'objet possède le nom "null"  => champ non nécessaire
+     *                    - "FilledField" si l'objet possède déjà un nom        => champ déjà complété
+     */
     if (Object.keys(item).length === 0){ // objet vide
         return 'requiredField'
     }
@@ -80,6 +123,13 @@ function defineState(item, isAnimal){
 }
 
 function getName(item, isAnimal){
+    /**
+     * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé
+     * @pre : item : un objet possédant un champ name
+     * @post : retourne : - "Pas d'employé" si l'objet est une objet vide
+     *                    - "-" si l'objet possède le nom "null"
+     *                    - le nom de l'animal/employé autrement
+     */
     if (Object.keys(item).length === 0){    // objet vide
         return "Pas d'employé"
     }
@@ -90,10 +140,56 @@ function getName(item, isAnimal){
     }
 }
 
+function formatHour(Hour){
+    /**
+     * @pre : Hour : un string suivant le format HH:MM avec HH qui est une heure appartenant à [0,23] et MM, 
+     * une demi-heure appartienant à {0, 30}
+     * @post : retourne un tableau d'int représentant cette heure
+     * exemple : Hour = "18:30"  => [18 , 30]
+     */
+    Hour = Hour.split(":")
+    Hour[0] = Hour[0][0] == "0" ? Hour[0].slice(1,Hour.length) : Hour[0]
+    Hour[1] = Hour[1][0] == "0" ? Hour[1].slice(1,Hour.length) : Hour[1]
+    Hour[0] = parseInt(Hour[0])
+    Hour[1] = parseInt(Hour[1])
+    return Hour
+}
+
+function formatHourString(HourArray){
+    /**
+     * @pre : HourArray : un array représentant des heures suivant le format [heure, demi-heure] avec heure appartient à [0,23] 
+     * et demi-heure appartient à {0, 30}
+     * @post : retourne une heure sous le format de string "HH:MM" HH qui est une heure appartenant à [0,23] et MM, 
+     * une demi-heure appartienant à {0, 30}
+     * exemple : HourArray = [9 , 0]  => "09:00"
+     */
+    hour = HourArray[0]
+    halfhour = HourArray[1]
+    strHour = hour.toString()
+    if (strHour.length===1){
+        strHour = '0' + strHour
+    }
+    strhalfhour = halfhour.toString()
+    if (strhalfhour.length===1){
+        strhalfhour = '0' + strhalfhour
+    }
+    return `${strHour}:${strhalfhour}`
+}
+
 function comprisedBetween(startHourFormated, endHourFormated, actualHour){
+    /**
+     * @pre : startHourFormated, endHourFormated, actualHour : des arrays représentant des heures
+     * Concrètement, ces trois variable ont le format [heure, demi-heure] avec heure appartient à [0,23] 
+     * et demi-heure appartient à {0, 30}
+     * @pre : startHourFormated : heure de début de l'intervalle, sous le format montré ci-dessus
+     * @pre : endHourFormated : heure de fin de l'intervalle, sous le format montré ci-dessus
+     * @pre : actualHour : heure dont on veut savoir si elle fait partie de l'intervalle, sous le format montré ci-dessus
+     * @post : retourne true si actualHour est une heure comprise entre startHourFormated et endHourFormated, 
+     * false sinon
+     */
     var intervalHour = []
     if (endHourFormated[0]<startHourFormated[0]){    // cas où on commence vers 23h par exemple et fini à 7h
-        for (let i = 0; i<= startHourFormated[0]-(endHourFormated[0]-24); i++ ){
+        for (let i = 0; i<= endHourFormated[0]-(startHourFormated[0]-24); i++ ){
             for (let j = 0; j< 2; j++ ){
                 intervalHour.push([ (i+startHourFormated[0])%24 ,j*30])
             }
@@ -119,126 +215,11 @@ function comprisedBetween(startHourFormated, endHourFormated, actualHour){
     return false
 }
 
-function formatHour(Hour){
-    Hour = Hour.split(":")
-    Hour[0] = Hour[0][0] == "0" ? Hour[0].slice(1,Hour.length) : Hour[0]
-    Hour[1] = Hour[1][0] == "0" ? Hour[1].slice(1,Hour.length) : Hour[1]
-    Hour[0] = parseInt(Hour[0])
-    Hour[1] = parseInt(Hour[1])
-    return Hour
-}
-
-function formatHourString(HourArray){
-    hour = HourArray[0]
-    halfhour = HourArray[1]
-    strHour = hour.toString()
-    if (strHour.length===1){
-        strHour = '0' + strHour
-    }
-    strhalfhour = halfhour.toString()
-    if (strhalfhour.length===1){
-        strhalfhour = '0' + strhalfhour
-    }
-    return `${strHour}:${strhalfhour}`
-}
-
-
-function renderTimeTableAdmin(TimeTable, ListAnimalStaff, isAnimal, Request){
-    var renderedTimeTable = `<table>
-                                <input type="hidden" id="dateModif" value = '${Request.query.date}/${Request.query.day}'>
-                                <tr>
-                                    <th>Status</th>
-                                    <th>Heure</th>
-                                    <th>Assignation</th>
-                                </tr>`
-    var status;
-    var name;
-    for (let i = 0; i<TimeTable.length; i++){
-        actualHour = [ Math.floor(i/2) , (i%2)*30 ]
-        strActualHour = formatHourString(actualHour)
-        name = `<select name='nameSelection${strActualHour}' id='nameSelection${strActualHour}' style='width:150px'>`
-
-        switch(TimeTable[i].status){
-            case "requiredField":
-                status = "<i class='bx bx-x-circle bx-tada' style='color:#fa0000' ></i>"
-                name += `<option value=''></option>`
-                break;
-            case "unrequiredField":
-                status = "<i class='bx bx-minus-circle' style='color:#e1ac0e'  ></i>"
-                name = "-"
-                break;
-            case "FilledField":
-                status = "<i class='bx bxs-check-circle' style='color:#29f40a'  ></i>"
-                break;
-        }
-        if (TimeTable[i].status != 'unrequiredField'){
-            if (!isAnimal){
-
-                for (let item of ListAnimalStaff){
-                    name += `<option value=${item._id}>${item.name}</option>`
-                }
-    
-            }else{
-    
-                for (let item of ListAnimalStaff){
-                    
-                    var startHourFormated = formatHour(item.startHour)   // pour avoir un array de int à partir de l'heure     ex : [17,0] ou [14,30]  => 17h00 ou 14h30
-                    var endHourFormated = formatHour(item.endHour)
-    
-                    if (comprisedBetween(startHourFormated, endHourFormated, actualHour)){
-                        name += `<option value=${item._id}>${item.name}</option>`
-                    }
-                }
-            }
-            name += "</select>"
-        }
-
-        renderedTimeTable += `<tr>
-                                <td style="min-width: 50px;">${status}</td>
-                                <td style="min-width: 100px;">${TimeTable[i].time}</td>
-                                <td style="min-width: 200px;">${name}</td>
-                             </tr>`
-    }
-    renderedTimeTable += "</table>"
-    return renderedTimeTable
-}
-
-
-function renderTimeTableNotAdmin(TimeTable){
-    var renderedTimeTable = `<table>
-                                <tr>
-                                    <th>Status</th>
-                                    <th>Heure</th>
-                                    <th>Assignation</th>
-                                </tr>`
-    var status;
-    for (let i = 0; i<TimeTable.length; i++){
-        switch(TimeTable[i].status){
-            case "requiredField":
-                status = "<i class='bx bx-x-circle bx-tada' style='color:#fa0000' ></i>"
-                break;
-            case "unrequiredField":
-                status = "<i class='bx bx-minus-circle' style='color:#e1ac0e'  ></i>"
-                break;
-            case "FilledField":
-                status = "<i class='bx bxs-check-circle' style='color:#29f40a'  ></i>"
-                break;
-        }
-        renderedTimeTable += `<tr>
-                                <td style="min-width: 50px;">${status}</td>
-                                <td style="min-width: 100px;">${TimeTable[i].time}</td>
-                                <td style="min-width: 200px;">${TimeTable[i].name}</td>
-                             </tr>`
-    }
-    renderedTimeTable += "</table>"
-    return renderedTimeTable
-}
-
-
 
 module.exports = {
     "makeRenderObject" : makeRenderObject,
-    "renderTimeTableAdmin" : renderTimeTableAdmin,
-    "renderTimeTableNotAdmin" : renderTimeTableNotAdmin,
-    "createListItem" : createListItem
+    "createListItem" : createListItem,
+    "formatHourString" : formatHourString,
+    "formatHour" : formatHour,
+    "comprisedBetween" : comprisedBetween
 }

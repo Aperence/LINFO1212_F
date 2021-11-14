@@ -11,6 +11,7 @@ const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 var dataModifs = require("./src/DataModifiers")
+var DBTools = require('./src/databaseTools')
 
 var app = express ();
 
@@ -47,6 +48,7 @@ app.get('/ChangeMode', (req,res)=>{
 
 // ajouts de routeurs
 app.use("/modif",dataModifs.DataModifiers)
+app.use("/tools", DBTools.DBTools)
 
 
 app.use(express.static('static'));

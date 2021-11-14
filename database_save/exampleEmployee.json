@@ -15,3 +15,13 @@
     "startHour" : "12:00",
     "endHour" : "20:00"
 }
+
+
+{
+    "name" : "Jean",
+    "password" : "test",
+    "description" : "En vacances",
+    "admin" : true,
+    "startHour" : "21:00",
+    "endHour" : "05:00"
+}

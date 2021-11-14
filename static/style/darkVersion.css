@@ -1,6 +1,14 @@
 .Maincontent{
-    background-color: rgb(54, 57, 63);
+    background-color: #2e3039;
     color: azure;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     min-height: 100%;
+}
+
+th{
+    background-color: rgb(41, 43, 47);
+}
+
+.BoxBorder{
+    background-color: rgb(41, 43, 47);
 }
