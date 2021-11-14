@@ -39,22 +39,7 @@
                 </select>
             </form>
         </div>
-        <div id="table"></div>
-        <table>
-            <tr>
-                <th>Status</th>
-                <th>Heure</th>
-                <th>Assignation</th>
-            </tr>
-            {{#TimeTable}}
-            <tr>
-                <td style="min-width: 50px;" value={{status}}></td>
-                <td style="min-width: 100px;" value={{time}}></td>
-                <td style="min-width: 200px;" value={{name}}></td>
-            </tr>
-            {{/TimeTable}}
-
-        </table>
+        <form id = "table" class = "tableContent flex-box"></form>
     </div>
 
 

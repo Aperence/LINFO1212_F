@@ -4,9 +4,10 @@ function loadUpnav(){
 
 function displayTable() {  
    var xhttp = new XMLHttpRequest();
+   document.getElementById("table").innerHTML = "<input type='submit' class='submitButton'></input>"
    xhttp.onreadystatechange = function() {
      if (this.readyState == 4 && this.status == 200) {
-       document.getElementById("table").innerHTML = this.responseText;
+       document.getElementById("table").innerHTML = this.responseText + document.getElementById("table").innerHTML;
      }
    };
    var name =  document.getElementById("name").value

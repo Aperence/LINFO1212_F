@@ -1,0 +1,17 @@
+{
+    "name" : "Georges",
+    "password" : "test",
+    "description" : "En vacances",
+    "admin" : true,
+    "startHour" : "00:00",
+    "endHour" : "12:00"
+}
+
+{
+    "name" : "Julien",
+    "password" : "test2",
+    "description" : "En vacances 2",
+    "admin" : false,
+    "startHour" : "12:00",
+    "endHour" : "20:00"
+}

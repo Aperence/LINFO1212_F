@@ -26,10 +26,20 @@
         user-select: none;
       }
 
+
+
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
         }
+      }
+
+      @media (max-width : 768px){
+        .dropdown-menu {
+          left: 50% !important;
+          margin-left: -70px;
+          width: 50%;
+      }
       }
     </style>
 
@@ -40,10 +50,14 @@
 
   <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="background-image: url('images/texture-tropical-wood-14182517.jpg');background-size:200px 200px">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Paradisio Scheduler</a>
-      <a href = "/ChangeMode">
-        <i class='bx bx-power-off' style='color:#ffffff'  ></i>
-      </a>
+      <div>
+        <a class="navbar-brand" href="/">Paradisio Scheduler</a>
+        <a href = "/ChangeMode" style= "position: relative; top:2.5px">
+          <i class='bx bx-power-off bx-sm' style='color:#ffffff'  ></i>
+        </a>
+      </div>
+
+
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -56,9 +70,9 @@
           <form>
             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
           </form>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown" style="display: flex;justify-content:center">
             <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
+              <i class='bx bx-user-circle bx-md' style='color:#ffffff; position:relative; top:2.5px'  ></i>
             </a>
             <div class="dropdown-menu dropdown-menu-end">
               <button class="dropdown-item" type="button">Action</button>

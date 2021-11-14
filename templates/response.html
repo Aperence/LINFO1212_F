@@ -1,0 +1,12 @@
+<table>
+    <input type="hidden" id="dateModif" value = '${Request.query.date}/${Request.query.day}'>
+    <tr>
+        <th>Status</th>
+        <th>Heure</th>
+        <th>Assignation</th>
+    </tr>
+    <tr>
+        <td style="min-width: 50px;">{{status}}</td>
+        <td style="min-width: 100px;">{{TimeTable[i].time}}</td>
+        <td style="min-width: 200px;">{{name}}</td>
+     </tr>

@@ -17,8 +17,14 @@
     border-radius: 25px;
 }
 
-table{
-    margin-top: 20px;
+.tableHeader{
+    margin: 10px;
+}
+
+.tableContent{
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 table, th, td{
@@ -27,14 +33,9 @@ table, th, td{
     text-align: center;
 }
 
-td:first-child, th:first-child{
-    min-width: 50px;
-}
-
-td:nth-child(1), th:nth-child(1){
-    min-width: 100px;
-}
-
-td:last-child{
-    min-width: 100px;
+.submitButton{
+    margin: 10px;
+    width: 125px;
+    height: 34px;
+    border-radius: 30px;
 }

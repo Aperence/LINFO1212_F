@@ -31,19 +31,40 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     router.get("/loadTimeTable", async(req,res)=>{
         var isAnimal = req.query.animal === "true"
         var TimeTable = []
+        req.session.isAdmin = req.session.isAdmin || true     // !!!!!!!!changer
         console.log("called")
         if (isAnimal){ 
             dbo.collection("timetable").find({animalName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{
-                console.log(doc)
-                modifierHelp.createListItem(isAnimal, TimeTable, doc)
-                responseTimeTable = modifierHelp.renderTimeTable(TimeTable);                 
-                res.send(responseTimeTable)
+                if (req.session.isAdmin){
+
+                    dbo.collection("employee").find({}).toArray((err,documentEmployee)=>{
+                        modifierHelp.createListItem(isAnimal, TimeTable, doc)
+                        responseTimeTable = modifierHelp.renderTimeTableAdmin(TimeTable, documentEmployee, isAnimal , req);   
+                        console.log(responseTimeTable)              
+                        res.send(responseTimeTable)
+                    })
+
+                }else{
+                    modifierHelp.createListItem(isAnimal, TimeTable, doc)
+                    responseTimeTable = modifierHelp.renderTimeTableNotAdmin(TimeTable);                 
+                    res.send(responseTimeTable)
+                }
             })
         }else{
             dbo.collection("timetable").find({staffName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{
-                modifierHelp.createListItem(isAnimal, TimeTable,doc)
-                responseTimeTable = modifierHelp.renderTimeTable(TimeTable);                 
-                res.send(responseTimeTable)
+                if (req.session.isAdmin){
+
+                    dbo.collection("animal").find({}).toArray((err,documentAnimal)=>{
+                        modifierHelp.createListItem(isAnimal, TimeTable, doc)
+                        responseTimeTable = modifierHelp.renderTimeTableAdmin(TimeTable, documentAnimal, isAnimal, req);                 
+                        res.send(responseTimeTable)
+                    })
+
+                }else{
+                    modifierHelp.createListItem(isAnimal, TimeTable, doc)
+                    responseTimeTable = modifierHelp.renderTimeTableNotAdmin(TimeTable);                 
+                    res.send(responseTimeTable)
+                }
             })
         }
     })
