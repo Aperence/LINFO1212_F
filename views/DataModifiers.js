@@ -15,12 +15,14 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db("site")
 
     router.get("/animalmodif",(req,res)=>{
+        modifierHelp.updateDB(dbo)
         req.session.lastpage = prefix + "/animalmodif"                     // utilisé pour rediriger après changement de couleur/mode
         var renderObject = modifierHelp.makeRenderObject(true,req.query.name,req);
         return res.render("animalStaffModification.html",renderObject)
     })
 
     router.get("/staffmodif",(req,res)=>{
+        modifierHelp.updateDB(dbo)
         req.session.lastpage = prefix + "/staffmodif"
         var renderObject = modifierHelp.makeRenderObject(false,req.query.name,req);
         return res.render("animalStaffModification.html",renderObject)
@@ -33,7 +35,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/loadTimeTable", (req,res)=>{
         var isAnimal = req.query.animal === "true"
-        req.session.isAdmin = req.session.isAdmin || false     // !!!!!!!!changer
+        req.session.isAdmin = req.session.isAdmin || false    // !!!!!!!!changer
         if (isAnimal){ 
             var tableSearch = "employee"
             dbo.collection("timetable").find({animalName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{   // cherche tous les horaires concernant cet animal
@@ -58,7 +60,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     if (req.body["nameSelection"+formatHour]===""){
                         continue
                     }
-                    dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif}, )  //supprime si existe déjà 
+                    dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif})  //supprime si existe déjà 
                     dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif, "staffName": req.body["nameSelection"+formatHour]})
                 }else{
                     if (req.body["nameSelection"+formatHour]===""){

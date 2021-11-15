@@ -215,11 +215,84 @@ function comprisedBetween(startHourFormated, endHourFormated, actualHour){
     return false
 }
 
+function formatDate(dateString){
+    /**
+     * @pre : dateString : une date sous forme de String : DD/MM/YYYY
+     * @post : retourne un array de int représentant cette date  (!)(Les mois vont de 0 à 11)
+     * exemple: "12/10/2021"  =>   [12, 9, 2021]
+     */
+    dateString = dateString.split("/")
+    if (dateString[0][0] === "0"){
+        dateString[0][0] = dateString[0][1]
+    }
+    if (dateString[1][0] === "0"){
+        dateString[1][0] = dateString[1][1]
+    }
+    for (var i = 0; i<3; i++){
+        dateString[i] = parseInt(dateString[i])
+    }
+    dateString[1] = dateString[1] - 1  // Date du mois commence à 0
+        return dateString
+}
+
+function findDay(daySearch){
+    /**
+     * @pre : daySearch : un String représentant un jour de la semaine  (Majuscule commençant le nom)
+     * @post : retourne l'index de ce jour dans la semaine (en considérant dimanche comme étant le premier jour)
+     * @post : retourne -1 si le string ne représente aucun jour de la semaine
+     */
+    const DayList = ["Dimanche","Lundi" , "Mardi" , "Mercredi" , "Jeudi", "Vendredi" , "Samedi" ]
+    for (var day = 0; day<7; day++){
+        if (DayList[day]===daySearch){
+            return day
+        }
+    }  
+    return -1
+}
+
+function updateDB(DatabaseAccess){
+    /**
+     * @pre : DatabaseAccess : la variable permettant de se connecter à la base de donnée
+     * @post : met à jour toutes les dates de la collection "timetable" pour les faire coïncider avec la semaine d'après
+     * Par exemple , si nous sommes le Dimanche 15/11/2021, va mettre à jour toutes les dates antérieures dans le semaine qui suit :
+     * Lundi 10/1/2012 deviendra le Lundi 16/11/2021
+     */
+    var today = new Date()
+    DatabaseAccess.collection("timetable").find({}).toArray((err,doc)=>{
+        if (err) {console.log(err)}
+        for (let item of doc){
+            var formatdate = formatDate(item.date)
+            var dateItem = new Date(formatdate[2], formatdate[1], formatdate[0], 23, 59, 59)
+            nextDayString = `${dateItem.getDate()}/${dateItem.getMonth()+1}/${dateItem.getFullYear()}`
+            if (dateItem.getTime() < today.getTime()){
+                day = findDay(item.day) 
+                for (var weekday = 0; weekday<7 ; weekday++){
+                    nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + weekday)   //cherche la prochaine date pour ce jour
+                    if (nextDay.getDay() === day){
+                        break
+                    }
+                }
+                nextDayString = formatDateFromObject(nextDay)
+            }
+            DatabaseAccess.collection("timetable").updateOne(item, { $set: {date : nextDayString} })
+        }
+    })
+}
+
+
+function formatDateFromObject(dateObject){
+    appendDay =dateObject.getDate() <10 ? "0" : ""
+    appendMonth = dateObject.getMonth()+1 <10 ? "0" : ""
+    return `${appendDay}${dateObject.getDate()}/${appendMonth}${dateObject.getMonth()+1}/${dateObject.getFullYear()}`
+}
+
 
 module.exports = {
     "makeRenderObject" : makeRenderObject,
     "createListItem" : createListItem,
     "formatHourString" : formatHourString,
     "formatHour" : formatHour,
-    "comprisedBetween" : comprisedBetween
+    "comprisedBetween" : comprisedBetween,
+    "updateDB" : updateDB,
+    "formatDateFromObject" : formatDateFromObject
 }

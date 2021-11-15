@@ -34,11 +34,12 @@ app.get("/",(req,res)=>{
 })
 
 app.get("/upnav_site",(req,res)=>{
-    return res.render("upnav_site.html")
-})
+    if (req.session.isAdmin){
+        return res.render("upnav_site.html", {display : ""})
+    }else{
+        return res.render("upnav_site.html", {display : "display : none"})
+    }
 
-app.get("/upnav_prov",(req,res)=>{
-    return res.render("upnav_prov.html")
 })
 
 app.get('/ChangeMode', (req,res)=>{
