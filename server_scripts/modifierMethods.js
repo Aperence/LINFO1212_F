@@ -17,7 +17,8 @@ function makeRenderObject(isAnimal, Name, Request){
         "isAnimal" : isAnimal,
         "StaffAnimalName" : Name,
         "ActualDate" : `${day}/${month+1}/${year}`,
-        "dateSelection" : ListNextWeek
+        "dateSelection" : ListNextWeek,
+        "isAdmin" : Request.session.isAdmin
     }
 }
 
