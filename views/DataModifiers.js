@@ -35,7 +35,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/loadTimeTable", (req,res)=>{
         var isAnimal = req.query.animal === "true"
-        req.session.isAdmin = req.session.isAdmin || false    // !!!!!!!!changer
+        req.session.isAdmin = req.session.isAdmin || false // !!!!!!!!changer
         if (isAnimal){ 
             var tableSearch = "employee"
             dbo.collection("timetable").find({animalName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{   // cherche tous les horaires concernant cet animal

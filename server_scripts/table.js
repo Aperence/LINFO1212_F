@@ -95,9 +95,9 @@ function renderTimeTableNotAdmin(TimeTable){
      */
     var renderedTimeTable = `<table>
                                 <tr>
-                                    <th>Status</th>
-                                    <th>Heure</th>
-                                    <th>Assignation</th>
+                                    <th style="min-width: 50px;">Status</th>
+                                    <th style="min-width: 100px;">Heure</th>
+                                    <th style="min-width: 200px;">Assignation</th>
                                 </tr>`
     var status;
     for (let i = 0; i<TimeTable.length; i++){
@@ -112,11 +112,14 @@ function renderTimeTableNotAdmin(TimeTable){
                 status = "<i class='bx bxs-check-circle' style='color:#29f40a'  ></i>"
                 break;
         }
-        renderedTimeTable += `<tr>
-                                <td style="min-width: 50px;">${status}</td>
-                                <td style="min-width: 100px;">${TimeTable[i].time}</td>
-                                <td style="min-width: 200px;">${TimeTable[i].name}</td>
-                             </tr>`
+        if (TimeTable[i].status=="FilledField"){
+            renderedTimeTable += `<tr>
+            <td style="min-width: 50px;">${status}</td>
+            <td style="min-width: 100px;">${TimeTable[i].time}</td>
+            <td style="min-width: 200px;">${TimeTable[i].name}</td>
+         </tr>`
+        }
+
     }
     renderedTimeTable += "</table>"
     return renderedTimeTable
@@ -133,7 +136,7 @@ function makeRenderedTable(collectionSearch, Request, isAnimal, doc, res){
      * @post : envoie la table d'affichage avec la personne en charge pour chaque tranche horaire
      */
     if (Request.session.isAdmin){
-        dbo.collection(collectionSearch).find({}).toArray((err,documentEmployee)=>{
+        dbo.collection(collectionSearch).find({}).sort({name : 1}).toArray((err,documentEmployee)=>{
             var TimeTable = modifierHelp.createListItem(isAnimal, doc)
             responseTimeTable = renderTimeTableAdmin(TimeTable, documentEmployee, isAnimal , Request);         
             res.send(responseTimeTable)
