@@ -10,8 +10,8 @@ var ObjectId = require('mongodb').ObjectId;
 const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcryptjs");
-var dataModifs = require("./src/DataModifiers")
-var DBTools = require('./src/databaseTools')
+var dataModifs = require("./views/DataModifiers")
+var DBTools = require('./views/databaseTools')
 
 var app = express ();
 

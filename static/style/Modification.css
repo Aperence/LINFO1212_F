@@ -15,7 +15,8 @@
 }
 
 .BoxBorder{
-    border: solid 5px black;
+    border: solid 5px rgb(33, 120, 3);
+    background-color: rgb(61, 208, 103);
     padding: 15px;
     border-radius: 25px;
     justify-content: center;

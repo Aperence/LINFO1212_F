@@ -33,7 +33,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/loadTimeTable", (req,res)=>{
         var isAnimal = req.query.animal === "true"
-        req.session.isAdmin = req.session.isAdmin || true     // !!!!!!!!changer
+        req.session.isAdmin = req.session.isAdmin || false     // !!!!!!!!changer
         if (isAnimal){ 
             var tableSearch = "employee"
             dbo.collection("timetable").find({animalName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{   // cherche tous les horaires concernant cet animal
@@ -58,13 +58,13 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     if (req.body["nameSelection"+formatHour]===""){
                         continue
                     }
-                    dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif}, )
+                    dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif}, )  //supprime si existe déjà 
                     dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif, "staffName": req.body["nameSelection"+formatHour]})
                 }else{
                     if (req.body["nameSelection"+formatHour]===""){
                         continue
                     }
-                    dbo.collection("timetable").deleteMany({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif})
+                    dbo.collection("timetable").deleteMany({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif})    //supprime si existe déjà 
                     dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif, "animalName": req.body["nameSelection"+formatHour]})  
                 }
 
