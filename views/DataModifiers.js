@@ -24,6 +24,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/staffmodif",(req,res)=>{
         modifierHelp.updateDB(dbo)
+        req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
         req.session.lastpage = prefix + "/staffmodif"
         var renderObject = modifierHelp.makeRenderObject(false,req.query.name,req, dbo);
         return res.render("animalStaffModification.html",renderObject)
