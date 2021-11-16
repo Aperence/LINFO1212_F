@@ -36,14 +36,14 @@ function randomAnimalCollection(DatabaseAccess,number){
 function randomTimeTableCollection(DatabaseAccess,number){
     console.log("time")
     for (var count = 0; count<number; count++){
-        DatabaseAccess.collection("timetable").insertOne(randomTime(DatabaseAccess))
+        DatabaseAccess.collection("timetable").insertOne(randomTime())
     }
 }
 
 function randomAnimal(){
     var name = generateAnimalName()
     var description = generateDescription()
-    return {name : name, description :  description}
+    return {name : name, description :  description, picture : ""}
 }
 
 function randomEmployee(){
@@ -58,10 +58,10 @@ function randomEmployee(){
     var endTime = help.formatHourString([endHour,halfhour*30])
 
     var isAdmin = generateNumber(0,10) >= 9 ? true : false
-    return {name : animalName, description : description, password : "test", admin : isAdmin, startHour : time, endHour: endTime}
+    return {name : animalName, description : description, password : "test", admin : isAdmin, startHour : time, endHour: endTime, picture : ""}
 }
 
-function randomTime(DatabaseAccess){
+function randomTime(){
     const DayList = ["Dimanche","Lundi" , "Mardi" , "Mercredi" , "Jeudi", "Vendredi" , "Samedi" ]
     var date = new Date(generateNumber(1950,2021), generateNumber(0,11), generateNumber(1,31))
     dateString = help.formatDateFromObject(date)
@@ -74,7 +74,8 @@ function randomTime(DatabaseAccess){
         name = generateEmployeeName()
     }
     var animalName = generateAnimalName()
-    return {day : DayList[date.getDay()] , date : dateString, time : time, staffName : name, animalName : animalName}
+    var task = generateTask()
+    return {day : DayList[date.getDay()] , date : dateString, time : time, staffName : name, animalName : animalName, task : task}
 }
 
 
@@ -84,13 +85,18 @@ function generateEmployeeName(){
 }
 
 function generateAnimalName(){
-    const listAnimal = ["Lion", "Turtle", "Sparrow", "Caterpillar", "Butterfly", "Bat", "Crocodile", "Snakes", "Hyena", "Dolphin"]
+    const listAnimal = ["Lion", "Tortue", "Hirondelle", "Chenilles", "Papillons", "Chauve-souris", "Crocodile", "Serpent", "Hyene", "Dauphin"]
     return listAnimal[generateNumber(0,listAnimal.length)]
 }
 
 function generateDescription(){
     const listdescription = ["lazy", "angry", "luxury", "envy", "glutony", "pride", "greed"]
     return listdescription[generateNumber(0,listdescription.length)]
+}
+
+function generateTask(){
+    const listTask = ["Soins", "Nettoyer l'enclos", "Spectacle" , "Nourrir"]
+    return listTask[generateNumber(0, listTask.length)]
 }
 
 

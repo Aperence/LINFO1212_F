@@ -1,4 +1,4 @@
-function makeRenderObject(isAnimal, Name, Request){
+function makeRenderObject(isAnimal, Name, Request, databaseAccess){
     /**
      * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé
      * @pre : Name : le nom de l'animal/employé
@@ -10,12 +10,13 @@ function makeRenderObject(isAnimal, Name, Request){
     var month = date.getMonth();
     var year = date.getFullYear();
     var ListNextWeek = calculateListNextWeek(date);
+    var renderName = isAnimal ? "Nom de l'animal : " +  Name : "Nom de l'employé : " + Name
     return {
         "Mode" : Request.session.theme || "light",
         "title" : isAnimal ? "animaux" : "employés",
         "Name" : Name,
         "isAnimal" : isAnimal,
-        "StaffAnimalName" : Name,
+        "StaffAnimalName" : renderName,
         "ActualDate" : `${day}/${month+1}/${year}`,
         "dateSelection" : ListNextWeek,
         "isAdmin" : Request.session.isAdmin
@@ -51,7 +52,8 @@ function createListItem(isAnimal, DatabaseDocument){
      *                                                                 "staffName" : "Georges",
      *                                                                 "time" : "00:30",
      *                                                                 "day" : "Mardi",
-     *                                                                 "date" : "16/11/2021"
+     *                                                                 "date" : "16/11/2021",
+     *                                                                 "task" : "tache"
      *                                                              }  
      * (Il s'agit du format de la collection timetable)
      * 
@@ -70,7 +72,7 @@ function createListItem(isAnimal, DatabaseDocument){
             item = getIfTimesExists(DatabaseDocument,exactHour)
             var status = defineState(item,isAnimal)
             var name = getName(item,isAnimal)
-            TimeTable.push({status : status, time : exactHour, name : name})
+            TimeTable.push({status : status, time : exactHour, name : name, task : item.task})
         }
     }
     return TimeTable

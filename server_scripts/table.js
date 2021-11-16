@@ -1,6 +1,53 @@
 
 const modifierHelp = require("./modifierMethods")
 
+function generateTaskList(strActualHour, hasAlreadyTask){
+    var options =`
+    <option value=""></option>
+    <option value="Soins">Soins</option>
+    <option value="Nourrir">Nourrir</option>
+    <option value="Nettoyer l'enclos">Nettoyer l'enclos</option>
+    <option value="Spectacle">Spectacle</option>`;
+    if(hasAlreadyTask){
+        if (hasAlreadyTask=="Soins"){
+            options = `
+            <option value="Soins">Soins</option>
+            <option value="Nourrir">Nourrir</option>
+            <option value="Nettoyer l'enclos">Nettoyer l'enclos</option>
+            <option value="Spectacle">Spectacle</option>
+            <option value=""></option>`
+        }
+        if (hasAlreadyTask=="Nourrir"){
+            options = `
+            <option value="Nourrir">Nourrir</option>
+            <option value="Soins">Soins</option>
+            <option value="Nettoyer l'enclos">Nettoyer l'enclos</option>
+            <option value="Spectacle">Spectacle</option>
+            <option value=""></option>`
+        }
+        if (hasAlreadyTask=="Nettoyer l'enclos"){
+            options = `
+            <option value="Nettoyer l'enclos">Nettoyer l'enclos</option>
+            <option value="Soins">Soins</option>
+            <option value="Nourrir">Nourrir</option>
+            <option value="Spectacle">Spectacle</option>
+            <option value=""></option>`
+        }
+        if (hasAlreadyTask=="Spectacle"){
+            options = `
+            <option value="Spectacle">Spectacle</option>
+            <option value="Soins">Soins</option>
+            <option value="Nourrir">Nourrir</option>
+            <option value="Nettoyer l'enclos">Nettoyer l'enclos</option>
+            <option value=""></option>`
+        }
+    }
+    return `<select name='taskList${strActualHour}' id='taskList${strActualHour}' style='width:150px'>
+    ${options}
+    </select>
+    `
+}
+
 
 function renderTimeTableAdmin(TimeTable, ListAnimalStaff, isAnimal, Request){
     /**
@@ -21,10 +68,12 @@ function renderTimeTableAdmin(TimeTable, ListAnimalStaff, isAnimal, Request){
                                     <th>Status</th>
                                     <th>Heure</th>
                                     <th>Assignation</th>
+                                    <th>Tâche</th>
                                 </tr>`
     var status;
     var name;
     var namePassed;
+    var taskList
     for (let i = 0; i<TimeTable.length; i++){
         actualHour = [ Math.floor(i/2) , (i%2)*30 ]
         strActualHour = modifierHelp.formatHourString(actualHour)
@@ -34,15 +83,19 @@ function renderTimeTableAdmin(TimeTable, ListAnimalStaff, isAnimal, Request){
             case "requiredField":
                 status = "<i class='bx bx-x-circle bx-tada' style='color:#fa0000' ></i>"
                 name += `<option value=''></option>`   //option vide par défaut
+                taskList = generateTaskList(strActualHour, null)
                 break;
             case "unrequiredField":
                 status = "<i class='bx bx-minus-circle' style='color:#e1ac0e'  ></i>"
                 name = "-"  // pas d'option choisisable
+                taskList = "-"
                 break;
             case "FilledField":
                 status = "<i class='bx bxs-check-circle' style='color:#29f40a'  ></i>"
-                name += `<option value=${TimeTable[i].name}>${TimeTable[i].name}</option>`  //option préalablement choisie dans la base de données
+                name += `<option value=${TimeTable[i].name}>${TimeTable[i].name}</option>  
+                        <option value=""></option>`    //option préalablement choisie dans la base de données
                 namePassed = TimeTable[i].name;
+                taskList = generateTaskList(strActualHour, TimeTable[i].task)
                 break;
         }
         if (TimeTable[i].status != 'unrequiredField'){   // champs requis -> doit faire modifications
@@ -75,7 +128,8 @@ function renderTimeTableAdmin(TimeTable, ListAnimalStaff, isAnimal, Request){
         renderedTimeTable += `<tr>
                                 <td style="min-width: 50px;">${status}</td>
                                 <td style="min-width: 100px;">${TimeTable[i].time}</td>
-                                <td style="min-width: 200px;">${name}</td>
+                                <td style="min-width: 180px;">${name}</td>
+                                <td style="min-width: 120px;">${taskList}</td>
                              </tr>`
     }
     renderedTimeTable += "</table>"
@@ -97,7 +151,8 @@ function renderTimeTableNotAdmin(TimeTable){
                                 <tr>
                                     <th style="min-width: 50px;">Status</th>
                                     <th style="min-width: 100px;">Heure</th>
-                                    <th style="min-width: 200px;">Assignation</th>
+                                    <th style="min-width: 180px;">Assignation</th>
+                                    <th style="min-width: 120px;">Tâche</th>
                                 </tr>`
     var status;
     for (let i = 0; i<TimeTable.length; i++){
@@ -116,7 +171,8 @@ function renderTimeTableNotAdmin(TimeTable){
             renderedTimeTable += `<tr>
             <td style="min-width: 50px;">${status}</td>
             <td style="min-width: 100px;">${TimeTable[i].time}</td>
-            <td style="min-width: 200px;">${TimeTable[i].name}</td>
+            <td style="min-width: 1800px;">${TimeTable[i].name}</td>
+            <td style="min-width: 120px;">${TimeTable[i].task}</td>
          </tr>`
         }
 

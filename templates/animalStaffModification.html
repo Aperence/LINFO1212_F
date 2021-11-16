@@ -21,7 +21,7 @@
     <title>Modification de l'attribution des {{title}} </title>   <!-- animaux / employés -->
 
 </head>
-<body onload="loadUpnav(),displayTable()">
+<body onload="loadUpnav(),displayTable(), loadDescription(), loadImage()">
     <div id="upnav"></div>
     
     <div class="Maincontent">
@@ -31,8 +31,11 @@
 
 
         <div class = "NameDateBorder flex-box">
-            <div class = "BoxBorder flex-box" > Nom de l'employé {{StaffAnimalName}}</div>
+            <div class = "BoxBorder flex-box" > {{StaffAnimalName}}</div>
+            <div class="BoxBorder flex-box" id="description"></div>
+            <img id="picture" class="dbpicture">
             <div class = "BoxBorder flex-box">Date actuelle {{ActualDate}}</div>
+ 
         </div>
 
         <div class = "tableHeader">
@@ -44,7 +47,7 @@
                 </select>
             </form>
         </div>
-        <form id = "table" class = "tableContent flex-box" method="POST" action="/modif/modifyTimeTable"></form>
+        <form id = "table" class = "tableContent flex-box" method="POST" action="/modif/modifyTimeTable" onsubmit="return checkValidInput()"></form>
     </div>
 
         <img  class="Border" src="/images/jungle.jpg">

@@ -16,15 +16,16 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/animalmodif",(req,res)=>{
         modifierHelp.updateDB(dbo)
+        req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
         req.session.lastpage = prefix + "/animalmodif"                     // utilisé pour rediriger après changement de couleur/mode
-        var renderObject = modifierHelp.makeRenderObject(true,req.query.name,req);
+        var renderObject = modifierHelp.makeRenderObject(true,req.query.name,req, dbo);
         return res.render("animalStaffModification.html",renderObject)
     })
 
     router.get("/staffmodif",(req,res)=>{
         modifierHelp.updateDB(dbo)
         req.session.lastpage = prefix + "/staffmodif"
-        var renderObject = modifierHelp.makeRenderObject(false,req.query.name,req);
+        var renderObject = modifierHelp.makeRenderObject(false,req.query.name,req, dbo);
         return res.render("animalStaffModification.html",renderObject)
     })
 
@@ -35,7 +36,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/loadTimeTable", (req,res)=>{
         var isAnimal = req.query.animal === "true"
-        req.session.isAdmin = req.session.isAdmin || false // !!!!!!!!changer
+        req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
         if (isAnimal){ 
             var tableSearch = "employee"
             dbo.collection("timetable").find({animalName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{   // cherche tous les horaires concernant cet animal
@@ -61,18 +62,59 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                         continue
                     }
                     dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif})  //supprime si existe déjà 
-                    dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif, "staffName": req.body["nameSelection"+formatHour]})
+                    dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif, "staffName": req.body["nameSelection"+formatHour], "task" : req.body["taskList"+formatHour]})
                 }else{
                     if (req.body["nameSelection"+formatHour]===""){
                         continue
                     }
                     dbo.collection("timetable").deleteMany({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif})    //supprime si existe déjà 
-                    dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif, "animalName": req.body["nameSelection"+formatHour]})  
+                    dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif, "animalName": req.body["nameSelection"+formatHour], "task" : req.body["taskList"+formatHour]})  
                 }
 
             }
         }
         res.redirect(req.session.lastpage+"?name="+req.body.nameModif)
+    })
+
+
+    router.get("/loadImage",(req,res)=>{
+        if (req.query.animal==="true"){
+            dbo.collection("animal").find({name : req.query.name}).toArray((err,doc)=>{
+                if (err) { console.log(err) }
+                if (doc.length > 0){
+                    res.send(doc[0].picture)
+                }
+            })
+        }else{
+            dbo.collection("employee").find({name : req.query.name}).toArray((err,doc)=>{
+                if (err) { console.log(err) }
+                if (doc.length > 0){
+                    res.send(doc[0].picture)
+                }
+            })
+        }
+    })
+
+    router.get("/loadDescription",(req,res)=>{
+        if (req.query.animal==="true"){
+            dbo.collection("animal").find({name : req.query.name}).toArray((err,doc)=>{
+                if (err) { console.log(err) }
+                if (doc.length > 0){
+                    res.send(doc[0].description)
+                }else{
+                    res.send("")
+                }
+            })
+        }else{
+            dbo.collection("employee").find({name : req.query.name}).toArray((err,doc)=>{
+                if (err) { console.log(err) }
+                if (doc.length > 0){
+                    res.send(doc[0].description)
+                }else{
+                    res.send("")
+                }
+            })
+        }
     })
 
     router.use(express.static('static'));

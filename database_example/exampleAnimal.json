@@ -1,4 +1,5 @@
 {
     "name" : "test",
-    "description" : "Paresse"
+    "description" : "Paresse",
+    "picture" : "/uploads/jungle.jpg"
 }
