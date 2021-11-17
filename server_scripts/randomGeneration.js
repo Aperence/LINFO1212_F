@@ -13,6 +13,10 @@ function generateNumber(min,max){
 }
 
 function randomCollections(DatabaseAccess){
+    /**
+     * @pre : DatabaseAccess : un accès pour se connecter à la base de donnée "site"
+     * @post : génère les collections animal, employee et timetable de manière aléatoire
+     */
     var number = 50   // nombre d'éléments
     randomAnimalCollection(DatabaseAccess,number/2)
     randomEmployeeCollection(DatabaseAccess,number/2)
@@ -20,34 +24,66 @@ function randomCollections(DatabaseAccess){
 }
 
 function randomEmployeeCollection(DatabaseAccess,number){
+    /**
+     * @pre : DatabaseAccess : un accès pour se connecter à la base de donnée "site"
+     * @pre : number : le nombre d'employés à générer
+     * @post : génère la collection employee avec des Employés aléatoire
+     */
     console.log("employee")
     for (var count = 0; count<number; count++){
-        DatabaseAccess.collection("employee").insertOne(randomEmployee())
+        var employee = randomEmployee(count)
+        if (employee != null){
+            DatabaseAccess.collection("employee").insertOne()
+        }
     }
 }
 
 function randomAnimalCollection(DatabaseAccess,number){
+    /**
+     * @pre : DatabaseAccess : un accès pour se connecter à la base de donnée "site"
+     * @pre : number : le nombre d'employés à générer
+     * @post : génère la collection animal avec des Animaux aléatoire
+     */
     console.log("animal")
     for (var count = 0; count<number; count++){
-        DatabaseAccess.collection("animal").insertOne(randomAnimal())
+        var animal = randomAnimal(count);
+        if (animal!=null){
+            DatabaseAccess.collection("animal").insertOne(randomAnimal())
+        }
     }
 }
 
 function randomTimeTableCollection(DatabaseAccess,number){
+    /**
+     * @pre : DatabaseAccess : un accès pour se connecter à la base de donnée "site"
+     * @pre : number : le nombre d'employés à générer
+     * @post : génère la collection timetable avec des Temps aléatoire
+     */
     console.log("time")
     for (var count = 0; count<number; count++){
         DatabaseAccess.collection("timetable").insertOne(randomTime())
     }
 }
 
-function randomAnimal(){
-    var name = generateAnimalName()
+function randomAnimal(count){
+    /**
+     * @pre : count : l'id de l'animal
+     * @post : génère un animal aléatoire
+     */
+    var name = generateAnimalName(count)
     var description = generateDescription()
     return {name : name, description :  description, picture : ""}
 }
 
-function randomEmployee(){
-    var animalName = generateEmployeeName()
+function randomEmployee(count){
+    /**
+     * @pre : count : l'id de l'meployé
+     * @post : génère un employé aléatoire
+     */
+    var name = generateEmployeeName(count)
+    if (name === null){    // plus de nom à attribuer
+        return;
+    }
     var description = generateDescription()
 
     var hour = generateNumber(0,24)
@@ -58,10 +94,14 @@ function randomEmployee(){
     var endTime = help.formatHourString([endHour,halfhour*30])
 
     var isAdmin = generateNumber(0,10) >= 9 ? true : false
-    return {name : animalName, description : description, password : "test", admin : isAdmin, startHour : time, endHour: endTime, picture : ""}
+    return {name : name, description : description, password : "test", admin : isAdmin, startHour : time, endHour: endTime, picture : ""}
 }
 
 function randomTime(){
+    /**
+     * @pre : -
+     * @post : génère un objet Temps aléatoire
+     */
     const DayList = ["Dimanche","Lundi" , "Mardi" , "Mercredi" , "Jeudi", "Vendredi" , "Samedi" ]
     var date = new Date(generateNumber(1950,2021), generateNumber(0,11), generateNumber(1,31))
     dateString = help.formatDateFromObject(date)
@@ -79,28 +119,60 @@ function randomTime(){
 }
 
 
-function generateEmployeeName(){
+function generateEmployeeName(idx = null){
+    /**
+     * @pre : idx : un int
+     * @post : génère un nom d'employé selon l'index idx, si celui-ci n'est pas spécifié, retourne un nom aléatoire
+     */
     const listName = ["Jean", "Michel", "Georges", "Luc", "Exedius", "Rick", "Elvis", "Astley", "Xander", "Takumi", "Simon"]
-    return listName[generateNumber(0,listName.length)]
+    if (idx<listName.length){
+        return listName[idx]
+    }
+    if (idx == null){
+        return listName[generateNumber(0,listName.length)]
+    }
+    return null
 }
 
-function generateAnimalName(){
+function generateAnimalName(idx = null){
+    /**
+     * @pre : idx : un int
+     * @post : génère un nom d'animal selon l'index idx, si celui-ci n'est pas spécifié, retourne un nom aléatoire
+     */
     const listAnimal = ["Lion", "Tortue", "Hirondelle", "Chenilles", "Papillons", "Chauve-souris", "Crocodile", "Serpent", "Hyene", "Dauphin"]
-    return listAnimal[generateNumber(0,listAnimal.length)]
+    if (idx<listAnimal.length){
+        return listAnimal[idx]
+    }
+    if (idx == null){
+        return listAnimal[generateNumber(0,listAnimal.length)]
+    }
+    return null
 }
 
 function generateDescription(){
+    /**
+     * @pre : -
+     * @post : génère une description aléatoire
+     */
     const listdescription = ["lazy", "angry", "luxury", "envy", "glutony", "pride", "greed"]
     return listdescription[generateNumber(0,listdescription.length)]
 }
 
 function generateTask(){
+    /**
+     * @pre : -
+     * @post : génère une tâche aléatoire
+     */
     const listTask = ["Soins", "Nettoyer l'enclos", "Spectacle" , "Nourrir"]
     return listTask[generateNumber(0, listTask.length)]
 }
 
 
 function generateTime(){
+    /**
+     * @pre : -
+     * @post : génère une heure aléatoire HH:MM avec  0 < HH <24 et MM appartient à {0,30}
+     */
     var hour = generateNumber(0,24)
     var halfhour = generateNumber(0,2)
     var time = help.formatHourString([hour,halfhour*30])

@@ -287,6 +287,10 @@ function updateDB(DatabaseAccess){
 
 
 function formatDateFromObject(dateObject){
+    /**
+     * @pre : dateObject : un objet Date de javascript
+     * @post : retourne un string ayant le format "DD/MM/YYYY"
+     */
     appendDay =dateObject.getDate() <10 ? "0" : ""
     appendMonth = dateObject.getMonth()+1 <10 ? "0" : ""
     return `${appendDay}${dateObject.getDate()}/${appendMonth}${dateObject.getMonth()+1}/${dateObject.getFullYear()}`
