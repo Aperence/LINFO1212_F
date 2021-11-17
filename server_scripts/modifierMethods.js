@@ -134,7 +134,10 @@ function getName(item, isAnimal){
      *                    - le nom de l'animal/employé autrement
      */
     if (Object.keys(item).length === 0){    // objet vide
-        return "Pas d'employé"
+        if (isAnimal){
+            return "Pas d'employé"
+        }
+        return "Pas d'animal"
     }
     if (isAnimal){
         return item.staffName === "null" ? "-" : item.staffName
