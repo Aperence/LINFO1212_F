@@ -1,8 +1,20 @@
 function loadUpnav(){
+  /**
+   * @pre : -
+   * @post : charge la barre de navigation supérieure dans l'élément ayant l'id "upnav"
+   */
    $("#upnav").load("/upnav_site")
 }
 
 function displayTable() {  
+    /**
+   * @pre : -
+   * @post : charge le tableau dans l'élément ayant l'id "table" en faisant une requête AJAX.
+   * Cette requête varie en fonction de : - si l'utilisateur est un administrateur ou non     => isAdmin
+   *                                      - de l'animal ou employé sélectionné                => name
+   *                                      - de la date sélectionnée et du jour                => date + day
+   *                                      - de si l'individu est un animal ou un employé      => animal
+   */
    var xhttp = new XMLHttpRequest();
    xhttp.onreadystatechange = function() {
      if (this.readyState == 4 && this.status == 200) {
@@ -23,6 +35,10 @@ function displayTable() {
 
 
 function loadImage(){
+  /**
+   * @pre : -
+   * @post : charge l'image de profil de l'animal ou l'employé en faisant une requête AJAX au serveur
+   */
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
@@ -41,6 +57,10 @@ function loadImage(){
 
 
 function loadDescription(){
+   /**
+   * @pre : -
+   * @post : charge la description de l'animal ou l'employé en faisant une requête AJAX au serveur
+   */
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
