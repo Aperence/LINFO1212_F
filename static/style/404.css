@@ -1,0 +1,38 @@
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: xx-large;
+}   
+
+h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 500px;
+    border: 8px solid rgb(180, 180, 180);
+    border-radius: 50%;
+    border-right: 8px solid rgb(196, 124, 31);
+    -webkit-animation: spin 2s cubic-bezier(0,.5,.5,1) infinite; 
+    animation: spin 2s cubic-bezier(.01,.69,.89,.47) infinite; 
+}
+
+@-webkit-keyframes spin {
+0% { -webkit-transform: rotate(0deg); }
+100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+.text{
+    position: absolute;
+    left: 850px;
+    top : 290px;
+    margin: 0px;
+}

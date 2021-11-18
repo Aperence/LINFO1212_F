@@ -47,12 +47,18 @@ app.get('/ChangeMode', (req,res)=>{
     res.redirect(req.session.lastpage)
 })
 
+
 // ajouts de routeurs
 app.use("/modif",dataModifs.DataModifiers)
 app.use("/tools", DBTools.DBTools)
 
-
 app.use(express.static('static'));
+
+
+
+app.get('*', (req, res) => {
+    res.status(404).render("404.html");
+});
 
 https.createServer({
     key: fs.readFileSync('./key.pem'),

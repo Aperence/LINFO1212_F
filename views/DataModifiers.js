@@ -59,13 +59,15 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             for( let halfhour=0; halfhour<2; halfhour++){
                 formatHour = modifierHelp.formatHourString([hour,halfhour*30])
                 if (req.body.isAnimalModif==="true"){
-                    if (req.body["nameSelection"+formatHour]===""){
+                    if (req.body["nameSelection"+formatHour]===""){    //supprime l'entrée
+                        dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif})  //supprime si existe déjà 
                         continue
                     }
                     dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif})  //supprime si existe déjà 
                     dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif, "staffName": req.body["nameSelection"+formatHour], "task" : req.body["taskList"+formatHour]})
                 }else{
                     if (req.body["nameSelection"+formatHour]===""){
+                        dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif})  //supprime si existe déjà 
                         continue
                     }
                     dbo.collection("timetable").deleteMany({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif})    //supprime si existe déjà 

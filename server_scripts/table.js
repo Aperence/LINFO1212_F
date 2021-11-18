@@ -2,46 +2,19 @@
 const modifierHelp = require("./modifierMethods")
 
 function generateTaskList(strActualHour, hasAlreadyTask){
-    var options =`
-    <option value=""></option>
-    <option value="Soins">Soins</option>
-    <option value="Nourrir">Nourrir</option>
-    <option value="Nettoyer l'enclos">Nettoyer l'enclos</option>
-    <option value="Spectacle">Spectacle</option>`;
-    if(hasAlreadyTask){
-        if (hasAlreadyTask=="Soins"){
-            options = `
-            <option value="Soins">Soins</option>
-            <option value="Nourrir">Nourrir</option>
-            <option value="Nettoyer l'enclos">Nettoyer l'enclos</option>
-            <option value="Spectacle">Spectacle</option>
-            <option value=""></option>`
-        }
-        if (hasAlreadyTask=="Nourrir"){
-            options = `
-            <option value="Nourrir">Nourrir</option>
-            <option value="Soins">Soins</option>
-            <option value="Nettoyer l'enclos">Nettoyer l'enclos</option>
-            <option value="Spectacle">Spectacle</option>
-            <option value=""></option>`
-        }
-        if (hasAlreadyTask=="Nettoyer l'enclos"){
-            options = `
-            <option value="Nettoyer l'enclos">Nettoyer l'enclos</option>
-            <option value="Soins">Soins</option>
-            <option value="Nourrir">Nourrir</option>
-            <option value="Spectacle">Spectacle</option>
-            <option value=""></option>`
-        }
-        if (hasAlreadyTask=="Spectacle"){
-            options = `
-            <option value="Spectacle">Spectacle</option>
-            <option value="Soins">Soins</option>
-            <option value="Nourrir">Nourrir</option>
-            <option value="Nettoyer l'enclos">Nettoyer l'enclos</option>
-            <option value=""></option>`
+    const listOption = ["Soins", "Nourrir", "Nettoyer l'enclos", "Spectacle"]
+    var options = "";
+    for (let option of listOption){
+        if (option != hasAlreadyTask){
+            options+= `<option value=${option}>${option}</option>`
         }
     }
+    if (hasAlreadyTask){    // met la tâche déjà choisie en première
+        options = `<option value=${hasAlreadyTask}>${hasAlreadyTask}</option>` + options + `<option value=""></option>`
+    }else{
+        options = `<option value=""></option>` + options
+    }
+    
     return `<select name='taskList${strActualHour}' id='taskList${strActualHour}' style='width:150px'>
     ${options}
     </select>

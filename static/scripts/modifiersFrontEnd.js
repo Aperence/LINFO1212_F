@@ -98,6 +98,14 @@ function formatHourString(HourArray){
 }
 
 function checkValidInput(){
+  /**
+   * @pre : -
+   * @post : vérifie que le form voulant être soumis contient toutes les infos nécessaires : 
+   *  - avoir un animal ou une personne sélectionnée pour la modification
+   *  - si une heure a été remplie, il faut qu'à la fois la tâche et la personne en charge (ou l'animal dont il faut s'occuper)
+   *    soit sélectionné
+   * Retourne faux si ces deux conditions ne sont pas remplies, vrai sinon
+   */
   var name =  document.getElementById("name").value
   if (!name){   //aucun nom
     alert("Pas d'employé/animal sélectionné")

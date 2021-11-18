@@ -3,6 +3,7 @@ require('chromedriver');
 const {Builder,By,Key,Util,  until} = require('selenium-webdriver');
 const script = require('jest');
 const { beforeAll } = require('@jest/globals');
+var MongoClient = require('mongodb').MongoClient
  
 var url = "https://localhost:8080/modif"
 
@@ -246,5 +247,11 @@ describe('Execute tests on modifs pages', () => {
     expect(urlDestination).toContain(url + "/animalmodif?name=test")
 
     //vérifie que ajouté à la DB
+    MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
+      dbo = db.db("site")
+      dbo.collection("timetable").find({}).toArray((err,doc)=>{
+        
+      })
+    })
   });
 });

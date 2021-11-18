@@ -32,8 +32,8 @@ function randomEmployeeCollection(DatabaseAccess,number){
     console.log("employee")
     for (var count = 0; count<number; count++){
         var employee = randomEmployee(count)
-        if (employee != null){
-            DatabaseAccess.collection("employee").insertOne()
+        if (employee){
+            DatabaseAccess.collection("employee").insertOne(employee)
         }
     }
 }
@@ -47,8 +47,8 @@ function randomAnimalCollection(DatabaseAccess,number){
     console.log("animal")
     for (var count = 0; count<number; count++){
         var animal = randomAnimal(count);
-        if (animal!=null){
-            DatabaseAccess.collection("animal").insertOne(randomAnimal())
+        if (animal){
+            DatabaseAccess.collection("animal").insertOne(animal)
         }
     }
 }
@@ -71,6 +71,9 @@ function randomAnimal(count){
      * @post : génère un animal aléatoire
      */
     var name = generateAnimalName(count)
+    if (!name){
+        return
+    }
     var description = generateDescription()
     return {name : name, description :  description, picture : ""}
 }
