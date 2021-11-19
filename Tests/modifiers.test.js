@@ -6,12 +6,18 @@ const { beforeAll } = require('@jest/globals');
 var MongoClient = require('mongodb').MongoClient
  
 var url = "https://localhost:8080/modif"
+var url_append = "https://localhost:8080/tools/append"
 
 describe('Execute tests on modifs pages', () => {
   let driver;
 
   beforeAll(async () => {    
     driver = new Builder().forBrowser("chrome").build();   // connecter en admin
+    await driver.get( url + "/staffmodif");
+    await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
+    await driver.findElement(By.id("proceed-link")).click()
+    await driver.get(url_append)
+    return true
   }, 10000);
  
   afterAll(async () => {
@@ -22,8 +28,6 @@ describe('Execute tests on modifs pages', () => {
   
   test("Vérifie que l'on ne peut soumettre sans avoir choisi de nom si on est un Admin (employé)", async () => {
     await driver.get( url + "/staffmodif");
-    await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
-    await driver.findElement(By.id("proceed-link")).click()
     await driver.wait(async ()=>{
       try{
         var submit = await driver.findElement(By.css(".submitButton"))
