@@ -50,4 +50,7 @@ La liste des commandes est la suivante :
     - sauvegarde la collection timetable dans timetableSave.json
 - deserialize : recrée la base de données à partir de 3 fichiers tels que ceux cités dans serialize (JSON avec un attribut list : ensemble des document JSON de la collection)
 ### Fichiers de tests Jest
+Nous avons également réalisés des fichiers de test Jest pour tester de manière plus approfondie les fonctionnalités de notre site.
+Pour lancer ces tests et s'assurer du bon fonctionnement du site, vous n'avez qu'à lancer la commande suivant en vous trouvant de le dossier LINFO1212_F : 
+```npm test```
 

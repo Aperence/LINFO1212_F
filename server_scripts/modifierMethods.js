@@ -58,10 +58,11 @@ function createListItem(isAnimal, DatabaseDocument){
      * (Il s'agit du format de la collection timetable)
      * 
      * @post : retourne un array d'objet ayant le format suivant:
-     * {status : status, time : exactHour, name : name}
+     * {status : status, time : exactHour, name : name, task : task}
      * avec status : si le champs est requis, non-requis ou déjà remplis
      *      time : heure suivant le format "HH:MM" avec HH qui est une heure appartenant à [0,23] et MM, une demi-heure appartienant à {0, 30}
      *      name : nom de l'animal/employé
+     *      task : la tâche à effectuer
      *      
      */
     var item;
@@ -184,7 +185,7 @@ function formatHourString(HourArray){
 
 function comprisedBetween(startHourFormated, endHourFormated, actualHour){
     /**
-     * @pre : startHourFormated, endHourFormated, actualHour : des arrays représentant des heures
+     * @pre : startHourFormated, endHourFormated, actualHour : des arrays de ints représentant des heures
      * Concrètement, ces trois variable ont le format [heure, demi-heure] avec heure appartient à [0,23] 
      * et demi-heure appartient à {0, 30}
      * @pre : startHourFormated : heure de début de l'intervalle, sous le format montré ci-dessus
