@@ -46,14 +46,38 @@ function returnTaskListAccordingStatus(status, strActualHour, task){
 }
 
 
-function returnNameSelectionAccordingStatus(status, isAnimal, ListAnimalStaff, strActualHour, potentialName){
+function makeListEmployeeNotAvailable(documentTimetable, Hour){
+    var listEmployeeNotAvailable = []       //liste des employés déjà occupés pour cette heure
+    for (let item of documentTimetable){
+        if (item.time === Hour){
+            listEmployeeNotAvailable.push(item.staffName)
+        }
+    }
+    return listEmployeeNotAvailable
+}
+
+
+function makeListAnimalNotAvailable(documentTimetable, Hour){
+    var listAnimalNotAvailable = []
+    for (let item of documentTimetable){
+        if (item.time === Hour){
+            listAnimalNotAvailable.push(item.animalName)
+        }
+    }
+    return listAnimalNotAvailable
+}
+
+
+function returnNameSelectionAccordingStatus(status, isAnimal, ListAnimalStaff, strActualHour, potentialName, documentTimetable){
     /**
      * @pre : status : un string représentant le status de la tâche (personne déjà assignée, personne non nécessaire ou personne nécessaire)
      * @pre : isAnimal : un booléen représentant si l'on recherche une sélection d'animaux ou d'employés
      * @pre : ListAnimalStaff : la liste des employés ou des animaux (en fonction du paramètre isAnimal)
      * @pre : strActualHour : l'heure dont on souhaite avoir la sélection de noms, il s'agit d'un string ayant le format "HH:MM"
+     * @pre : date : la date pour laquelle on cherche l'ensemble des noms (pour savoir si certains employés sont occupés ce jour là)
      * @pre : potentialName : le nom de l'animal ou de l'employé s'il y avait déjà un animal/employé attribué dans la sélection
      * ex : Pour employé = Luc, on a déjà attribué à 11:00 de devoir s'occuper de animal = Lion => potentialName = Lion
+     * @pre : DatabaseAccess : une référence pour se connecter à la base de données
      * 
      * @post : retourne la sélection entre les différents animaux ou employés du site
      * Si la sélection est celle des employés, vérifie également que la sélection ne contient pour cette heure-là que les 
@@ -72,17 +96,18 @@ function returnNameSelectionAccordingStatus(status, isAnimal, ListAnimalStaff, s
             nameAlreadyAdded = potentialName;
             break;
     }
-
+    var listAnimal = makeListAnimalNotAvailable(documentTimetable, strActualHour)
+    var listEmployee = makeListEmployeeNotAvailable(documentTimetable, strActualHour)
     for (let item of ListAnimalStaff){
         if (!isAnimal){  //ajoute tous les animaux à la liste d'option
-            if (item.name === nameAlreadyAdded){
+            if (item.name === nameAlreadyAdded || listAnimal.includes(item.name)){  // nom déjà ajouté ou bien ayant déjà une occupation
                 continue
             }
             name += `<option value=${item.name}>${item.name}</option>`
 
         }else{    // doit vérifier les heures de début et de fin de journée pour ajouter les employés à la liste
 
-            if (item.name === nameAlreadyAdded){
+            if (item.name === nameAlreadyAdded || listEmployee.includes(item.name)){
                 continue
             }
             var startHourFormated = modifierHelp.formatHour(item.startHour)   // pour avoir un array de int à partir de l'heure     ex : [17,0] ou [14,30]  => 17h00 ou 14h30
@@ -101,7 +126,7 @@ function returnNameSelectionAccordingStatus(status, isAnimal, ListAnimalStaff, s
 }
 
 
-function renderTimeTableAdmin(TimeTable, ListAnimalStaff, isAnimal, Request){
+function renderTimeTableAdmin(TimeTable, ListAnimalStaff, isAnimal, Request, documentTimetable){
     /**
      * @pre : TimeTable un array d'objet ayant le format suivant:
      * {status : status, time : exactHour, name : name}
@@ -131,7 +156,7 @@ function renderTimeTableAdmin(TimeTable, ListAnimalStaff, isAnimal, Request){
 
         status = returnStatusString(TimeTable[i].status)
         taskList = returnTaskListAccordingStatus(TimeTable[i].status, strActualHour, TimeTable[i].task)
-        nameList = returnNameSelectionAccordingStatus(TimeTable[i].status, isAnimal, ListAnimalStaff, strActualHour, TimeTable[i].name)
+        nameList = returnNameSelectionAccordingStatus(TimeTable[i].status, isAnimal, ListAnimalStaff, strActualHour, TimeTable[i].name, documentTimetable)
 
         renderedTimeTable += `<tr>
                                 <td style="min-width: 50px;">${status}</td>
@@ -195,7 +220,7 @@ function returnStatusString(status){
 }
 
 
-function makeRenderedTable(collectionSearch, Request, isAnimal, doc, res){
+function makeRenderedTable(collectionSearch, Request, isAnimal, doc, res, DatabaseAccess){
     /**
      * @pre : collectionSearch : type de recherche : sur les animaux ou sur les employés
      * @pre : Request : objet permettant de récupérer les information demandées (queries)
@@ -205,10 +230,12 @@ function makeRenderedTable(collectionSearch, Request, isAnimal, doc, res){
      * @post : envoie la table d'affichage avec la personne en charge pour chaque tranche horaire
      */
     if (Request.session.isAdmin){
-        dbo.collection(collectionSearch).find({}).sort({name : 1}).toArray((err,documentEmployee)=>{
-            var TimeTable = modifierHelp.createListItem(isAnimal, doc)
-            responseTimeTable = renderTimeTableAdmin(TimeTable, documentEmployee, isAnimal , Request);         
-            res.send(responseTimeTable)
+        DatabaseAccess.collection(collectionSearch).find({}).sort({name : 1}).toArray((err,documentEmployee)=>{
+            DatabaseAccess.collection("timetable").find({date : Request.query.date}).toArray((err,documentTimetable)=>{
+                var TimeTable = modifierHelp.createListItem(isAnimal, doc)
+                responseTimeTable = renderTimeTableAdmin(TimeTable, documentEmployee, isAnimal , Request, documentTimetable);         
+                res.send(responseTimeTable)
+            })
         })
     
     }else{

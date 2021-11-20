@@ -3,10 +3,12 @@ require('chromedriver');
 const {Builder,By,Key,Util,  until} = require('selenium-webdriver');
 const script = require('jest');
 const { beforeAll } = require('@jest/globals');
+const assert = require("assert")
 var MongoClient = require('mongodb').MongoClient
  
 var url = "https://localhost:8080/modif"
 var url_append = "https://localhost:8080/tools/append"
+var url_clear = "https://localhost:8080/tools/clear"
 
 describe('Execute tests on modifs pages', () => {
   let driver;
@@ -16,6 +18,7 @@ describe('Execute tests on modifs pages', () => {
     await driver.get( url + "/staffmodif");
     await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
     await driver.findElement(By.id("proceed-link")).click()
+    await driver.get(url_clear)
     await driver.get(url_append)
     return true
   }, 10000);
@@ -149,11 +152,28 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
     }, 20000, 'Timed out after 20 seconds', 2000)
-
     //envoie la requête
-    driver.sendKeys(Key.ENTER)
+    await driver.wait( async () =>{
+      try{
+        var submit = await driver.findElement(By.css(".submitButton"))
+        await submit.click()
+        return true
+      }catch{
+        return false
+      }
+
+    }, 10000, 'Timed out after 20 seconds', 1000)
     urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/animalmodif?name=test")
+    expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
+    await driver.wait( async ()=>{
+      MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
+          db.db('site').collection("timetable").find({time : "05:30"}).toArray((err,doc)=>{
+            assert(doc.length>0,"Requête non aboutie : l'objet n'a pas été ajouté")
+          })
+      })
+      return true
+    }, 10000, "Requête non aboutie : l'objet n'a pas été ajouté", 5000)
+
 
     //vérifie que ajouté à la DB
   });
@@ -222,7 +242,7 @@ describe('Execute tests on modifs pages', () => {
     //choisi un employé
     await driver.wait( async ()=>{
       try{
-        let selection = driver.findElement(By.id("taskList05:30"));
+        let selection = driver.findElement(By.id("taskList07:30"));
         await selection.click()
         selection.sendKeys(Key.ARROW_DOWN)  
         return true
@@ -235,7 +255,7 @@ describe('Execute tests on modifs pages', () => {
     //choisi une tâche
     await driver.wait( async ()=>{
       try{
-        let selection = driver.findElement(By.id("nameSelection05:30"));
+        let selection = driver.findElement(By.id("nameSelection07:30"));
         await selection.click()
         selection.sendKeys(Key.ARROW_DOWN)
         return true
@@ -246,16 +266,25 @@ describe('Execute tests on modifs pages', () => {
     }, 20000, 'Timed out after 20 seconds', 2000)
 
     //envoie la requête
-    driver.sendKeys(Key.ENTER)
+    await driver.wait( async () =>{
+      try{
+        var submit = await driver.findElement(By.css(".submitButton"))
+        await submit.click()
+        return true
+      }catch{
+        return false
+      }
+
+    }, 10000, 'Timed out after 20 seconds', 1000)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/animalmodif?name=test")
-
-    //vérifie que ajouté à la DB
-    MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
-      dbo = db.db("site")
-      dbo.collection("timetable").find({}).toArray((err,doc)=>{
-        
+    await driver.wait( async ()=>{
+      MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
+          db.db('site').collection("timetable").find({time : "07:30"}).toArray((err,doc)=>{
+            assert(doc.length>0, "Requête non aboutie : l'objet n'a pas été ajouté")
+          })
       })
-    })
+      return true
+    }, 10000, "Requête non aboutie : l'objet n'a pas été ajouté", 5000)
   });
 });

@@ -29,7 +29,6 @@ function randomEmployeeCollection(DatabaseAccess,number){
      * @pre : number : le nombre d'employés à générer
      * @post : génère la collection employee avec des Employés aléatoire
      */
-    console.log("employee")
     for (var count = 0; count<number; count++){
         var employee = randomEmployee(count)
         if (employee){
@@ -44,7 +43,6 @@ function randomAnimalCollection(DatabaseAccess,number){
      * @pre : number : le nombre d'employés à générer
      * @post : génère la collection animal avec des Animaux aléatoire
      */
-    console.log("animal")
     for (var count = 0; count<number; count++){
         var animal = randomAnimal(count);
         if (animal){
@@ -59,7 +57,6 @@ function randomTimeTableCollection(DatabaseAccess,number){
      * @pre : number : le nombre d'employés à générer
      * @post : génère la collection timetable avec des Temps aléatoire
      */
-    console.log("time")
     for (var count = 0; count<number; count++){
         DatabaseAccess.collection("timetable").insertOne(randomTime())
     }
@@ -128,11 +125,11 @@ function generateEmployeeName(idx = null){
      * @post : génère un nom d'employé selon l'index idx, si celui-ci n'est pas spécifié, retourne un nom aléatoire
      */
     const listName = ["Jean", "Michel", "Georges", "Luc", "Exedius", "Rick", "Elvis", "Astley", "Xander", "Takumi", "Simon"]
-    if (idx<listName.length){
-        return listName[idx]
-    }
     if (idx == null){
         return listName[generateNumber(0,listName.length)]
+    }
+    if (idx<listName.length){
+        return listName[idx]
     }
     return null
 }
@@ -143,11 +140,11 @@ function generateAnimalName(idx = null){
      * @post : génère un nom d'animal selon l'index idx, si celui-ci n'est pas spécifié, retourne un nom aléatoire
      */
     const listAnimal = ["Lion", "Tortue", "Hirondelle", "Chenilles", "Papillons", "Chauve-souris", "Crocodile", "Serpent", "Hyene", "Dauphin"]
-    if (idx<listAnimal.length){
-        return listAnimal[idx]
-    }
     if (idx == null){
         return listAnimal[generateNumber(0,listAnimal.length)]
+    }
+    if (idx<listAnimal.length){
+        return listAnimal[idx]
     }
     return null
 }
