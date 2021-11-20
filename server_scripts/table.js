@@ -194,7 +194,7 @@ function renderTimeTableNotAdmin(TimeTable){
             renderedTimeTable += `<tr>
             <td style="min-width: 50px;">${status}</td>
             <td style="min-width: 100px;">${TimeTable[i].time}</td>
-            <td style="min-width: 1800px;">${TimeTable[i].name}</td>
+            <td style="min-width: 180px;">${TimeTable[i].name}</td>
             <td style="min-width: 120px;">${TimeTable[i].task}</td>
          </tr>`
         }
