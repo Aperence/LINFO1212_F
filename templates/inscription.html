@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="style/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style/log.css">
+    <link rel = "stylesheet" href = "style/{{Mode}}Version.css">
+    <link rel = "stylesheet" href = "style/general.css">
+    <link rel = "stylesheet" href = "style/Modification.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/modifiersFrontEnd.js"></script>
+
+    <title>Inscription</title>
+
+</head>
+<body onload="loadUpnav()">
+    <div id="upnav"></div>
+<div class="flex-box">
+<!--formulaire pour les animaux-->
+<form action="conn.html" method="post" class="box">
+   <h1>Ajouter un animal</h1>
+
+    <label for="name"><b>Nom</b></label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="description"><b>Description</b></label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="connmdp"><b>Mot de passe</b><input type="checkbox" onclick="AfficherMDPConn()"><sup>Voir</sup></label>
+    <input type="password" id="connmdp" name="connmdp" required><br>
+    
+    <button type="submit" class = "link-report upperbox">Connexion</button>
+</form>
+
+<!--formulaire pour les employés-->
+<form action="insc.html" method="post" class="box">
+   <h1>Ajouter un employé</h1>
+
+    <label for="name"><b>Nom_Prénom</b></label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="inscmdp"><b>Mot de passe</b><input type="checkbox" onclick="AfficherMDPInsc()"><sup>Voir</sup></label>
+    <input type="password" id="inscmdp" name="inscmdp" onchange="checkmdp()" required>
+
+    <label for="confmdp"><b>Répétez le mot de passe</b></label>
+    <input type="password" id="confmdp" name="confmdp" onchange="checkmdp()" required>
+    <button type="submit" class = "link-report upperbox">Inscription</button>
+</form>
+</div>
+
+
+        <img  class="Border" src="/images/dark.jpg">
+
+</body>
+</html>

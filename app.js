@@ -12,6 +12,7 @@ const path = require("path");
 const bcrypt = require("bcryptjs");
 var dataModifs = require("./views/DataModifiers")
 var DBTools = require('./views/databaseTools')
+var logs = require('./views/logRouter')
 
 var app = express ();
 
@@ -51,6 +52,7 @@ app.get('/ChangeMode', (req,res)=>{
 // ajouts de routeurs
 app.use("/modif",dataModifs.DataModifiers)
 app.use("/tools", DBTools.DBTools)
+app.use("/log", logs.logRouter)
 
 app.use(express.static('static'));
 
