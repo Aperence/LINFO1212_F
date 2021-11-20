@@ -2,7 +2,10 @@
     background-color: #2e3039;
     color: azure;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    min-height: 100%;
+}
+
+body{
+    background-color: #2e3039;
 }
 
 th{

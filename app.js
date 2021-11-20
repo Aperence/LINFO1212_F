@@ -59,7 +59,7 @@ app.use(express.static('static'));
 
 
 app.get('*', (req, res) => {
-    res.status(404).render("404.html");
+    res.status(404).render("404.html", {mode : req.session.theme});
 });
 
 https.createServer({

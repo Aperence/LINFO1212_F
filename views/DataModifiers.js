@@ -16,7 +16,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/animalmodif",(req,res)=>{
         modifierHelp.updateDB(dbo)
-        req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
+        req.session.isAdmin = req.session.isAdmin || false // !!!!!!!!changer
         req.session.lastpage = prefix + "/animalmodif"                     // utilisé pour rediriger après changement de couleur/mode
         var renderObject = modifierHelp.makeRenderObject(true,req.query.name,req, dbo);
         return res.render("animalStaffModification.html",renderObject)
@@ -24,7 +24,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/staffmodif",(req,res)=>{
         modifierHelp.updateDB(dbo)
-        req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
+        req.session.isAdmin = req.session.isAdmin || false // !!!!!!!!changer
         req.session.lastpage = prefix + "/staffmodif"
         var renderObject = modifierHelp.makeRenderObject(false,req.query.name,req, dbo);
         return res.render("animalStaffModification.html",renderObject)
@@ -37,7 +37,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/loadTimeTable", (req,res)=>{
         var isAnimal = req.query.animal === "true"
-        req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
+        req.session.isAdmin = req.session.isAdmin || false // !!!!!!!!changer
         if (isAnimal){ 
             var tableSearch = "employee"
             dbo.collection("timetable").find({animalName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{   // cherche tous les horaires concernant cet animal
