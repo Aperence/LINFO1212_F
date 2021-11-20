@@ -81,43 +81,25 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
 
     router.get("/loadImage",(req,res)=>{
-        if (req.query.animal==="true"){
-            dbo.collection("animal").find({name : req.query.name}).toArray((err,doc)=>{
-                if (err) { console.log(err) }
-                if (doc.length > 0){
-                    res.send(doc[0].picture)
-                }
-            })
-        }else{
-            dbo.collection("employee").find({name : req.query.name}).toArray((err,doc)=>{
-                if (err) { console.log(err) }
-                if (doc.length > 0){
-                    res.send(doc[0].picture)
-                }
-            })
-        }
+        console.log(req.query.tableName)
+        dbo.collection(req.query.tableName).find({name : req.query.name}).toArray((err,doc)=>{
+            if (err) { console.log(err) }
+            if (doc.length > 0){
+                res.send(doc[0].picture)
+            }
+        })
     })
 
     router.get("/loadDescription",(req,res)=>{
-        if (req.query.animal==="true"){
-            dbo.collection("animal").find({name : req.query.name}).toArray((err,doc)=>{
-                if (err) { console.log(err) }
-                if (doc.length > 0){
-                    res.send(doc[0].description)
-                }else{
-                    res.send("")
-                }
-            })
-        }else{
-            dbo.collection("employee").find({name : req.query.name}).toArray((err,doc)=>{
-                if (err) { console.log(err) }
-                if (doc.length > 0){
-                    res.send(doc[0].description)
-                }else{
-                    res.send("")
-                }
-            })
-        }
+        console.log(req.query.tableName)
+        dbo.collection(req.query.tableName).find({name : req.query.name}).toArray((err,doc)=>{
+            if (err) { console.log(err) }
+            if (doc.length > 0){
+                res.send(doc[0].description)
+            }else{
+                res.send("")
+            }
+        })
     })
 
     router.use(express.static('static'));

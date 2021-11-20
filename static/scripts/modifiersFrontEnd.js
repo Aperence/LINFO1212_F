@@ -3,7 +3,7 @@ function loadUpnav(){
    * @pre : -
    * @post : charge la barre de navigation supérieure dans l'élément ayant l'id "upnav"
    */
-   $("#upnav").load("/upnav_site")
+   //$("#upnav").load("/upnav_site")
 }
 
 function displayTable() {  
@@ -51,7 +51,9 @@ function loadImage(){
   };
   var name =  document.getElementById("name").value
   var isAnimal = document.getElementById("isAnimal").value
-  xhttp.open("GET", `/modif/loadImage?animal=${isAnimal}&name=${name}`, true);
+  var tableName = isAnimal === "true" ? "animal" : "employee"
+  console.log(tableName)
+  xhttp.open("GET", `/modif/loadImage?tableName=${tableName}&name=${name}`, true);
   xhttp.send();
 }
 
@@ -72,7 +74,9 @@ function loadDescription(){
   };
   var name =  document.getElementById("name").value
   var isAnimal = document.getElementById("isAnimal").value
-  xhttp.open("GET", `/modif/loadDescription?animal=${isAnimal}&name=${name}`, true);
+  var tableName = isAnimal === "true" ? "animal" : "employee"
+  console.log(tableName)
+  xhttp.open("GET", `/modif/loadDescription?tableName=${tableName}&name=${name}`, true);
   xhttp.send();
 }
 
