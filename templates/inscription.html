@@ -13,11 +13,12 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="/scripts/modifiersFrontEnd.js"></script>
+    <script src="../scripts/log.js" type="text/javascript"></script>
 
     <title>Inscription</title>
 
 </head>
-<body onload="loadUpnav()">
+<body onload="loadUpnav(), loadError()">
     <div id="upnav"></div>
 <div class="flex-box">
 <!--formulaire pour les animaux-->
@@ -28,27 +29,27 @@
     <input type="text" id="name" name="name" required>
 
     <label for="description"><b>Description</b></label>
-    <input type="text" id="name" name="name" required>
-
-    <label for="connmdp"><b>Mot de passe</b><input type="checkbox" onclick="AfficherMDPConn()"><sup>Voir</sup></label>
-    <input type="password" id="connmdp" name="connmdp" required><br>
+    <input type="text" id="description" name="description" required>
     
-    <button type="submit" class = "link-report upperbox">Connexion</button>
+    <button type="submit" class = "link-report upperbox">Enregistrer</button>
 </form>
 
 <!--formulaire pour les employés-->
 <form action="insc.html" method="post" class="box">
    <h1>Ajouter un employé</h1>
 
-    <label for="name"><b>Nom_Prénom</b></label>
+    <label for="name"><b>Nom_Prénom</b><input type="checkbox" id="admin" name="admin" value=true><sup>Admin</sup></label>
     <input type="text" id="name" name="name" required>
+
+    <label for="description"><b>Description</b></label>
+    <input type="text" id="description" name="description" required>
 
     <label for="inscmdp"><b>Mot de passe</b><input type="checkbox" onclick="AfficherMDPInsc()"><sup>Voir</sup></label>
     <input type="password" id="inscmdp" name="inscmdp" onchange="checkmdp()" required>
 
     <label for="confmdp"><b>Répétez le mot de passe</b></label>
     <input type="password" id="confmdp" name="confmdp" onchange="checkmdp()" required>
-    <button type="submit" class = "link-report upperbox">Inscription</button>
+    <button type="submit" class = "link-report upperbox">Enregistrer</button>
 </form>
 </div>
 
