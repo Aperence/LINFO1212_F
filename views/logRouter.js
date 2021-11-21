@@ -9,11 +9,9 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db("site")
 
     router.get("/inscription",(req,res)=>{
-        return res.render("inscription.html")
-    })
-
-    router.get("/upnav_site",(req,res)=>{
-        return res.render("upnav_site.html")
+        req.session.theme = req.session.theme || "light"
+        req.session.lastpage = prefix + "/inscription"
+        return res.render("inscription.html", {Mode : req.session.theme, imageMode : req.session.theme + ".jpg"})
     })
 
     router.use(express.static('static'));

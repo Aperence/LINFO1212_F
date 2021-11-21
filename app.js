@@ -35,12 +35,18 @@ app.get("/",(req,res)=>{
 })
 
 app.get("/upnav_site",(req,res)=>{
-    if (req.session.isAdmin){
-        return res.render("upnav_site.html", {display : ""})
+    if (req.session.connected){
+        var connectedLink = "/log/profil"   // provisoire
+        var connected = "Profil"
     }else{
-        return res.render("upnav_site.html", {display : "display : none"})
+        var connectedLink = "/log/connect"   // provisoire
+        var connected = "Connexion"
     }
-
+    if (req.session.isAdmin){
+        return res.render("upnav_site.html", {display : "", ConnectionLink : connectedLink, Connected : connected})
+    }else{
+        return res.render("upnav_site.html", {display : "display : none", ConnectedLink : connectedLink, Connected : connected})
+    }
 })
 
 app.get('/ChangeMode', (req,res)=>{
@@ -59,6 +65,7 @@ app.use(express.static('static'));
 
 
 app.get('*', (req, res) => {
+    req.session.theme = req.session.theme || "light"
     res.status(404).render("404.html", {mode : req.session.theme});
 });
 

@@ -15,3 +15,17 @@ th{
 .BoxBorder{
     background-color: rgb(41, 43, 47);
 }
+
+select{
+    background-color: rgb(39 39 40);
+    color: white;
+}
+
+input{
+    background-color: rgb(39 39 40);
+    color: white;
+}
+
+input:hover, select:hover{
+    background-color: rgb(59 59 60);
+}

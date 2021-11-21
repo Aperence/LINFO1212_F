@@ -22,7 +22,7 @@
     <title>Modification de l'attribution des {{title}} </title>   <!-- animaux / employés -->
 
 </head>
-<body onload="loadUpnav(),displayTable(), loadDescription(), loadImage()">
+<body onload="loadUpnav(), displayTable(), loadDescription(), loadImage()">
     <div id="upnav"></div>
     
     <div class="Maincontent">
@@ -51,8 +51,9 @@
         <form id = "table" class = "tableContent flex-box" method="POST" action="/modif/modifyTimeTable" onsubmit="return checkValidInput()"></form>
     </div>
 
-        <img  class="Border" src="/images/jungle.jpg">
-        <input type = "hidden" id="isAdmin" value="{{isAdmin}}">
+        <input type = "hidden" id="isAdmin" value="{{isAdmin}}">   <!-- utilisé pour connaitre l'état du client -->
+        <img  class="Border" style="background-image : url(/images/{{imageMode}})">  <!-- background-image se comporte mieux pour la redimension de la fenêtre
+                                                                                      que src-->
 
 </body>
 </html>

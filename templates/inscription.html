@@ -45,16 +45,17 @@
     <input type="text" id="description" name="description" required>
 
     <label for="inscmdp"><b>Mot de passe</b><input type="checkbox" onclick="AfficherMDPInsc()"><sup>Voir</sup></label>
-    <input type="password" id="inscmdp" name="inscmdp" onchange="checkmdp()" required>
+    <!-- Empêche d'entrer des espaces-->
+    <input type="password" id="inscmdp" name="inscmdp" onchange="checkmdp()" onkeypress="return event.charCode != 32" required>
 
     <label for="confmdp"><b>Répétez le mot de passe</b></label>
-    <input type="password" id="confmdp" name="confmdp" onchange="checkmdp()" required>
+    <!-- Empêche d'entrer des espaces-->
+    <input type="password" id="confmdp" name="confmdp" onchange="checkmdp()" onkeypress="return event.charCode != 32" required>
     <button type="submit" class = "link-report upperbox">Enregistrer</button>
 </form>
 </div>
 
-
-        <img  class="Border" src="/images/dark.jpg">
+<img  class="Border" style="background-image : url(/images/{{imageMode}})">
 
 </body>
 </html>

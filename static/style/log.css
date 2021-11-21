@@ -10,12 +10,9 @@ label, input{
     margin-bottom: 5px;
 }
 
-form{
-    background-color: rgb(255,255,255,0.7);
-}
-
 /* cadres pour la connexion et l'inscription */
 .box{
+    background-color: rgb(255,255,255,0.7);
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -28,7 +25,7 @@ form{
 }
 
 /* bouton de soumission du formulaire */
-button{
+button:not(:first-child){
     margin-top: auto;
 }
 
@@ -44,7 +41,7 @@ button{
         margin-bottom: 10px;
     }
 
-    button{
+    button:not(:first-child){
         margin-top: 20px;
     }
 

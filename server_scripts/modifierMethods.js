@@ -19,7 +19,8 @@ function makeRenderObject(isAnimal, Name, Request, databaseAccess){
         "StaffAnimalName" : renderName,
         "ActualDate" : `${day}/${month+1}/${year}`,
         "dateSelection" : ListNextWeek,
-        "isAdmin" : Request.session.isAdmin
+        "isAdmin" : Request.session.isAdmin,
+        "imageMode" : Request.session.theme + ".jpg"
     }
 }
 

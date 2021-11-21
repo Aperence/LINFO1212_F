@@ -1,4 +1,5 @@
 var help = require('./modifierMethods')
+var table = require("./table")
 
 function generateNumber(min,max){
     /**
@@ -154,7 +155,7 @@ function generateDescription(){
      * @pre : -
      * @post : génère une description aléatoire
      */
-    const listdescription = ["lazy", "angry", "luxury", "envy", "glutony", "pride", "greed"]
+    const listdescription = ["Lazy", "Angry", "Luxury", "Envy", "Glutony", "Pride", "Greed"]
     return listdescription[generateNumber(0,listdescription.length)]
 }
 
@@ -163,7 +164,7 @@ function generateTask(){
      * @pre : -
      * @post : génère une tâche aléatoire
      */
-    const listTask = ["Soins", "Nettoyer l'enclos", "Spectacle" , "Nourrir"]
+    const listTask = table.ListTask
     return listTask[generateNumber(0, listTask.length)]
 }
 

@@ -1,17 +1,18 @@
 
 const modifierHelp = require("./modifierMethods")
 
+const ListTask = ["Soins", "Nourrir", "Nettoyer l'enclos", "Spectacle", "Dressage"]
+
 function generateTaskList(strActualHour, hasAlreadyTask){
     /**
      * @pre : strActualHour : l'heure sous forme de string "HH:MM"
-     * @pre : hasAlreadyTask : un string représentant une des 4 tâches possibles se trouvant dans listOption ou bien null
+     * @pre : hasAlreadyTask : un string représentant une des 5 tâches possibles se trouvant dans ListTask ou bien null
      * @post : retourne une sélection entre les différentes tâches possibles.
      * Si une tâche est déjà sélectionnée (hasAlreadyTask), alors celle-ci se trouvera en tête de la sélection,
      * sinon ce sera l'option vide qui sera affichée en première
      */
-    const listOption = ["Soins", "Nourrir", "Nettoyer l'enclos", "Spectacle"]
     var options = "";
-    for (let option of listOption){
+    for (let option of ListTask){
         if (option != hasAlreadyTask){
             options += `<option value=${option}>${option}</option>`
         }
@@ -247,5 +248,6 @@ function makeRenderedTable(collectionSearch, Request, isAnimal, doc, res, Databa
 
 
 module.exports = {
-    "makeRenderedTable" : makeRenderedTable
+    "makeRenderedTable" : makeRenderedTable,
+    "ListTask" : ListTask
 }
