@@ -25,7 +25,7 @@ label, input{
 }
 
 /* bouton de soumission du formulaire */
-button:not(:first-child){
+button:nth-child(n+3){
     margin-top: auto;
 }
 
@@ -41,7 +41,7 @@ button:not(:first-child){
         margin-bottom: 10px;
     }
 
-    button:not(:first-child){
+    button:nth-child(n+3){
         margin-top: 20px;
     }
 
