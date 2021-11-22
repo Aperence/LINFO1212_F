@@ -71,6 +71,8 @@ td{
     top: 0px;
     left: 0px;
     z-index: -1;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 @media (max-width:700px){
