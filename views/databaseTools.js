@@ -13,7 +13,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db('site')
     // ajouter des événements facilement ->> à retirer
     router.get("/append", (req,res)=>{
-        console.log("append")
         generate.randomCollections(dbo)
         res.redirect("/")
     })

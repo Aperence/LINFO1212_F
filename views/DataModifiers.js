@@ -97,5 +97,5 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     router.use(express.static('static'));
 })
 module.exports = {
-    "DataModifiers" : router
+    "dataModifiers" : router
 }

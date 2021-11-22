@@ -10,7 +10,8 @@ var ObjectId = require('mongodb').ObjectId;
 const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcryptjs");
-var dataModifs = require("./views/DataModifiers")
+
+var dataModifs = require("./views/dataModifiers")
 var DBTools = require('./views/databaseTools')
 var logs = require('./views/logRouter')
 
@@ -56,7 +57,7 @@ app.get('/ChangeMode', (req,res)=>{
 
 
 // ajouts de routeurs
-app.use("/modif",dataModifs.DataModifiers)
+app.use("/modif",dataModifs.dataModifiers)
 app.use("/tools", DBTools.DBTools)
 app.use("/log", logs.logRouter)
 
