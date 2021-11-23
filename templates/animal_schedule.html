@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="style/bootstrap.min.css" rel="stylesheet">
+    <link rel = "stylesheet" href = "style/general.css">
+    <link rel = "stylesheet" href = "style/schedule.css">
+
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/renderTime.js"></script>
+    <script type="text/javascript" src="/scripts/modifiersFrontEnd.js"></script>
+    <script type="text/javascript" src="/server_scripts/modifierMethods.js"></script>
+    
+    
+    <title>Horaire animaux </title>
+
+</head>
+<body onload="loadUpnav(),renderTime(), loadError()">
+    <div id="upnav"></div>
+    <div class="Maincontent">
+
+        <div class = "NameDateBorder flex-box">
+            <div class = "BoxBorder flex-box" > Horaire des tâches à faire sur animaux</div>
+            <div class = "BoxBorder flex-box" id="clockDisplay"></div>
+</body>
+        
+</html>
