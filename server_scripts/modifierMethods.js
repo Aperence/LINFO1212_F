@@ -1,4 +1,4 @@
-function makeRenderObject(isAnimal, Name, Request, databaseAccess){
+function makeRenderObject(isAnimal, name, request){
     /**
      * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé
      * @pre : Name : le nom de l'animal/employé
@@ -10,17 +10,17 @@ function makeRenderObject(isAnimal, Name, Request, databaseAccess){
     var month = date.getMonth();
     var year = date.getFullYear();
     var ListNextWeek = calculateListNextWeek(date);
-    var renderName = isAnimal ? "Nom de l'animal : " +  Name : "Nom de l'employé : " + Name
+    var renderName = isAnimal ? "Nom de l'animal : " +  name : "Nom de l'employé : " + name
     return {
-        "Mode" : Request.session.theme || "light",
+        "Mode" : request.session.theme || "light",
         "title" : isAnimal ? "animaux" : "employés",
-        "Name" : Name,
+        "Name" : name,
         "isAnimal" : isAnimal,
         "StaffAnimalName" : renderName,
         "ActualDate" : `${day}/${month+1}/${year}`,
         "dateSelection" : ListNextWeek,
-        "isAdmin" : Request.session.isAdmin,
-        "imageMode" : Request.session.theme + ".jpg"
+        "isAdmin" : request.session.isAdmin,
+        "imageMode" : request.session.theme + ".jpg"
     }
 }
 
@@ -45,7 +45,7 @@ function calculateListNextWeek(date){
 }
 
 
-function createListItem(isAnimal, DatabaseDocument){
+function createListItem(isAnimal, databaseDocument){
     /**
      * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé
      * @pre : DatabaseDocument : un array d'objets JSON de la forme {
@@ -71,7 +71,7 @@ function createListItem(isAnimal, DatabaseDocument){
     for (var hour = 0; hour<24; hour++){    
         for (var halfhour = 0; halfhour <2 ; halfhour++){
             var exactHour =  formatHourString([hour,halfhour*30])
-            item = getIfTimesExists(DatabaseDocument,exactHour)
+            item = getIfTimesExists(databaseDocument,exactHour)
             var status = defineState(item,isAnimal)
             var name = getName(item,isAnimal)
             TimeTable.push({status : status, time : exactHour, name : name, task : item.task})
@@ -81,7 +81,7 @@ function createListItem(isAnimal, DatabaseDocument){
 }
 
 
-function getIfTimesExists(DatabaseDocument,exactHour){
+function getIfTimesExists(databaseDocument,exactHour){
     /**
      * @pre : DatabaseDocument : un array d'objet JSON du type {
      *                                                           "animalName" : "test",
@@ -95,7 +95,7 @@ function getIfTimesExists(DatabaseDocument,exactHour){
      * @post : retourne l'objet dont le champ "time" est égal à exactHour, 
      * s'il n'y en a pas, retourne un objet vide
      */
-    for(let item of DatabaseDocument){
+    for(let item of databaseDocument){
         if (item.time === exactHour){
             return item
         }
@@ -148,22 +148,22 @@ function getName(item, isAnimal){
     }
 }
 
-function formatHour(Hour){
+function formatHour(hour){
     /**
      * @pre : Hour : un string suivant le format HH:MM avec HH qui est une heure appartenant à [0,23] et MM, 
      * une demi-heure appartienant à {0, 30}
      * @post : retourne un tableau d'int représentant cette heure
      * exemple : Hour = "18:30"  => [18 , 30]
      */
-    Hour = Hour.split(":")
-    Hour[0] = Hour[0][0] == "0" ? Hour[0].slice(1,Hour.length) : Hour[0]
-    Hour[1] = Hour[1][0] == "0" ? Hour[1].slice(1,Hour.length) : Hour[1]
-    Hour[0] = parseInt(Hour[0])
-    Hour[1] = parseInt(Hour[1])
-    return Hour
+    hour = hour.split(":")
+    hour[0] = hour[0][0] == "0" ? hour[0].slice(1,hour.length) : hour[0]
+    hour[1] = hour[1][0] == "0" ? hour[1].slice(1,hour.length) : hour[1]
+    hour[0] = parseInt(hour[0])
+    hour[1] = parseInt(hour[1])
+    return hour
 }
 
-function formatHourString(HourArray){
+function formatHourString(hourArray){
     /**
      * @pre : HourArray : un array représentant des heures suivant le format [heure, demi-heure] avec heure appartient à [0,23] 
      * et demi-heure appartient à {0, 30}
@@ -171,8 +171,8 @@ function formatHourString(HourArray){
      * une demi-heure appartienant à {0, 30}
      * exemple : HourArray = [9 , 0]  => "09:00"
      */
-    hour = HourArray[0]
-    halfhour = HourArray[1]
+    hour = hourArray[0]
+    halfhour = hourArray[1]
     strHour = hour.toString()
     if (strHour.length===1){
         strHour = '0' + strHour
@@ -258,7 +258,7 @@ function findDay(daySearch){
     return -1
 }
 
-function updateDB(DatabaseAccess){
+function updateDB(databaseAccess){
     /**
      * @pre : DatabaseAccess : la variable permettant de se connecter à la base de donnée
      * @post : met à jour toutes les dates de la collection "timetable" pour les faire coïncider avec la semaine d'après
@@ -266,7 +266,7 @@ function updateDB(DatabaseAccess){
      * Lundi 10/1/2012 deviendra le Lundi 16/11/2021
      */
     var today = new Date()
-    DatabaseAccess.collection("timetable").find({}).toArray((err,doc)=>{
+    databaseAccess.collection("timetable").find({}).toArray((err,doc)=>{
         if (err) {console.log(err)}
         for (let item of doc){
             var formatdate = formatDate(item.date)
@@ -282,7 +282,7 @@ function updateDB(DatabaseAccess){
                 }
                 nextDayString = formatDateFromObject(nextDay)
             }
-            DatabaseAccess.collection("timetable").updateOne(item, { $set: {date : nextDayString} })
+            databaseAccess.collection("timetable").updateOne(item, { $set: {date : nextDayString} })
         }
     })
 }
