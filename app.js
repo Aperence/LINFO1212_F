@@ -14,6 +14,7 @@ const bcrypt = require("bcryptjs");
 var dataModifs = require("./views/dataModifiers")
 var DBTools = require('./views/databaseTools')
 var logs = require('./views/logRouter')
+var AniSchRouter = require('./views/animalScheduleRouter')
 
 var app = express ();
 
@@ -33,6 +34,11 @@ app.use(session({
 app.get("/",(req,res)=>{
     req.session.lastpage = "/"
     res.redirect("/modif/animalmodif")
+})
+
+app.get("/animal_schedule.html",function(req,res){
+    res.render("animal_schedule.html")
+
 })
 
 app.get("/upnav_site",(req,res)=>{
@@ -60,6 +66,7 @@ app.get('/ChangeMode', (req,res)=>{
 app.use("/modif",dataModifs.dataModifiers)
 app.use("/tools", DBTools.DBTools)
 app.use("/log", logs.logRouter)
+app.use("/schedule",AniSchRouter.AniSchRouter)
 
 app.use(express.static('static'));
 
