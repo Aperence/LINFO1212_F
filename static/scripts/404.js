@@ -1,4 +1,8 @@
 function loadPage(){
+    /**
+     * @pre : -
+     * @post : charge le bouton de suppression de la barre de recherche et les 3 points qui avance toutes les secondes
+     */
     document.getElementById("search").addEventListener("keyup",()=>{
         if (!this.value){
             document.getElementById("suppress").style.visibility = "visible"
@@ -11,7 +15,7 @@ function loadPage(){
     var point2 = document.querySelector("#point2")
     var point3 = document.querySelector("#point3")
     var count = 0
-    console.log(document.getElementById("version").getAttribute('href'))
+
     if (document.getElementById("version").getAttribute("href")==="style/darkVersion.css"){
         document.getElementById("suppress").style.color = "black"
         document.getElementById("loupe").style.color = "black"

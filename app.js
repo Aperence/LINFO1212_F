@@ -6,7 +6,6 @@ var https = require('https');
 var fs = require('fs');
 var session = require('express-session');
 var Server = require('mongodb').Server;
-var ObjectId = require('mongodb').ObjectId;
 const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcryptjs");
