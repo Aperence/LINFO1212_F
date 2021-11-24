@@ -33,7 +33,7 @@ app.use(session({
 //temporaire
 app.get("/",(req,res)=>{
     req.session.lastpage = "/"
-    res.redirect("/modif/animalmodif")
+    res.redirect("/schedule/animal_schedule")
 })
 
 app.get("/animal_schedule.html",function(req,res){

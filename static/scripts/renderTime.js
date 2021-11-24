@@ -8,7 +8,7 @@ function renderTime(){
          year += 1900
       }
     var day = date.getDay();
-    var month = date.getMont();
+    var month = date.getMonth();
     var daym = date.getDate();
     var dayarray = new Array("Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi");
     var montharray = new Array("Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Décembre")
