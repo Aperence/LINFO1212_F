@@ -3,6 +3,10 @@
     flex-direction: row;
 }
 
+#upnav{
+    min-width: 0px;
+}
+
 /* formatage des zones remplissable et de leur intitulé */
 label, input{
     display: table-cell;

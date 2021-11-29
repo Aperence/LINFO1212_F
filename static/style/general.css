@@ -2,3 +2,8 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+
+#upnav{
+  min-width: 500px;
+}
