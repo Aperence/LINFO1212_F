@@ -52,25 +52,32 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     router.post("/modifyTimeTable", (req,res)=>{
         var day = req.body.dateModif.split("/")[3]                      // Lundi, Mardi, ...
         var date = req.body.dateModif.split("/").slice(0,3).join("/")  //    DD/MM/YYYY
-        
-        for (let hour = 0; hour<24; hour++){
-            for( let halfhour=0; halfhour<2; halfhour++){
-                formatHour = modifierHelp.formatHourString([hour,halfhour*30])
-                if (req.body.isAnimalModif==="true"){
-                    dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif})  //supprime si existe déjà pour cet animal
-                    if (req.body["nameSelection"+formatHour]!==""){    // si on a sélectionné au moins un nom
-                        dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif, "staffName": req.body["nameSelection"+formatHour], "task" : req.body["taskList"+formatHour]})
-                    }
-                }else{ 
-                    dbo.collection("timetable").deleteMany({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif})    //supprime si existe déjà 
-                    if (req.body["nameSelection"+formatHour]!==""){    // si on a sélectionné au moins un nom
-                        dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif, "animalName": req.body["nameSelection"+formatHour], "task" : req.body["taskList"+formatHour]})  
-                    }
-                }
-
+        var collect = req.body.isAnimalModif==="true" ? "animal" : "staff"
+        dbo.collection(collect).find({name : req.body.nameModif}).toArray((err,doc)=>{
+            if (doc.length == 0){
+                req.session.error = "Individu non trouvé"
+                return res.redirect(req.session.lastpage)
             }
-        }
-        res.redirect(req.session.lastpage)
+            for (let hour = 0; hour<24; hour++){
+                for( let halfhour=0; halfhour<2; halfhour++){
+                    formatHour = modifierHelp.formatHourString([hour,halfhour*30])
+                    if (req.body.isAnimalModif==="true"){
+                        dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif})  //supprime si existe déjà pour cet animal
+                        if (req.body["nameSelection"+formatHour]!==""){    // si on a sélectionné au moins un nom
+                            dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif, "staffName": req.body["nameSelection"+formatHour], "task" : req.body["taskList"+formatHour]})
+                        }
+                    }else{ 
+                        dbo.collection("timetable").deleteMany({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif})    //supprime si existe déjà 
+                        if (req.body["nameSelection"+formatHour]!==""){    // si on a sélectionné au moins un nom
+                            dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif, "animalName": req.body["nameSelection"+formatHour], "task" : req.body["taskList"+formatHour]})  
+                        }
+                    }
+    
+                }
+            }
+            res.redirect(req.session.lastpage)
+        })
+
     })
 
 

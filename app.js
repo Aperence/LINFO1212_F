@@ -45,14 +45,15 @@ app.get("/upnav_site",(req,res)=>{
         var connectedLink = "/log/profil"   // provisoire
         var connected = "Profil"
     }else{
-        var connectedLink = "/log/connect"   // provisoire
+        var connectedLink = "/log/connect"   // provisoire   style="opacity:1;{{display}}"
         var connected = "Connexion"
     }
     if (req.session.isAdmin){
-        return res.render("upnav_site.html", {display : "", ConnectionLink : connectedLink, Connected : connected})
+        var display =  "opacity:1;"
     }else{
-        return res.render("upnav_site.html", {display : "display : none", ConnectedLink : connectedLink, Connected : connected})
+        var display = "opacity:1;display:none"
     }
+    return res.render("upnav_site.html", {ConnectionLink : connectedLink, Connected : connected, display : display})
 })
 
 app.get('/ChangeMode', (req,res)=>{

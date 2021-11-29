@@ -11,6 +11,10 @@ function makeRenderObject(isAnimal, name, request){
     var year = date.getFullYear();
     var ListNextWeek = calculateListNextWeek(date);
     var renderName = isAnimal ? "Nom de l'animal : " +  name : "Nom de l'employé : " + name
+    var error = request.session.error || ""
+    if (error){
+        request.session.error = ""
+    }
     return {
         "Mode" : request.session.theme || "light",
         "title" : isAnimal ? "animaux" : "employés",
@@ -20,7 +24,8 @@ function makeRenderObject(isAnimal, name, request){
         "ActualDate" : `${day}/${month+1}/${year}`,
         "dateSelection" : ListNextWeek,
         "isAdmin" : request.session.isAdmin,
-        "imageMode" : request.session.theme + ".jpg"
+        "imageMode" : request.session.theme + ".jpg",
+        "error" : error
     }
 }
 

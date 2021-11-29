@@ -18,11 +18,12 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="/scripts/modifiersFrontEnd.js"></script>
+    <script type="text/javascript" src="/scripts/log.js"></script>
 
     <title>Modification de l'attribution des {{title}} </title>   <!-- animaux / employés -->
 
 </head>
-<body onload="loadUpnav(), displayTable(), loadDescription(), loadImage()">
+<body onload="loadUpnav(), displayTable(), loadDescription(), loadImage(), loadError()">
     <div id="upnav"></div>
     
     <div class="Maincontent">
@@ -54,6 +55,7 @@
         <input type = "hidden" id="isAdmin" value="{{isAdmin}}">   <!-- utilisé pour connaitre l'état du client -->
         <img  class="Border" style="background-image : url(/images/{{imageMode}})">  <!-- background-image se comporte mieux pour la redimension de la fenêtre
                                                                                       que src-->
+        <input type="hidden" value="{{error}}" id="error">
 
 </body>
 </html>

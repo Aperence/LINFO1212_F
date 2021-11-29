@@ -6,7 +6,8 @@ function loadError(){
     var erreur = $('#error').val()
     console.log(erreur);
     if (erreur){
-        alert(erreur)
+        setTimeout(()=>{alert(erreur)},400)
+        
     }
 }
 
