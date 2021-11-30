@@ -57,7 +57,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     });
 
     router.post('/createEmployee.html', function(req,res,next){
-        if (req.body.nameEmployee != null && req.body.descriptionEmployee != null && req.body.inscmdp != null && req.body.confmdp != null){
+        if (req.body.nameEmployee != null && req.body.descriptionEmployee != null && req.body.inscmdp != null && req.body.confmdp != null && req.body.startHour != null && req.body.endHour != null){
             dbo.collection("employee").find({name : req.body.nameEmployee}).toArray((err,doc)=>{
                 if (doc.length!=0){
                     console.log("Employé déjà existant");
@@ -72,8 +72,28 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     else{
                         req.body.admin = false
                     }
-                    dbo.collection("employee").insertOne({name : req.body.nameEmployee, password : hashedPassword, description : req.body.descriptionEmployee, admin : req.body.admin, startHour : req.body.startHour, endHour : req.body.endHour})
-                    console.log("Employé créé : ", req.body.nameEmployee, req.body.descriptionEmployee, hashedPassword, req.body.inscmdp, req.body.admin, req.body.startHour, req.body.endHour)
+                    var startHour = req.body.startHour;
+                    var endHour = req.body.endHour;
+                    var heureDebut = startHour%1*60;
+                    startHour-=startHour%1;
+                    if (startHour < 10){
+                        startHour = "0" + startHour.toString();
+                    }
+                    if (heureDebut == 0){
+                        heureDebut = heureDebut.toString() + "0";
+                    }
+                    var heureFin = endHour%1*60
+                    endHour-=endHour%1;
+                    if (endHour < 10){
+                        endHour = "0" + endHour.toString();
+                    }
+                    if (heureFin == 0){
+                        heureFin = heureFin.toString() + "0";
+                    }
+                    var defStartHour = startHour + ":" + heureDebut
+                    var defEndHour = endHour + ":" + heureFin
+                    dbo.collection("employee").insertOne({name : req.body.nameEmployee, password : hashedPassword, description : req.body.descriptionEmployee, admin : req.body.admin, startHour : defStartHour, endHour : defEndHour})
+                    console.log("Employé créé : ", req.body.nameEmployee, req.body.descriptionEmployee, hashedPassword, req.body.inscmdp, req.body.admin, defStartHour, defEndHour)
                     res.redirect(req.session.lastpage)
                 }
             });
