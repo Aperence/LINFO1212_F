@@ -234,6 +234,7 @@ function makeRenderedTable(collectionSearch, request, isAnimal, doc, res, databa
      * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé
      * @pre : doc : un array contenant les résultats de recherche dans timetable pour une certaine date et un certain nom
      * @pre : res : objet permettant d'envoyer la réponse au client
+     * @pre : un objet JSON représentant l'employé dont on veut avoir la sélection  => utilisé pour n'afficher la sélection que pour ses heures de travail
      * @post : envoie la table d'affichage avec la personne en charge pour chaque tranche horaire
      */
     if (request.session.isAdmin){

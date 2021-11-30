@@ -13,6 +13,12 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbars/">
     <link rel="stylesheet" href="/style/bootstrapAddition.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+      $(() => {
+        document.getElementById("offcanvasNavbarDropdown").innerHTML =  document.getElementById("userIcon").value
+      });
+    </script>
 
   </head>
   <body>
@@ -43,8 +49,8 @@
           </form>
           <li class="nav-item dropdown" style="display: flex;justify-content:center">
             <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              {{userIcon}}
             </a>
+            <input type="hidden" value="{{userIcon}}" id="userIcon">
             <div class="dropdown-menu dropdown-menu-end">
               <a class="dropdown-item" href={{ConnectionLink}} >{{Connected}}</a>
               <a class="dropdown-item" href="/log/inscription" style={{display}}>Ajouter un employé/animal</a>
