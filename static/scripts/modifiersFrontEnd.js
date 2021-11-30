@@ -108,11 +108,6 @@ function checkValidInput(){
    *    soit sélectionné
    * Retourne faux si ces deux conditions ne sont pas remplies, vrai sinon
    */
-  var name =  document.getElementById("name").value
-  if (!name){   //aucun nom
-    alert("Pas d'employé/animal sélectionné")
-    return false
-  }
   for (let hour = 0 ; hour<24; hour++){
     for (let halfhour=0; halfhour<2; halfhour++){
       hourStr = formatHourString([hour,halfhour*30])
