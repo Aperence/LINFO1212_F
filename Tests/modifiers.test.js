@@ -9,6 +9,8 @@ var MongoClient = require('mongodb').MongoClient
 var url = "https://localhost:8080/modif"
 var url_append = "https://localhost:8080/tools/append"
 var url_clear = "https://localhost:8080/tools/clear"
+var listHour = ["00:00", "08:00", "16:00"]
+
 
 describe('Execute tests on modifs pages', () => {
   let driver;
@@ -20,6 +22,7 @@ describe('Execute tests on modifs pages', () => {
     await driver.findElement(By.id("proceed-link")).click()
     await driver.get(url_clear)
     await driver.get(url_append)
+    
     return true
   }, 10000);
  
@@ -29,54 +32,20 @@ describe('Execute tests on modifs pages', () => {
 
   jest.setTimeout(300000)
   
-  test("Vérifie que l'on ne peut soumettre sans avoir choisi de nom si on est un Admin (employé)", async () => {
-    await driver.get( url + "/staffmodif");
-    await driver.wait(async ()=>{
-      try{
-        var submit = await driver.findElement(By.css(".submitButton"))
-        await submit.click()
-        await driver.switchTo().alert().dismiss()
-        return true
-      }catch{           //pas d'alerte => fonctionne pas
-        return false
-      }
-    }, 10000, 'Timed out after 10 seconds', 1000)
-    ;   //nom manquant
-    urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/staffmodif")
-
-  });
-
-
-  test("Vérifie que l'on ne peut soumettre sans avoir choisi de nom si on est un Admin (animal)", async () => {
-    await driver.get( url + "/animalmodif");
-    await driver.wait(async ()=>{
-      try{
-        var submit = await driver.findElement(By.css(".submitButton"))
-        await submit.click()
-        await driver.switchTo().alert().dismiss()
-        return true
-      }catch{           //pas d'alerte => fonctionne pas
-        return false
-      }
-    }, 10000, 'Timed out after 10 seconds', 1000)
-    ;   //nom manquant
-    urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/animalmodif")
-
-  });
-
 
   test("Vérifie que l'on ne peut soumettre sans avoir rempli le nom (employé)", async () => {
     await driver.get( url + "/staffmodif?name=Georges");
+    var Hourindex = 0
     await driver.wait( async ()=>{
       try{
-        let selection = driver.findElement(By.id("nameSelection02:00"));
+        let selection = driver.findElement(By.id("nameSelection" + listHour[Hourindex]));
         await selection.click()
         selection.sendKeys(Key.ARROW_DOWN)
         return true
       }
       catch{
+        Hourindex++;
+        Hourindex = Hourindex%3
         return false
       }
     }, 20000, 'Timed out after 20 seconds', 2000)
@@ -98,14 +67,17 @@ describe('Execute tests on modifs pages', () => {
 
   test("Vérifie que l'on ne peut soumettre sans avoir rempli la tâche (employé)", async () => {
     await driver.get( url + "/staffmodif?name=Georges");
+    var Hourindex = 0
     await driver.wait( async ()=>{
       try{
-        let selection = driver.findElement(By.id("taskList22:00"));
+        let selection = driver.findElement(By.id("taskList" +  listHour[Hourindex]));
         await selection.click()
         selection.sendKeys(Key.ARROW_DOWN)
         return true
       }
       catch{
+        Hourindex++
+        Hourindex = Hourindex%3
         return false
       }
     }, 20000, 'Timed out after 20 seconds', 2000)
@@ -128,14 +100,17 @@ describe('Execute tests on modifs pages', () => {
     await driver.get( url + "/staffmodif?name=Georges");
 
     //choisi un animal
+    var Hourindex = 0
     await driver.wait( async ()=>{
       try{
-        let selection = driver.findElement(By.id("taskList05:30"));
+        let selection = driver.findElement(By.id("nameSelection" + listHour[Hourindex]));
         await selection.click()
         selection.sendKeys(Key.ARROW_DOWN)  
         return true
       }
       catch{
+        Hourindex++
+        Hourindex = Hourindex%3
         return false
       }
     }, 20000, 'Timed out after 20 seconds', 2000)
@@ -143,7 +118,7 @@ describe('Execute tests on modifs pages', () => {
     //choisi une tâche
     await driver.wait( async ()=>{
       try{
-        let selection = driver.findElement(By.id("nameSelection05:30"));
+        let selection = driver.findElement(By.id("taskList" + listHour[Hourindex]));
         await selection.click()
         selection.sendKeys(Key.ARROW_DOWN)
         return true
@@ -180,7 +155,7 @@ describe('Execute tests on modifs pages', () => {
 
 
   test("Vérifie que l'on ne peut soumettre sans avoir rempli le nom (animal)", async () => {
-    await driver.get( url + "/animalmodif?name=test");
+    await driver.get( url + "/animalmodif?name=Lion");
     await driver.wait( async ()=>{
       try{
         let selection = driver.findElement(By.id("nameSelection04:30"));
@@ -204,11 +179,11 @@ describe('Execute tests on modifs pages', () => {
 
     }, 10000, 'Timed out after 20 seconds', 1000)
     urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/animalmodif?name=test")
+    expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
   });
 
   test("Vérifie que l'on ne peut soumettre sans avoir rempli la tâche (animal)", async () => {
-    await driver.get( url + "/animalmodif?name=test");
+    await driver.get( url + "/animalmodif?name=Lion");
     await driver.wait( async ()=>{
       try{
         let selection = driver.findElement(By.id("taskList05:30"));
@@ -232,12 +207,12 @@ describe('Execute tests on modifs pages', () => {
 
     }, 10000, 'Timed out after 20 seconds', 1000)
     urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/animalmodif?name=test")
+    expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
   });
 
 
   test("Vérifie que l'on peut soumettre et que la tâche est ajoutée à Timetable (animal)", async () => {
-    await driver.get( url + "/animalmodif?name=test");
+    await driver.get( url + "/animalmodif?name=Lion");
 
     //choisi un employé
     await driver.wait( async ()=>{
@@ -277,7 +252,7 @@ describe('Execute tests on modifs pages', () => {
 
     }, 10000, 'Timed out after 20 seconds', 1000)
     urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/animalmodif?name=test")
+    expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
     await driver.wait( async ()=>{
       MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
           db.db('site').collection("timetable").find({time : "07:30"}).toArray((err,doc)=>{

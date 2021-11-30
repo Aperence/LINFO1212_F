@@ -130,7 +130,7 @@ function returnNameSelectionAccordingStatus(status, isAnimal, listAnimalStaff, s
 }
 
 
-function renderTimeTableAdmin(timeTable, listAnimalStaff, isAnimal, request, documentTimetable){
+function renderTimeTableAdmin(timeTable, listAnimalStaff, isAnimal, request, documentTimetable, Employee=null){
     /**
      * @pre : timeTable un array d'objet ayant le format suivant:
      * {status : status, time : exactHour, name : name}
@@ -140,6 +140,7 @@ function renderTimeTableAdmin(timeTable, listAnimalStaff, isAnimal, request, doc
      * @pre : ListAnimalStaff : un document avec tous les employés ou animaux
      * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé 
      * @pre : Request : objet permettant de récupérer les information demandées (queries)
+     * @pre : un objet JSON représentant l'employé dont on veut avoir la sélection
      * @post : retourne un string représentant la table d'affichage avec la personne en charge pour 
      * chaque tranche horaire (version admin => avec sélection d'un employé)
      */
@@ -156,8 +157,10 @@ function renderTimeTableAdmin(timeTable, listAnimalStaff, isAnimal, request, doc
     var taskList;
     for (let i = 0; i<timeTable.length; i++){
         actualHour = [ Math.floor(i/2) , (i%2)*30 ]
+        if (Employee && !modifierHelp.comprisedBetween(modifierHelp.formatHour( Employee.startHour), modifierHelp.formatHour( Employee.endHour), actualHour)){
+            continue
+        }
         strActualHour = modifierHelp.formatHourString(actualHour)
-
         status = returnStatusString(timeTable[i].status)
         taskList = returnTaskListAccordingStatus(timeTable[i].status, strActualHour, timeTable[i].task)
         nameList = returnNameSelectionAccordingStatus(timeTable[i].status, isAnimal, listAnimalStaff, strActualHour, timeTable[i].name, documentTimetable)
@@ -224,7 +227,7 @@ function returnStatusString(status){
 }
 
 
-function makeRenderedTable(collectionSearch, request, isAnimal, doc, res, databaseAccess){
+function makeRenderedTable(collectionSearch, request, isAnimal, doc, res, databaseAccess, Employee = null){
     /**
      * @pre : collectionSearch : type de recherche : sur les animaux ou sur les employés
      * @pre : Request : objet permettant de récupérer les information demandées (queries)
@@ -237,7 +240,7 @@ function makeRenderedTable(collectionSearch, request, isAnimal, doc, res, databa
         databaseAccess.collection(collectionSearch).find({}).sort({name : 1}).toArray((err,documentEmployee)=>{
             databaseAccess.collection("timetable").find({date : request.query.date}).toArray((err,documentTimetable)=>{
                 var TimeTable = modifierHelp.createListItem(isAnimal, doc)
-                responseTimeTable = renderTimeTableAdmin(TimeTable, documentEmployee, isAnimal , request, documentTimetable);         
+                responseTimeTable = renderTimeTableAdmin(TimeTable, documentEmployee, isAnimal , request, documentTimetable,  Employee);         
                 res.send(responseTimeTable)
             })
         })

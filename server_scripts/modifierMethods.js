@@ -25,7 +25,8 @@ function makeRenderObject(isAnimal, name, request){
         "dateSelection" : ListNextWeek,
         "isAdmin" : request.session.isAdmin,
         "imageMode" : request.session.theme + ".jpg",
-        "error" : error
+        "error" : error,
+
     }
 }
 
@@ -215,7 +216,7 @@ function comprisedBetween(startHourFormated, endHourFormated, actualHour){
         }
     }
     if (startHourFormated[1] == 30){   // enlève l'élément de trop   ex : [7,0] rajouté alors que doit commencer à [7,30]
-        intervalHour.slice(1,intervalHour.length)
+        intervalHour = intervalHour.slice(1,intervalHour.length)
     }
     if ( endHourFormated[1] == 0){  // enlève l'élément de trop ex : [17,30] rajouté alors que doit aller que jusquà [17,0]
         intervalHour.pop()

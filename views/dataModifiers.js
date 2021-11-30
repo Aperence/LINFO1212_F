@@ -15,6 +15,9 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db("site")
 
     router.get("/animalmodif",(req,res)=>{
+        if (!req.query.name){
+            return res.redirect("/")
+        }
         modifierHelp.updateDB(dbo)
         req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
         req.session.lastpage = prefix + "/animalmodif" + (req.query.name ? `?name=${req.query.name}` : "")    // utilisé pour rediriger après changement de couleur/mode
@@ -24,6 +27,9 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     })
 
     router.get("/staffmodif",(req,res)=>{
+        if (!req.query.name){
+            return res.redirect("/")
+        }
         modifierHelp.updateDB(dbo)
         req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
         req.session.lastpage = prefix + "/staffmodif" + (req.query.name ? `?name=${req.query.name}` : "") 
@@ -35,17 +41,29 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     router.get("/loadTimeTable", (req,res)=>{
         var isAnimal = req.query.animal === "true"
         req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
-        if (isAnimal){ 
-            var tableSearch = "employee"
-            dbo.collection("timetable").find({animalName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{   // cherche tous les horaires concernant cet animal
-                tableHelp.makeRenderedTable(tableSearch, req, isAnimal, doc, res, dbo)
-            })
+        if (isAnimal){
+            var collection = "animal"
         }else{
-            var tableSearch = "animal"
-            dbo.collection("timetable").find({staffName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{   // cherche tous les horaires concernant cet employé
-                tableHelp.makeRenderedTable(tableSearch, req, isAnimal, doc, res, dbo)
-            })
+            var collection = "employee"
         }
+        dbo.collection(collection).find({name : req.query.name}).toArray((err,Employee)=>{
+            if (Employee.length === 0){
+                res.send("")
+            }
+            else{
+                if (isAnimal){ 
+                    var tableSearch = "employee"
+                    dbo.collection("timetable").find({animalName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{   // cherche tous les horaires concernant cet animal
+                        tableHelp.makeRenderedTable(tableSearch, req, isAnimal, doc, res, dbo)
+                    })
+                }else{
+                    var tableSearch = "animal"
+                    dbo.collection("timetable").find({staffName : req.query.name, day : req.query.day, date : req.query.date}).toArray((err,doc)=>{   // cherche tous les horaires concernant cet employé
+                        tableHelp.makeRenderedTable(tableSearch, req, isAnimal, doc, res, dbo, Employee[0])
+                    })
+                }
+            }
+        })
     })
 
 
