@@ -50,8 +50,8 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     else{
                         req.body.admin = false
                     }
-                    dbo.collection("employee").insertOne({name : req.body.nameEmployee, password : hashedPassword, description : req.body.descriptionEmployee, admin : req.body.admin})
-                    console.log("Employé créé : ", req.body.nameEmployee, req.body.descriptionEmployee, hashedPassword, req.body.inscmdp, req.body.admin)
+                    dbo.collection("employee").insertOne({name : req.body.nameEmployee, password : hashedPassword, description : req.body.descriptionEmployee, admin : req.body.admin, startHour : req.body.startHour, endHour : req.body.endHour})
+                    console.log("Employé créé : ", req.body.nameEmployee, req.body.descriptionEmployee, hashedPassword, req.body.inscmdp, req.body.admin, req.body.startHour, req.body.endHour)
                     return res.redirect(req.session.lastpage)
                 }
             });

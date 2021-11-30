@@ -57,7 +57,11 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     })
 
     app.get("/upnav_site",(req,res)=>{
+        var icon = "<i class='bx bxs-user-account'></i>"
         if (req.session.connected){
+            if (req.session.picture){
+               icon = `<img src = ${req.session.picture} style="height:24px; width:24px">`
+            }
             var connectedLink = "/log/profil"   // provisoire
             var connected = "Profil"
         }else{

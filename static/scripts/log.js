@@ -11,6 +11,28 @@ function loadError(){
     }
 }
 
+function printheure(){
+    var startHour = document.getElementById("startHour").value;
+    var endHour = document.getElementById("endHour").value;
+    var heureDebut = startHour%1*60;
+    startHour-=startHour%1;
+    if (startHour < 10){
+        startHour = "0" + startHour.toString();
+    }
+    if (heureDebut == 0){
+        heureDebut = heureDebut.toString() + "0";
+    }
+    var heureFin = endHour%1*60
+    endHour-=endHour%1;
+    if (endHour < 10){
+        endHour = "0" + endHour.toString();
+    }
+    if (heureFin == 0){
+        heureFin = heureFin.toString() + "0";
+    }
+    document.getElementById("horaire").innerHTML = "&nbsp&nbsp&nbspde&nbsp&nbsp&nbsp" + startHour + ":" + heureDebut + "&nbsp&nbsp&nbspà&nbsp&nbsp&nbsp" + endHour + ":" + heureFin;
+}
+
 function checkmdp(){
     /**
      * @pre : inscmdp et confmdp : les deux mots de passe entrés par l'utilisateur

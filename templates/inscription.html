@@ -38,13 +38,17 @@
 <form action="createEmployee.html" method="post" class="box">
    <h1>Ajouter un employé</h1>
 
-    <label for="name"><b>Nom_Prénom</b><input type="checkbox" id="admin" name="admin" value=true><sup>Admin</sup></label>
+    <label for="name"><b>Nom_Prénom </b><input type="checkbox" id="admin" name="admin" value=true><sup>Admin</sup></label>
     <input type="text" id="nameEmployee" name="nameEmployee" required>
 
     <label for="description"><b>Description</b></label>
     <input type="text" id="descriptionEmployee" name="descriptionEmployee" required>
 
-    <label for="inscmdp"><b>Mot de passe</b><input type="checkbox" onclick="AfficherMDPInsc()"><sup>Voir</sup></label>
+    <label for="startHour"><b>Horaire :&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span id="horaire"></span></b></label>
+    <input type="range" id="startHour" name="startHour" value="12" min="0" max="23.5" step="0.5" oninput="printheure()">
+    <input type="range" id="endHour" name="endHour" value="12" min="0" max="23.5" step="0.5" oninput="printheure()">
+
+    <label for="inscmdp"><b>Mot de passe </b><input type="checkbox" onclick="AfficherMDPInsc()"><sup>Voir</sup></label>
     <!-- Empêche d'entrer des espaces-->
     <input type="password" id="inscmdp" name="inscmdp" onchange="checkmdp()" onkeypress="return event.charCode != 32" required>
 
