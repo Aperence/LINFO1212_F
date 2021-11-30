@@ -64,3 +64,13 @@ function AfficherMDPInsc(){
         mf.type = "text";
     }
 }
+
+function AfficherMDPConn(){
+    var mv = document.getElementById("connmdp");
+    if (mv.type === "text"){
+        mv.type = "password";
+    }
+    else{
+        mv.type = "text";
+    }
+}

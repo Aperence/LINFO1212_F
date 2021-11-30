@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="style/bootstrap.min.css" rel="stylesheet">
+    <link rel = "stylesheet" href = "style/general.css">
+    <link rel = "stylesheet" href = "style/Modification.css">
+    <link rel="stylesheet" href="../style/log.css">
+    <link rel = "stylesheet" href = "style/{{Mode}}Version.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/modifiersFrontEnd.js"></script>
+    <script src="../scripts/log.js" type="text/javascript"></script>
+
+    <title>Inscription</title>
+
+</head>
+<body onload="loadUpnav(), loadError()">
+    <div id="upnav"></div>
+<div class="flex-box">
+
+<!--formulaire de connexion-->
+<form action="connexion.html" method="post" class="box">
+   <h1>Se connecter</h1>
+
+    <label for="name"><b>Nom_Prénom </b></label>
+    <input type="text" id="nameEmployee" name="nameEmployee" required>
+
+    <label for="connmdp"><b>Mot de passe </b><input type="checkbox" onclick="AfficherMDPConn()"><sup>Voir</sup></label>
+    <!-- Empêche d'entrer des espaces-->
+    <input type="password" id="connmdp" name="connmdp" onkeypress="return event.charCode != 32" required>
+    <button type="submit" class = "link-report upperbox">Se connecter</button>
+
+</form>
+</div>
+
+<img  class="Border" style="background-image : url(/images/{{imageMode}})">
+
+</body>
+</html>
