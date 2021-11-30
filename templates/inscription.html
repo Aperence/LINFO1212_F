@@ -22,27 +22,27 @@
     <div id="upnav"></div>
 <div class="flex-box">
 <!--formulaire pour les animaux-->
-<form action="conn.html" method="post" class="box">
+<form action="createAnimal.html" method="post" class="box">
    <h1>Ajouter un animal</h1>
 
     <label for="name"><b>Nom</b></label>
-    <input type="text" id="nameAnimal" name="name" required>
+    <input type="text" id="nameAnimal" name="nameAnimal" required>
 
     <label for="description"><b>Description</b></label>
-    <input type="text" id="descriptionAnimal" name="description" required>
+    <input type="text" id="descriptionAnimal" name="descriptionAnimal" required>
     
     <button type="submit" class = "link-report upperbox">Enregistrer</button>
 </form>
 
 <!--formulaire pour les employés-->
-<form action="insc.html" method="post" class="box">
+<form action="createEmployee.html" method="post" class="box">
    <h1>Ajouter un employé</h1>
 
     <label for="name"><b>Nom_Prénom</b><input type="checkbox" id="admin" name="admin" value=true><sup>Admin</sup></label>
-    <input type="text" id="nameEmployee" name="name" required>
+    <input type="text" id="nameEmployee" name="nameEmployee" required>
 
     <label for="description"><b>Description</b></label>
-    <input type="text" id="descriptionEmployee" name="description" required>
+    <input type="text" id="descriptionEmployee" name="descriptionEmployee" required>
 
     <label for="inscmdp"><b>Mot de passe</b><input type="checkbox" onclick="AfficherMDPInsc()"><sup>Voir</sup></label>
     <!-- Empêche d'entrer des espaces-->
