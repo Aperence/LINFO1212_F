@@ -1,4 +1,3 @@
-const { compare } = require("bcryptjs");
 var table = require("./table")
 
 const ListTask = table.ListTask
@@ -50,7 +49,8 @@ function strCompare(str1, str2){
                 }
             }
         }
-        compatibilty = Math.max(actualCompatibility, compatibilty)
+        var length_fract = (str1.length)/(str2.length) >= 1 ? 1 : (str1.length)/(str2.length)
+        compatibilty = Math.max(actualCompatibility, compatibilty*length_fract)
         if (compatibilty===length){   // compatibilité maximale  => on peut arrêter de suite
             return 1
         }
@@ -123,8 +123,9 @@ function TF(document, searchQuery){
     var countWordApparition = 0
     var countTotalWord = 0
     document.forEach((value, key)=>{
-        if (strCompare(key, searchQuery)>acceptableCompatibility){
-            countWordApparition += value*strCompare(key, searchQuery)   // multiplie par indice de correspondance pour que les éléments les plus ressemblant viennent en premier
+        var compatibility = strCompare(key, searchQuery)
+        if (compatibility>acceptableCompatibility){
+            countWordApparition += value*compatibility   // multiplie par indice de correspondance pour que les éléments les plus ressemblant viennent en premier
         }
         if (key!=="_originalDocument"){
             countTotalWord += value
@@ -155,6 +156,9 @@ function IDF(wordMatrix, searchQuery){
                 countDocWithWord += 1
             }
         }
+    }
+    if (countDocWithWord ===0){
+        return 0;
     }
     return Math.log(wordMatrix.length/countDocWithWord)
 }

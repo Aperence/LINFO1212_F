@@ -17,8 +17,8 @@ function loadPage(){
     var count = 0
 
     if (document.getElementById("version").getAttribute("href")==="style/darkVersion.css"){
-        document.getElementById("suppress").style.color = "black"
-        document.getElementById("loupe").style.color = "black"
+        document.getElementById("suppress").style.color = "white"
+        document.getElementById("loupe").style.color = "white"
     }
 
     setInterval(()=>{

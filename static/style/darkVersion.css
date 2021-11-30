@@ -17,15 +17,42 @@ th{
 }
 
 select{
-    background-color: rgb(39 39 40);
+    background-color: rgb(39, 39, 40);
     color: white;
 }
 
 input{
-    background-color: rgb(39 39 40);
+    background-color: rgb(39, 39, 40);
     color: white;
 }
 
-input:hover, select:hover{
-    background-color: rgb(59 59 60);
+input:not(:first-child):hover, select:hover{    /* pour pas sélectionner la barre de recherche de la barre de navigation supérieure*/
+    background-color: rgb(59, 59, 60);
+}
+
+button:nth-child(n+3){
+    background-color: rgb(59, 59, 60);
+    color: white;
+}
+
+button:nth-child(n+3):hover{
+    background-color: rgb(76, 76, 76);
+}
+
+.box{
+    background-color: rgb(25, 39, 45 , 0.76);
+    color :white
+}
+
+::placeholder { 
+    color: rgb(220, 220, 220);
+    opacity: 1; 
+}
+
+:-ms-input-placeholder { 
+    color: rgb(220, 220, 220);
+}
+
+::-ms-input-placeholder { 
+    color: rgb(220, 220, 220);
 }
