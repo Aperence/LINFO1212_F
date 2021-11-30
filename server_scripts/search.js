@@ -50,7 +50,7 @@ function strCompare(str1, str2){
             }
         }
         var length_fract = (str1.length)/(str2.length) >= 1 ? 1 : (str1.length)/(str2.length)
-        compatibilty = Math.max(actualCompatibility, compatibilty*length_fract)
+        compatibilty = Math.max(actualCompatibility*length_fract, compatibilty)
         if (compatibilty===length){   // compatibilité maximale  => on peut arrêter de suite
             return 1
         }
@@ -102,11 +102,7 @@ function makeWordMatrix(databaseDocumentLiving, databaseDocumentTime){
         }
         for (let time of databaseDocumentTime){    // ajoute les tâches réalisées par cet employé ou pour cet animal
             if((time.staffName === item.name || time.animalName === item.name) && ! tasklst.includes(time.task)){
-                if (listWord.has(time.task)){
-                    listWord.set(time.task, listWord.get(time.task) + 1)
-                }else{
-                    listWord.set(time.task,1)
-                }
+                listWord.set(time.task,1)
             }
         }
         wordMatrix.push(listWord)
@@ -190,7 +186,7 @@ function search(databaseDocumentLiving, databaseDocumentTime, searchQuery){
     var sorted = sort(TF_IDF_score)   // trie selon les scores TF_IDF
     var ret = []
     for (let index = 0; index < sorted.length; index++) {
-        if (sorted[index][1]>=thresholdDisplay){
+        if (sorted[index][1]>=(thresholdDisplay*searchQuery.length)){
             ret.push(sorted[index][0])   // récupère juste la référence vers l'objet JSON
         }
     }
@@ -200,6 +196,27 @@ function search(databaseDocumentLiving, databaseDocumentTime, searchQuery){
     return ret
 }
 
+
+function mergeResult(...listsResult){
+    var merged = []
+    for (let list of listsResult){
+        for (let result of list){
+            var alreadyPushed = false;
+            for (let i = 0; i<merged.length; i++){
+                if (merged[i]._id.toString() == result._id.toString()){
+                    alreadyPushed = true;
+                    break
+                }
+            }
+            if (!alreadyPushed){
+                merged.push(result)
+            }
+        }
+    }
+    return merged
+}
+
 module.exports = {
-    "search" : search
+    "search" : search,
+    "merge" : mergeResult
 }

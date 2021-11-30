@@ -16,12 +16,12 @@ var logs = require('./views/logRouter')
 var AniSchRouter = require('./views/animalScheduleRouter')
 
 
-var searchHelp = require('./server_scripts/search')
+var searchHelp = require('./server_scripts/search');
+const { memoryUsage } = require("process");
 
 var app = express ();
 
-app.engine('html', consolidate.hogan)
-app.set('views','templates');
+
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(session({
     secret: "ParadisioScheduler",
@@ -41,6 +41,9 @@ https.createServer({
 
 MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db('site')
+
+    app.engine('html', consolidate.hogan)
+    app.set('views','templates');
 
     //temporaire
     app.get("/",(req,res)=>{
@@ -75,33 +78,29 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     })
 
     app.get("/search", (req,res)=>{
-        /** 
         dbo.collection("animal").find({ $text : { $search : req.query.search,  $language: "french"}}).toArray((err,docAnimal)=>{
             dbo.collection("employee").find({ $text : { $search : req.query.search,  $language: "french"}}).toArray((err,docEmployee)=>{
-                if (docAnimal.length === 0 && docEmployee.length === 0 ){
-                    // TF-IDF
-                }
-                console.log(docAnimal.concat(docEmployee))
-                // displaySchedule(docAnimal.concat(docEmployee))
-            })
-        })*/
+                dbo.collection("animal").find().toArray((err,docAnimalTF)=>{
+                    dbo.collection("employee").find().toArray((err,docEmployeeTF)=>{
+                        dbo.collection("timetable").find().toArray((err,docTimetable)=>{
 
+                            var result_search = searchHelp.search(docAnimalTF.concat(docEmployeeTF), docTimetable, req.query.search)
+                            var finalResult = searchHelp.merge(result_search, docAnimal, docEmployee)
+                            console.log(finalResult)
 
-        //TF-IDF
-        dbo.collection("animal").find().toArray((err,docAnimal)=>{
-            dbo.collection("employee").find().toArray((err,docEmployee)=>{
-                dbo.collection("timetable").find().toArray((err,docTimetable)=>{
-
-                    var result_search = searchHelp.search(docAnimal.concat(docEmployee), docTimetable, req.query.search)
-                    //console.log(result_search)
-                    if (result_search.length === docAnimal.concat(docEmployee).length){
-                        //error
-                    }
-                    // displaySchedule(result_search)
+                            if (finalResult.length === docAnimalTF.concat(docEmployeeTF).length){
+                                return res.render("animal_schedule.html", {error : "Aucun résultat trouvé en particulier"})   // à changer
+                            }
+                            // displaySchedule(result_search)
+                            else{
+                                res.redirect("/")
+                            }
+                        })
+                    })
                 })
             })
         })
-        res.redirect("/")
+
     })
 
     

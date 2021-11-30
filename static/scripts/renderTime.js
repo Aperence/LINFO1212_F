@@ -40,6 +40,10 @@ function renderTime(){
       var myClock = document.getElementById("clockDisplay")
       myClock.textContent = "" + dayarray[day] + " " + daym + " " + montharray[month] + " " + year + " | " + h + ":" + m + ":" + s;
       myClock.innerText = "" + dayarray[day] + " " + daym + " " + montharray[month] + " " + year + " | " + h + ":" + m + ":" + s;
-  
-      setTimeout("renderTime()", 1000);
+
     }
+
+function loadTime(){
+  renderTime()
+  setInterval(()=>renderTime(), 1000)
+}

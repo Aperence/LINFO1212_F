@@ -111,6 +111,9 @@ function returnNameSelectionAccordingStatus(status, isAnimal, listAnimalStaff, s
             if (item.name === nameAlreadyAdded || listEmployee.includes(item.name)){
                 continue
             }
+            if (!item.startHour){     // si un utilisateur n'a pas encore rentré son heure de début
+                continue
+            }
             var startHourFormated = modifierHelp.formatHour(item.startHour)   // pour avoir un array de int à partir de l'heure     ex : [17,0] ou [14,30]  => 17h00 ou 14h30
             var endHourFormated = modifierHelp.formatHour(item.endHour)
 

@@ -17,18 +17,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="/scripts/renderTime.js"></script>
     <script type="text/javascript" src="/scripts/modifiersFrontEnd.js"></script>
+    <script type="text/javascript" src="/scripts/log.js"></script>
     
     
     <title>Horaire animaux </title>
 
 </head>
-<body onload="loadUpnav(),renderTime(), loadError()">
+<body onload="loadUpnav(),loadTime(), loadError()">
     <div id="upnav"></div>
     <div class="Maincontent">
 
         <div class = "NameDateBorder flex-box">
             <div class = "BoxBorder flex-box" > Horaire des tâches à faire sur animaux</div>
             <div class = "BoxBorder flex-box" id="clockDisplay"></div>
+
+    <input type="hidden" id="error" value="{{error}}">
 </body>
         
 </html>
