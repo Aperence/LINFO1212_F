@@ -57,10 +57,10 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     })
 
     app.get("/upnav_site",(req,res)=>{
-        var icon = "<i class='bx bxs-user-account'></i>"
+        var icon = "<i class='bx bxs-user-account bx-md' style='color:white'></i>"
         if (req.session.connected){
             if (req.session.picture){
-               icon = `<img src = ${req.session.picture} style="height:24px; width:24px">`
+               icon = `<img src = ${req.session.picture} style="height:40px; width:40px">`
             }
             var connectedLink = "/log/profile"   // provisoire
             var connected = "Profil"
@@ -73,7 +73,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         }else{
             var display = "opacity:1;display:none"
         }
-        return res.render("upnav_site.html", {ConnectionLink : connectedLink, Connected : connected, display : display})
+        return res.render("upnav_site.html", {"userIcon" : icon, ConnectionLink : connectedLink, Connected : connected, display : display})
     })
 
     app.get('/ChangeMode', (req,res)=>{
