@@ -122,6 +122,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     console.log("Connected" , req.body.nameEmployee , pwd)
                     console.log(verifPassword);
                     if (verifPassword){
+                        req.session.connected = true;
                         req.session.name = req.body.nameEmployee;
                         console.log(req.session.name)
                         res.redirect('/');

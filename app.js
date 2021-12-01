@@ -51,11 +51,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         res.redirect("/schedule/animal_schedule")
     })
 
-    app.get("/animal_schedule.html",function(req,res){
-        res.render("animal_schedule.html")
-
-    })
-
     app.get("/upnav_site",(req,res)=>{
         var icon = "<i class='bx bxs-user-account bx-md' style='color:white'></i>"
         if (req.session.connected){
@@ -65,7 +60,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             var connectedLink = "/log/profile"   // provisoire
             var connected = "Profil"
         }else{
-            var connectedLink = "/log/connect"   // provisoire   style="opacity:1;{{display}}"
+            var connectedLink = "/log/connect"   // provisoire
             var connected = "Connexion"
         }
         if (req.session.isAdmin){
@@ -73,11 +68,11 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         }else{
             var display = "opacity:1;display:none"
         }
-        return res.render("upnav_site.html", {"userIcon" : icon, ConnectionLink : connectedLink, Connected : connected, display : display})
+        return res.render("upnav_site.html", {userIcon : icon, ConnectionLink : connectedLink, Connected : connected, display : display})
     })
 
     app.get('/ChangeMode', (req,res)=>{
-        req.session.theme = req.session.theme === "light" || !(req.session.theme) ? "dark" : "light"
+        req.session.theme = (req.session.theme === "light")? "dark" : "light"
         res.redirect(req.session.lastpage)
     })
 
