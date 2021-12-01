@@ -1,3 +1,7 @@
+/**
+*   Fichier css de la page d'affichage des animaux et des employés
+*/
+
 .Maincontent{
     display: flex;
     align-items: center;

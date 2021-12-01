@@ -1,6 +1,13 @@
+/**
+* Fichier css concernant la page 404.html
+*/
+
+
 body{
     margin: 0px;
 }
+
+/** contenant pour le contenu de la page */
 .Maincontent{
     display: flex;
     align-items: center;
@@ -13,6 +20,7 @@ body{
     padding: 25px;
 }   
 
+/** contenant pour la barre de recherche */
 form{
     width: 70%;
     margin-top: 50px;
@@ -21,6 +29,7 @@ form{
     display: flex;
 }
 
+/** barre de recherche */
 input{
     width: 100%;
     border-radius: 5px;
@@ -30,10 +39,12 @@ input{
     background-color: lightgray;
 }
 
+/** barre de recherche quand on met sa souris dessus */
 input:hover{
     background-color: white;
 }
 
+/** icône de recherche */
 .loupe{
     position: absolute;
     left: 1.7%;
@@ -41,6 +52,7 @@ input:hover{
     cursor: pointer;
 }
 
+/** icône de suppression de la recherche */
 .suppress{
     position: absolute;
     left: 94.3%;
@@ -52,11 +64,13 @@ a{
     color: rgb(125, 211, 125);
 }
 
+/** Contenant pour les points de chargement se trouvant au dessus de la page */
 .pointWrapper{
     display: flex;
     flex-direction: row;
 }
 
+/** points de chargement se trouvant au dessus de la page */
 .point{
     width: 25px;
     height: 25px;

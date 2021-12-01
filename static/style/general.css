@@ -1,3 +1,7 @@
+/**
+*   Fichier css contenant les classes reprises par (quasi-)toutes les pages
+*/
+
 .flex-box{
   display: flex;
   flex-wrap: wrap;

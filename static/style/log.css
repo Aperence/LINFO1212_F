@@ -1,4 +1,8 @@
-/* code relatif aux inputs (contenant toute la page html sauf la barre de navigation et les notes de bas de page) */
+/**
+*   Fichier css concernant les pages de connexion, d'inscription et du profil
+*/
+
+/* code relatif aux inputs (contenant toute la page html sauf la barre de navigation) */
 .border{
     flex-direction: row;
 }

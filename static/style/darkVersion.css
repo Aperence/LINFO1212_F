@@ -1,3 +1,7 @@
+/**
+*  Fichier css concernant le style sombre des pages
+*/
+
 .Maincontent{
     background-color: #2e3039;
     color: azure;
@@ -12,24 +16,29 @@ th{
     background-color: rgb(41, 43, 47);
 }
 
+/** Cadres se trouvant au sommet de la page et contenant le nom et la description de l'animal/employé ainsi que la date actuelle */
 .BoxBorder{
     background-color: rgb(41, 43, 47);
 }
 
+/** select de la page de modification des horaires d'animaux/employés */
 select{
     background-color: rgb(39, 39, 40);
     color: white;
 }
 
+/** input pour la page de connexion et d'inscription */
 input{
     background-color: rgb(39, 39, 40);
     color: white;
 }
 
-input:not(:first-child):hover, select:hover{    /* pour pas sélectionner la barre de recherche de la barre de navigation supérieure*/
+/** Sélectionne tous les inputs de la page sauf la barre de recherche de la barre de navigation supérieure */
+input:not(:first-child):hover, select:hover{    
     background-color: rgb(59, 59, 60);
 }
 
+/** Sélectionne tous les boutons de la page sauf celui de la barre de navigation supérieure */
 button:nth-child(n+3){
     background-color: rgb(59, 59, 60);
     color: white;
@@ -39,11 +48,13 @@ button:nth-child(n+3):hover{
     background-color: rgb(76, 76, 76);
 }
 
+/* cadres pour la connexion et l'inscription */
 .box{
     background-color: rgb(25, 39, 45 , 0.76);
     color :white
 }
 
+/** Style des placeholder se trouvant dans les barres de recherche */
 ::placeholder { 
     color: rgb(220, 220, 220);
     opacity: 1; 

@@ -95,8 +95,8 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                             if (finalResult.length === docAnimalTF.concat(docEmployeeTF).length){
                                 return res.render("animal_schedule.html", {error : "Aucun résultat trouvé en particulier"})   // à changer
                             }
-                            // displaySchedule(result_search)
                             else{
+                                // displaySchedule(result_search)
                                 res.redirect("/")
                             }
                         })
