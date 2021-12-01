@@ -18,6 +18,9 @@ function displayTable() {
    var xhttp = new XMLHttpRequest();
    xhttp.onreadystatechange = function() {
      if (this.readyState == 4 && this.status == 200) {
+       if (!this.responseText){
+          window.location = "https://localhost:8080";   //renvoie à la page principale si on ne trouve pas d'animal/employee
+       }
        document.getElementById("table").innerHTML = this.responseText + document.getElementById("table").innerHTML;
      }
    };

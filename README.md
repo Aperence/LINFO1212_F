@@ -23,7 +23,14 @@ node app.js
 *ex : c:/users/download/LINFO1212_F/LINFO1212_F/database
 ```
 
-Vous devrez ensuite ajouter les index de recherche à la base de données. Pour cela, entrez les commandes suivantes dans votre invite de commande
+Vous devrez ensuite ajouter les index de recherche à la base de données. Pour cela, entrez les commandes suivantes dans votre invite de commande:
+```bash
+mongo
+use site
+db.animal.createIndex({name: "text" })
+db.employee.createIndex({name: "text" })
+```
+
 
 Vous pouvez ensuite vous connecter au site en vous rendant dans votre moteur de recherche favori et en vous connectant à l'url suivante ```https://localhost:8080```
 
