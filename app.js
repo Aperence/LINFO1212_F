@@ -57,10 +57,10 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             if (req.session.picture){
                icon = `<img src = ${req.session.picture} style="height:40px; width:40px">`
             }
-            var connectedLink = "/log/profile"   // provisoire
+            var connectedLink = "/log/profil"   // provisoire
             var connected = "Profil"
         }else{
-            var connectedLink = "/log/connect"   // provisoire
+            var connectedLink = "/log/connexion"   // provisoire
             var connected = "Connexion"
         }
         if (req.session.isAdmin){

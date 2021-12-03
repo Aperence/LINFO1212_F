@@ -1,14 +1,22 @@
+const bcrypt = require("bcryptjs");
+
 function loadError(){
     /**
      * @pre : #error : le message d'erreur envoyé par serveur.js
      * @post : envoie le message d'erreur
      */
     var erreur = $('#error').val()
-    console.log(erreur);
     if (erreur){
-        setTimeout(()=>{alert(erreur)},400)
-        
+        alert(erreur)
     }
+}
+
+function loadUpnav(){
+  /**
+   * @pre : -
+   * @post : charge la barre de navigation supérieure dans l'élément ayant l'id "upnav"
+   */
+   $("#upnav").load("/upnav_site")
 }
 
 function printheure(){
@@ -35,12 +43,12 @@ function printheure(){
 
 function checkmdp(){
     /**
-     * @pre : inscmdp et confmdp : les deux mots de passe entrés par l'utilisateur
+     * @pre : connmdp et confmdp : les deux mots de passe entrés par l'utilisateur
      * @post : vérifie que les deux mots de passe sont identiques
      */
-    const inscmdp = document.querySelector('input[name=inscmdp]');
+    const connmdp = document.querySelector('input[name=connmdp]');
     const confmdp = document.querySelector('input[name=confmdp]');
-    if (inscmdp.value === confmdp.value){
+    if (connmdp.value === confmdp.value){
         confmdp.setCustomValidity('');
     } 
     else{
@@ -48,12 +56,12 @@ function checkmdp(){
     }
 }
 
-function AfficherMDPInsc(){
+function AfficherMDP(){
     /**
      * @pre : -
      * @post : permet d'afficher le mot de passe quand on clique sur le bouton pour l'afficher (cadre d'inscription)
      */
-    var me = document.getElementById("inscmdp");
+    var me = document.getElementById("connmdp");
     var mf = document.getElementById("confmdp");
     if (me.type === "text"){
         me.type = "password";
@@ -62,15 +70,5 @@ function AfficherMDPInsc(){
     else{
         me.type = "text";
         mf.type = "text";
-    }
-}
-
-function AfficherMDPConn(){
-    var mv = document.getElementById("connmdp");
-    if (mv.type === "text"){
-        mv.type = "password";
-    }
-    else{
-        mv.type = "text";
     }
 }
