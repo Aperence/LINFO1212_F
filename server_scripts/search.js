@@ -34,7 +34,7 @@ function strCompare(str1, str2){
     var compatibilty = 0    
     var length = Math.min(str1.length, str2.length)
     var longest =  Math.max(str1.length, str2.length)
-    var str1IsLongest = str1.length > str2.length ? true : false
+    var str1IsLongest = str1.length > str2.length
     for (let index = 0; index< longest - length + 1; index++){
         var actualCompatibility = 0     // nombre de caractères en commun et à la même position à chaque boucle
         for (let character = 0; character < length; character++) {
