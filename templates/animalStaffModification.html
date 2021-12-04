@@ -34,8 +34,8 @@
         <label for="pictureUpload"  class="popupElement">Photo</label>
         <input type="file" id="pictureUpload" name="pictureUpload" accept="image/*">
         
-        <input type = "range" name="rangeStart" id="rangeStart" class="popupElement" min="0" max="23.5" step="0.5" oninput="modifiyHour('Start')">
-        <input type = "range" name="rangeEnd" id="rangeEnd" class="popupElement" min="0" max="23.5" step="0.5" oninput="modifiyHour('End')">
+        <input type = "range" name="rangeStart" id="rangeStart" class="popupElement" min="0" max="23.5" step="0.5" oninput="modifiyHour('Start')" style="display: none;">
+        <input type = "range" name="rangeEnd" id="rangeEnd" class="popupElement" min="0" max="23.5" step="0.5" oninput="modifiyHour('End')" style="display: none;">
         <div class = "popupElement" id="rangeResult" style="display:none">
             Travaillant de <span id="Start">{{startHour}}</span> à <span id="End">{{endHour}}</span>
         </div>

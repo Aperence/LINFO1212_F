@@ -135,7 +135,6 @@ td{
 }
 
 input[type="range"]{
-    display: none;
     width: 90%;
 }
 
