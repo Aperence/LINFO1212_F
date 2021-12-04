@@ -161,19 +161,19 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     fs.rename(tempPath, targetPath, err =>{   //ajoute l'image au dossier upload se trouvant dans static
                         if (err) return err
                         console.log("uploaded")
+                        fs.readdir("./dbimages", (err, files) => {
+                            console.log(files)
+                            for (const file of files){
+                                try{
+                                    fs.unlinkSync( path.join(__dirname, "../dbimages/" + file))
+                                }
+                                catch{
+                                    console.log("No file to suppress")
+                                }
+                            }
+                        })
                     });
                     dbo.collection(collect).updateOne({name : req.body.name},{$set: {picture : urlDestination}})
-                })
-                fs.readdir("./dbimages", (err, files) => {
-                    console.log(files)
-                    for (const file of files){
-                        try{
-                            fs.unlinkSync( path.join(__dirname, "../dbimages/" + file))
-                        }
-                        catch{
-                            console.log("No file to suppress")
-                        }
-                    }
                 })
             }
             if (req.body.isAnimal === "false"){
