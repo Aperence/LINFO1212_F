@@ -37,8 +37,7 @@
 
 /** image de l'animal/employé chargé grâce à la base de données */
 .dbpicture{
-    width: 80%; 
-    height : 65%;
+    max-width: 400px;
     margin: 10px;
 }
 
@@ -130,7 +129,7 @@ td{
     margin-top: 20px;
 }
 
-#desc{
+#desc , input[type="text"]{
     width : 80%;
 }
 

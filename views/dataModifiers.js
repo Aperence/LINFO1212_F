@@ -4,6 +4,7 @@ var MongoClient = require('mongodb').MongoClient
 var bodyParser = require("body-parser");
 const multer = require("multer");
 var fs = require('fs');
+const path = require("path");
 
 const modifierHelp = require("../server_scripts/modifierMethods")
 const tableHelp = require("../server_scripts/table")
@@ -12,6 +13,9 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 var prefix = "/modif"
 
+const upload = multer({
+    dest: "dbimages"
+});
 
 MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db("site")
@@ -121,11 +125,14 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         })
     })
 
+    router.get("/loadHour", (req,res)=>{
+        dbo.collection("employee").find({name : req.query.name}).toArray((err,doc)=>{
+            res.send(doc[0].startHour + "#" + doc[0].endHour + "#" + doc[0].admin)
+        })
+    })
 
-    const upload = multer({
-        dest: "dbimages"
-    });
-    router.post("/updateItem", (req,res)=>{
+
+    router.post("/updateItem", upload.single('pictureUpload'),(req,res)=>{
         if (req.body.isAnimal === "true"){
             var collect = "animal"
         }else{
@@ -135,27 +142,35 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
             dbo.collection(collect).updateOne({name : req.body.name},{$set: {description : req.body.desc}})
 
-            if (req.body.pictureUpload){
+            if (req.file){
                 var countElement;
                 fs.readdir("./static/uploads", (err, files) => {
                     countElement = files.length;   // regarde le nombre d'images dans le dossier
 
                     var tempPath = req.file.path;
-                    var targetPath = doc.picture || path.join(__dirname, `./static/uploads/${countElement+1}image.png`);  // doit changer encore le nom pour qu'il soit unique
+                    var targetPath = doc[0].picture || path.join(__dirname, `.././static/uploads/${countElement+1}image.png`);  // doit changer encore le nom pour qu'il soit unique
+                    var urlDestination = doc[0].picture || `./uploads/${countElement+1}image.png`
+
 
                     fs.rename(tempPath, targetPath, err =>{   //ajoute l'image au dossier upload se trouvant dans static
-                        if (err) return error
+                        if (err) return err
                         console.log("uploaded")
-                        res.redirect("/display")
                     });
+                    dbo.collection(collect).updateOne({name : req.body.name},{$set: {picture : urlDestination}})
                 })
+
     
             }
             if (req.body.isAnimal === "false"){
+                var rangeStart = req.body.rangeStart
+                var rangeEnd = req.body.rangeEnd
                 var startHour = modifierHelp.formatHourString([rangeStart - rangeStart%1, rangeStart%1*60])
-                var endHour = modifierHelp.formatHourString([rangeEnd - rangerangeEnd%1, rangeEnd%1*60])
+                var endHour = modifierHelp.formatHourString([rangeEnd - rangeEnd%1, rangeEnd%1*60])
                 dbo.collection("employee").updateOne({name :  req.body.name},{$set: {startHour : startHour, endHour : endHour}})
             }
+            console.log(req.body.admin)
+            dbo.collection(collect).updateOne({name : req.body.name},{$set: {admin : req.body.adminCheck === "on"}})
+            res.redirect(req.session.lastpage)
         })
     })
 

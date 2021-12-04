@@ -26,7 +26,6 @@ function makeRenderObject(isAnimal, name, request){
         "isAdmin" : request.session.isAdmin,
         "imageMode" : request.session.theme + ".jpg",
         "error" : error,
-
     }
 }
 
