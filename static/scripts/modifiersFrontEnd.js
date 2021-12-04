@@ -88,7 +88,8 @@ function loadDescription(){
   xhttp.send();
 }
 
-function loadHour(){
+function loadPopup(){
+  console.log("send")
   var isAnimal = document.getElementById("isAnimal").value === "true"
   var name =  document.getElementById("name").value
   var xhttp = new XMLHttpRequest();
@@ -98,6 +99,7 @@ function loadHour(){
       var Hour = this.responseText.split("#")
       console.log(Hour);
       document.getElementById("Start").innerHTML = Hour[0]
+      console.log(Hour)
       document.getElementById("End").innerHTML = Hour[1]
       var startHour = formatHour(Hour[0])
       var endHour = formatHour(Hour[1])
