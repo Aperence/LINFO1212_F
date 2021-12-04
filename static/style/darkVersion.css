@@ -67,3 +67,17 @@ button:nth-child(n+3):hover{
 ::-ms-input-placeholder { 
     color: rgb(220, 220, 220);
 }
+
+.popup{
+    background-color: #2e3039;
+    color: white
+}
+
+.buttonModif{
+    color : white;
+}
+
+.buttonModif:hover{
+    color : white;
+}
+

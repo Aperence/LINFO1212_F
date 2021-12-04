@@ -89,11 +89,62 @@ td{
     background-size: cover;
 }
 
+.buttonModif{
+    margin-top: 5px;
+    border: solid 5px rgb(33, 120, 3);
+    background-color: rgb(61, 208, 103);
+    border-radius : 10px;
+    text-decoration: none;
+    padding : 3px;
+}
+
+.buttonModif:hover{
+    background-color: rgb(71, 197, 107);
+}
+
+.popup{
+    position: absolute;
+    width : 50%;
+    left : 25%;
+    top : calc(22% + 72px);
+    display: none;
+    z-index: 1;
+    margin : 0px;
+    border: 5px solid rgb(33, 120, 3);
+    border-radius : 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding : 20px;
+}
+
+.foot{
+    align-self: center;
+}
+
+.popupElement{
+    margin-top: 20px;
+}
+
+#desc{
+    width : 80%;
+}
+
+input[type="range"]{
+    display: none;
+}
+
 @media (max-width:700px){
 
     /** suppression des bordures sur petit écran */
     .Maincontent{
         width: 100%;
         left: 0%;
+    }
+
+    .popup{
+        width : 70%;
+        left : 15%;
+        top : calc(15% + 72px);
     }
 }

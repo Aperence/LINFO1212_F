@@ -18,3 +18,15 @@ input:not(:first-child):hover{
     background-color: rgb(233, 233, 233);
 }
 
+.popup{
+    background-color: white;
+}
+
+.buttonModif{
+    color : black;
+}
+
+.buttonModif:hover{
+    color : black;
+}
+

@@ -39,7 +39,7 @@ function displayTable() {
 function hideIfNotAdmin(){
   var isAdmin = document.getElementById("isAdmin").value === "true"
   if (!isAdmin){
-    document.getElementById("descModifier").style.display = "hidden"
+    document.getElementById("descModifier").style.visibility = "hidden"
   }
 }
 
@@ -134,5 +134,21 @@ function checkValidInput(){
 }
 
 function changeAnimalStaff(){
+  document.getElementById("popup").style.display = "flex";
+  var isAnimal = document.getElementById("isAnimal").value
+  if (isAnimal === "false"){
+    document.getElementById("rangeStart").style.display = "inline";
+    document.getElementById("rangeEnd").style.display = "inline";
+    document.getElementById("rangeResult").style.display = "inline";
+  }
+}
 
+function closePopup(){
+  document.getElementById("popup").style.display = "none";
+}
+
+function modifiyHour(str){
+  var startHour = parseFloat(document.getElementById("range" + str).value)
+  console.log(startHour)
+  document.getElementById(str).innerHTML = formatHourString([startHour - startHour%1, (startHour%1)*60])
 }
