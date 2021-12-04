@@ -1,5 +1,3 @@
-const bcrypt = require("bcryptjs");
-
 function loadError(){
     /**
      * @pre : #error : le message d'erreur envoyé par serveur.js
@@ -7,7 +5,7 @@ function loadError(){
      */
     var erreur = $('#error').val()
     if (erreur){
-        alert(erreur)
+        setTimeout(()=>{alert(erreur)},200)
     }
 }
 

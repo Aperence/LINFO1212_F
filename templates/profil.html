@@ -22,9 +22,10 @@
     <title>Inscription</title>
 
 </head>
-<body onload="loadUpnav(), loadError()">
+<body onload="loadUpnav(), loadError(), printheure()">
     <div id="upnav"></div>
 <div class="flex-box">
+<input type="hidden" value="{{error}}" id="error">
 
 <cadre class="box">
     <h1>Informations de profil</h1>
@@ -32,20 +33,19 @@
     <label for="nameEmployee"><b>Nom_Prénom &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{name}}</span></label>
 
     <form action="modifDescription.html" method="post" class="box2">
-    <label for="descriptionEmployee"><b>Description &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b></label>
-    <input type="text" id="descriptionEmployee" name="descriptionEmployee" value={{description}} placeholder="Tapez votre description ici" required>
+    <label for="descriptionEmployee"><b>Description</b></label>
+    <input type="text" id="descriptionEmployee" name="descriptionEmployee" value={{description}} placeholder="Tapez la description ici" required>
     <button type="submit" class = "link-report upperbox">Enregistrer</button>
     </form>
 
     <form action="modifPassword.html" method="post" class="box2">
     <label for="password"><b>Mot de passe</b><input type="checkbox" onclick="AfficherMDP()"><sup>Voir</sup></label>
-    <input type="password" id="confmdp" name="confmdp" placeholder="Tapez votre ancien mot de passe ici" oninput="checkoldmdp()" onkeypress="return event.charCode != 32" required>
-    <input type="password" id="connmdp" name="connmdp" placeholder="Tapez votre nouveau mot de passe ici" oninput="checkoldmdp()" onkeypress="return event.charCode != 32" required>
+    <input type="password" id="connmdp" name="connmdp" placeholder="Tapez le nouveau mot de passe ici" onkeypress="return event.charCode != 32" required>
     <button type="submit" class = "link-report upperbox">Enregistrer</button>
     </form>
 
     <form action="modifPicture.html" method="post" class="box2">
-    <label for="picture"><b>Photo de profil &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{picture}}</span></label>
+    <label for="picture"><b>Photo de profil &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><img src={{picture}}></label>
     <input type="file" id="picture" name="picture" accept="image/png, image/jpeg" required>
     <button type="submit" class = "link-report upperbox" onclick="checkoldmdp()">Enregistrer</button>
     </form>
