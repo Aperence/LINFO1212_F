@@ -28,9 +28,18 @@
 <input type="hidden" value="{{error}}" id="error">
 
 <cadre class="box">
+
+    <button type="button" onclick="javascript:window.location='https://localhost:8080/log/searchprofilAdmin'" class = "link-report upperbox">Rechercher un autre employé</button>
+
+    <br><br><br>
+
     <h1>Informations de profil</h1>
 
-    <label for="nameEmployee"><b>Nom_Prénom &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{name}}</span></label>
+    <form action="modifName.html" method="post" class="box2">
+    <label for="nameEmployee"><b>Nom_Prénom</b></label>
+    <input type="text" id="nameEmployee" name="nameEmployee" value={{name}} placeholder="Tapez le Nom_Prénom ici" required>
+    <button type="submit" class = "link-report upperbox">Enregistrer</button>
+    </form>
 
     <form action="modifDescription.html" method="post" class="box2">
     <label for="descriptionEmployee"><b>Description</b></label>
@@ -47,12 +56,20 @@
     <form action="modifPicture.html" method="post" class="box2">
     <label for="picture"><b>Photo de profil &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><img src={{picture}}></label>
     <input type="file" id="picture" name="picture" accept="image/png, image/jpeg" required>
-    <button type="submit" class = "link-report upperbox" onclick="checkoldmdp()">Enregistrer</button>
+    <button type="submit" class = "link-report upperbox">Enregistrer</button>
     </form>
 
-    <label for="admin"><b>Administrateur ? &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{admin}}</span></label>
-    <label for="startHour"><b>Heure de début &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{startHour}}</span></label>
-    <label for="endHour"><b>Heure de fin &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{endHour}}</span></label>
+    <form action="modifAdmin.html" method="post" class="box2">
+    <label for="admin"><b>Administrateur ? &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{admin}}</span><input type="checkbox" id="admin" name="admin" value=true checked={{admin}}></label>
+    <button type="submit" class = "link-report upperbox">Enregistrer</button>
+    </form>
+
+    <form action="modifHoraire.html" method="post" class="box2">
+    <label for="startHour"><b>Horaire &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span id="horaire"></span></b></label>
+    <input type="range" id="startHour" name="startHour" value={{startHour}} min="0" max="23.5" step="0.5" oninput="printheure()">
+    <input type="range" id="endHour" name="endHour" value={{endHour}} min="0" max="23.5" step="0.5" oninput="printheure()">
+    <button type="submit" class = "link-report upperbox">Enregistrer</button>
+    </form>
 
 </cadre>
 </div>

@@ -12,7 +12,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     router.get("/inscription",(req,res)=>{
         req.session.theme = req.session.theme || "light"
         req.session.lastpage = prefix + "/inscription"
-        req.session.error = "test12";
         var x = req.session.error;
         req.session.error = null;
         res.render('inscription.html', {error : x, Mode : req.session.theme, imageMode : req.session.theme + ".jpg"})
@@ -27,14 +26,47 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             dbo.collection("employee").find({name : req.session.name}).toArray((err,doc)=>{
                 var aName = doc[0].name;
                 var aDescription = doc[0].description;
-                var aPassword = doc[0].password;
                 var aAdmin = doc[0].admin;
                 var aStartHour = doc[0].startHour;
                 var aEndHour = doc[0].endHour;
                 var aPicture = doc[0].picture;
-            req.session.searchedName = doc[0].name;
-            console.log(req.session.name + "----" + aPassword);
-            res.render('profil.html', {error : x, name : aName, description : aDescription, password : aPassword, admin : aAdmin, startHour : aStartHour, endHour : aEndHour, picture : aPicture, Mode : req.session.theme, imageMode : req.session.theme + ".jpg"})
+                req.session.searchedName = doc[0].name;
+                console.log(aAdmin);
+                res.render('profil.html', {error : x, name : aName, description : aDescription, admin : aAdmin, startHour : aStartHour, endHour : aEndHour, picture : aPicture, Mode : req.session.theme, imageMode : req.session.theme + ".jpg"})
+            });
+        }
+        else{
+            res.redirect("/log/connexion")
+        }
+    })
+
+    router.get("/searchProfilAdmin",(req,res)=>{
+        if (req.session.name){
+            req.session.searchedName = null;
+            var x = req.session.error;
+            req.session.error = null;
+            res.render('searchProfilAdmin.html', {error : x, Mode : req.session.theme, imageMode : req.session.theme + ".jpg"})
+        }
+        else{
+            res.redirect("/log/connexion")
+        }
+    })
+
+    router.get("/profilAdmin",(req,res)=>{
+        if (req.session.name){
+            req.session.theme = req.session.theme || "light"
+            req.session.lastpage = prefix + "/profilAdmin"
+            var x = req.session.error;
+            req.session.error = null;
+            dbo.collection("employee").find({name : req.session.searchedName}).toArray((err,doc)=>{
+                var aName = doc[0].name;
+                var aDescription = doc[0].description;
+                var aAdmin = doc[0].admin;
+                var aStartHour = doc[0].startHour;
+                var aEndHour = doc[0].endHour;
+                var aPicture = doc[0].picture;
+                console.log(typeof aAdmin);
+                res.render('profilAdmin.html', {error : x, name : aName, description : aDescription, admin : aAdmin, startHour : aStartHour, endHour : aEndHour, picture : aPicture, Mode : req.session.theme, imageMode : req.session.theme + ".jpg"})
             });
         }
         else{
@@ -59,7 +91,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         if (req.body.nameAnimal != null && req.body.descriptionAnimal != null){
             dbo.collection("animal").find({name : req.body.nameAnimal}).toArray((err,doc)=>{
                 if (doc.length!=0){
-                    console.log("Animal déjà existant");
                     req.session.error = "Animal déjà existant.";
                     res.redirect("/log/inscription")
                 }
@@ -157,28 +188,81 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         }
     })
 
+    router.post('/searchName.html', function(req,res,next){
+        dbo.collection("employee").find({name : req.body.searchName}).toArray((err,doc)=>{
+            if (doc.length != 0){
+                req.session.searchedName = req.body.searchName;
+                res.redirect('/log/profilAdmin')
+            }
+            else{
+                req.session.error = "Utilisateur introuvable";
+                res.redirect('/log/searchProfilAdmin')
+            }
+        });
+    })
+
     router.post('/modifDescription.html', function(req,res,next){
-        if (req.body.descriptionEmployee != null){
-            dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {description : req.body.descriptionEmployee}});
-            console.log("Description modifiée")
-            res.redirect("/log/profil")
-        }
-        else{
-            res.redirect(req.session.lastpage)
-        }
+        dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {description : req.body.descriptionEmployee}});
+        console.log("Description modifiée")
+        res.redirect(req.session.lastpage)
+    })
+
+    router.post('/modifPassword.html', function(req,res,next){
+        var hashedPassword = bcrypt.hashSync(req.body.connmdp, 8);
+        dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {password : hashedPassword}});
+        console.log("Mot de passe modifié")
+        res.redirect(req.session.lastpage)
     })
 
     router.post('/modifPicture.html', function(req,res,next){
-        if (req.body.picture != null){
-            dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {picture : req.body.picture}});
-            console.log("Photo de profil modifiée")
-            res.redirect("/log/profil")
-        }
-        else{
-            res.redirect(req.session.lastpage)
-        }
+        dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {picture : req.body.picture}});
+        console.log("Photo de profil modifiée")
+        res.redirect(req.session.lastpage)
     })
 
+    router.post('/modifName.html', function(req,res,next){
+        dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {name : req.body.nameEmployee}});
+        console.log("Nom modifié")
+        res.redirect(req.session.lastpage)
+    })
+
+    router.post('/modifAdmin.html', function(req,res,next){
+        if(req.body.admin){
+            var admin = true;
+        }
+        else{
+            var admin = false;
+        }
+        dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {admin : admin}});
+        console.log("Admin modifié")
+        res.redirect(req.session.lastpage)
+    })
+
+    router.post('/modifHoraire.html', function(req,res,next){
+        var startHour = req.body.startHour;
+        var endHour = req.body.endHour;
+        var heureDebut = startHour%1*60;
+        startHour-=startHour%1;
+        if (startHour < 10){
+            startHour = "0" + startHour.toString();
+        }
+        if (heureDebut == 0){
+            heureDebut = heureDebut.toString() + "0";
+        }
+        var heureFin = endHour%1*60
+        endHour-=endHour%1;
+        if (endHour < 10){
+            endHour = "0" + endHour.toString();
+        }
+        if (heureFin == 0){
+            heureFin = heureFin.toString() + "0";
+        }
+        var defStartHour = startHour + ":" + heureDebut
+        var defEndHour = endHour + ":" + heureFin
+        dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {startHour : defStartHour, endHour : defEndHour}});
+        console.log("Horaire modifié")
+        res.redirect(req.session.lastpage)
+    })
 
     router.use(express.static('static'));
 })
