@@ -23,7 +23,7 @@
     <title>Modification de l'attribution des {{title}} </title>   <!-- animaux / employés -->
 
 </head>
-<body onload="loadUpnav(), displayTable(), loadDescription(), loadImage(), loadError()">
+<body onload="loadUpnav(), displayTable(), loadDescription(), loadImage(), loadError(), hideIfNotAdmin()">
     <div id="upnav"></div>
     
     <div class="Maincontent">
@@ -37,7 +37,7 @@
             <div class="BoxBorder flex-box" id="description"></div>
             <img id="picture" class="dbpicture">
             <div class = "BoxBorder flex-box">Date actuelle {{ActualDate}}</div>
- 
+            <button onclick="changeAnimalStaff()" id="descModifier" class = "descModifier">Modifier les caractéristiques</button>
         </div>
 
         <div class = "tableHeader">

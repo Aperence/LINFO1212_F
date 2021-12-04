@@ -36,6 +36,12 @@ function displayTable() {
    xhttp.send();
 }
 
+function hideIfNotAdmin(){
+  var isAdmin = document.getElementById("isAdmin").value === "true"
+  if (!isAdmin){
+    document.getElementById("descModifier").style.display = "hidden"
+  }
+}
 
 function loadImage(){
   /**
@@ -125,4 +131,8 @@ function checkValidInput(){
     }
   }
   return true
+}
+
+function changeAnimalStaff(){
+
 }

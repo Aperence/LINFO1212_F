@@ -76,12 +76,13 @@ function sort(dictionnary){
 }
 
 
-function makeWordMatrix(databaseDocumentLiving, databaseDocumentTime){
+function makeWordMatrix(databaseDocumentLiving, databaseDocumentTime=null){
     /**
      * @pre : databaseDocumentLiving : un array reprenant des objets JSON du même format que ceux de la collection animal ou employee
      * @pre : databaseDocumentTime : un array reprenant des objets JSON du même format que ceux de la collection timetable
      * @post : retourne un array contenant des Maps<String, int>. Concrètement, chaque Maps représente un document avec le compte de chaque mot
-     * se trouvant dans les objets JSON de l'animal ou de l'employé (+ ses tâches qui sont ajoutées grâce à databaseDocumentTime)
+     * se trouvant dans les objets JSON de l'animal ou de l'employé (+ ses tâches qui sont ajoutées grâce à databaseDocumentTime s'il est passé
+     * en paramètre)
      */
     var wordMatrix = []
     for(let item of databaseDocumentLiving){
@@ -100,9 +101,11 @@ function makeWordMatrix(databaseDocumentLiving, databaseDocumentTime){
                 listWord.set(word,1)
             }
         }
-        for (let time of databaseDocumentTime){    // ajoute les tâches réalisées par cet employé ou pour cet animal
-            if((time.staffName === item.name || time.animalName === item.name) && ! tasklst.includes(time.task)){
-                listWord.set(time.task,1)
+        if (databaseDocumentTime){
+            for (let time of databaseDocumentTime){    // ajoute les tâches réalisées par cet employé ou pour cet animal
+                if((time.staffName === item.name || time.animalName === item.name) && ! tasklst.includes(time.task)){
+                    listWord.set(time.task,1)
+                }
             }
         }
         wordMatrix.push(listWord)
@@ -159,7 +162,7 @@ function IDF(wordMatrix, searchQuery){
     return Math.log(wordMatrix.length/countDocWithWord)
 }
 
-function search(databaseDocumentLiving, databaseDocumentTime, searchQuery){
+function search(databaseDocumentLiving, searchQuery, databaseDocumentTime=null){
     /**
      * @pre : databaseDocumentLiving : un array contenant tous les animaux et employés de la base de données
      * @pre : databaseDocumentTime : un array contenant tous les objets de la collection timetable
