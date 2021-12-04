@@ -30,29 +30,29 @@
 <cadre class="box">
     <h1>Informations de profil</h1>
 
-    <label for="nameEmployee"><b>Nom_Prénom &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{name}}</span></label>
+    <label for="nameEmployee"><b>Nom_Prénom</b><span>{{name}}</span></label>
 
     <form action="modifDescription.html" method="post" class="box2">
     <label for="descriptionEmployee"><b>Description</b></label>
-    <input type="text" id="descriptionEmployee" name="descriptionEmployee" value={{description}} placeholder="Tapez la description ici" required>
+    <input type="text" id="descriptionEmployee" name="descriptionEmployee" value={{description}} placeholder="Tapez votre description ici" required>
     <button type="submit" class = "link-report upperbox">Enregistrer</button>
     </form>
 
     <form action="modifPassword.html" method="post" class="box2">
-    <label for="password"><b>Mot de passe</b><input type="checkbox" onclick="AfficherMDP()"><sup>Voir</sup></label>
-    <input type="password" id="connmdp" name="connmdp" placeholder="Tapez le nouveau mot de passe ici" onkeypress="return event.charCode != 32" required>
+    <label for="password"><b>Mot de passe </b><input type="checkbox" onclick="AfficherMDP()"><sup>Voir</sup></label>
+    <input type="password" id="connmdp" name="connmdp" placeholder="Tapez votre nouveau mot de passe ici" onkeypress="return event.charCode != 32" required>
     <button type="submit" class = "link-report upperbox">Enregistrer</button>
     </form>
 
     <form action="modifPicture.html" method="post" class="box2">
-    <label for="picture"><b>Photo de profil &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><img src={{picture}}></label>
+    <label for="picture"><b>Photo de profil</b><img src={{picture}}></label>
     <input type="file" id="picture" name="picture" accept="image/png, image/jpeg" required>
     <button type="submit" class = "link-report upperbox" onclick="checkoldmdp()">Enregistrer</button>
     </form>
 
-    <label for="admin"><b>Administrateur ? &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{admin}}</span></label>
-    <label for="startHour"><b>Heure de début &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{startHour}}</span></label>
-    <label for="endHour"><b>Heure de fin &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</b><span>{{endHour}}</span></label>
+    <label for="admin"><b>Administrateur ?</b><span>{{admin}}</span></label>
+    <label for="startHour"><b>Heure de début</b><span>{{startHour}}</span></label>
+    <label for="endHour"><b>Heure de fin</b><span>{{endHour}}</span></label>
 
 </cadre>
 </div>

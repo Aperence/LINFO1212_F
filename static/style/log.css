@@ -7,8 +7,9 @@
     flex-direction: row;
 }
 
-#upnav{
-    min-width: 0px;
+span{
+    float: right;
+    width: 60%;
 }
 
 /* formatage des zones remplissable et de leur intitulé */
@@ -32,17 +33,30 @@ input[type='range']::-webkit-slider-thumb{
 }
 
 /* cadres pour la connexion et l'inscription */
+.midbox{
+    background-color: rgb(255,255,255,0.7);
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 45%;
+    border: 3px solid rgb(63,89,133);
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
 .box{
     background-color: rgb(255,255,255,0.7);
     margin-left: auto;
     margin-right: auto;
     display: flex;
     flex-direction: column;
-    margin-top: 5%;
-    width: 40%;
+    margin-top: 20px;
+    width: 50%;
     border: 3px solid rgb(63,89,133);
     padding: 10px;
-    margin-bottom: 20%;
+    margin-bottom: 20px;
 }
 
 .box2{
@@ -60,20 +74,24 @@ button:nth-child(n+3){
 }
 
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 767px) {
     .border{
         flex-direction: column;
     }
     
+    .midbox{
+        width: 70%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
     .box{
         width: 70%;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     button:nth-child(n+3){
-        margin-top: 20px;
+        margin-top: 10px;
     }
-
-
 }

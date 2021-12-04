@@ -27,7 +27,7 @@
 <div class="flex-box">
 <input type="hidden" value="{{error}}" id="error">
 <!--formulaire pour les animaux-->
-<form action="createAnimal.html" method="post" class="box">
+<form action="createAnimal.html" method="post" class="midbox">
     <h1>Ajouter un animal</h1>
 
     <label for="nameAnimal"><b>Nom</b></label>
@@ -40,7 +40,7 @@
 </form>
 
 <!--formulaire pour les employés-->
-<form action="createEmployee.html" method="post" class="box">
+<form action="createEmployee.html" method="post" class="midbox">
     <h1>Ajouter un employé</h1>
 
     <label for="nameEmployee"><b>Nom_Prénom </b><input type="checkbox" id="admin" name="admin" value=true><sup>Admin</sup></label>
@@ -49,7 +49,7 @@
     <label for="descriptionEmployee"><b>Description</b></label>
     <input type="text" id="descriptionEmployee" name="descriptionEmployee" required>
 
-    <label for="startHour"><b>Horaire &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span id="horaire"></span></b></label>
+    <label for="startHour"><b>Horaire<span id="horaire"></span></b></label>
     <input type="range" id="startHour" name="startHour" value="12" min="0" max="23.5" step="0.5" oninput="printheure()">
     <input type="range" id="endHour" name="endHour" value="12" min="0" max="23.5" step="0.5" oninput="printheure()">
 
