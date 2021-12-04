@@ -12,7 +12,6 @@
 
     <link href="style/bootstrap.min.css" rel="stylesheet">
     <link rel = "stylesheet" href = "style/general.css">
-    <link rel = "stylesheet" href = "style/Modification.css">
     <link rel="stylesheet" href="../style/log.css">
     <link rel = "stylesheet" href = "style/{{Mode}}Version.css">
     
@@ -22,7 +21,7 @@
     <title>Inscription</title>
 
 </head>
-<body onload="loadUpnav(), loadError()">
+<body onload="loadUpnav(), loadError(), loadHour()">
     <div id="upnav"></div>
 <div class="flex-box">
 <input type="hidden" value="{{error}}" id="error">
@@ -31,7 +30,7 @@
     <h1>Ajouter un animal</h1>
 
     <label for="nameAnimal"><b>Nom</b></label>
-    <input type="text" id="nameAnimal" name="nameAnimal" onchange="checkAnimalAvailable()" required>
+    <input type="text" id="nameAnimal" name="nameAnimal" required>
 
     <label for="descriptionAnimal"><b>Description</b></label>
     <input type="text" id="descriptionAnimal" name="descriptionAnimal" required>
@@ -50,8 +49,8 @@
     <input type="text" id="descriptionEmployee" name="descriptionEmployee" required>
 
     <label for="startHour"><b>Horaire<span id="horaire"></span></b></label>
-    <input type="range" id="startHour" name="startHour" value="12" min="0" max="23.5" step="0.5" oninput="printheure()">
-    <input type="range" id="endHour" name="endHour" value="12" min="0" max="23.5" step="0.5" oninput="printheure()">
+    <input type="range" id="startHour" name="startHour" value="12" min="0" max="23.5" step="0.5" oninput="loadHour()">
+    <input type="range" id="endHour" name="endHour" value="12" min="0" max="23.5" step="0.5" oninput="loadHour()">
 
     <label for="connmdp"><b>Mot de passe </b><input type="checkbox" onclick="AfficherMDP()"><sup>Voir</sup></label>
     <!-- Empêche d'entrer des espaces-->
@@ -65,7 +64,6 @@
 </div>
 
 <img  class="Border" style="background-image : url(/images/{{imageMode}})">
-<script type="text/javascript" src="script.js"></script>
 
 </body>
 </html>

@@ -201,6 +201,9 @@ function search(databaseDocumentLiving, searchQuery, databaseDocumentTime=null){
 function mergeResult(...listsResult){
     var merged = []
     for (let list of listsResult){
+        if (!list){
+            continue;
+        }
         for (let result of list){
             var alreadyPushed = false;
             for (let i = 0; i<merged.length; i++){
