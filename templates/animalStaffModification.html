@@ -26,30 +26,31 @@
 <body onload="loadUpnav(), displayTable(), loadDescription(), loadImage(), loadError(), hideIfNotAdmin()">
     <div id="upnav"></div>
 
-    <form class="flex-box popup" id="popup" action="" method="GET">
+    <form class="flex-box popup" id="popup" action="/modif/updateItem" method="POST">
         <h2>Modifications</h2>
         <label for="desc" class="popupElement">Description</label>
-        <input type="text" id="desc" name="desc">
-
-        <label for="desc"  class="popupElement">Photo</label>
-        <input type="file" id="desc" name="desc" accept="image/*" class="fileInput">
-
-        <input type = "range" id = "rangeStart" class="popupElement" min="0" max="23.5" step="0.5" onchange="modifiyHour('Start')">
-        <input type = "range" id = "rangeEnd" class="popupElement" min="0" max="23.5" step="0.5" onchange="modifiyHour('End')">
+        <textarea id="desc" name="desc" rows="1" cols="60"></textarea>
+ 
+        <label for="pictureUpload"  class="popupElement">Photo</label>
+        <input type="file" id="pictureUpload" name="pictureUpload" accept="image/*">
+        
+        <input type = "range" name="rangeStart" id="rangeStart" class="popupElement" min="0" max="23.5" step="0.5" oninput="modifiyHour('Start')">
+        <input type = "range" name="rangeEnd" id="rangeEnd" class="popupElement" min="0" max="23.5" step="0.5" oninput="modifiyHour('End')">
         <div class = "popupElement" id="rangeResult" style="display:none">
-            Travaillant de <span id="Start"></span> à <span id="End"></span>
+            Travaillant de <span id="Start">{{startHour}}</span> à <span id="End">{{endHour}}</span>
         </div>
+
+        <input type="hidden" id = "name" name = "name" value= {{Name}}>   <!-- informations nécessaires pour charger la table -->
+        <input type="hidden" id = "isAnimal" name="isAnimal" value= {{isAnimal}}>
 
         <div class="foot popupElement">
             <a onclick="closePopup()" href="#" class = "buttonModif">Quitter</a>
-            <input type="submit" class = "button">
+            <input type="submit" class = "buttonModif">
         </div>
     </form>
 
     <div class="Maincontent" id="Maincontent">
 
-        <input type="hidden" id = "name" value= {{Name}}>   <!-- informations nécessaires pour charger la table -->
-        <input type="hidden" id = "isAnimal" value= {{isAnimal}}>
 
 
         <div class = "NameDateBorder flex-box">

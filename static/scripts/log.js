@@ -1,5 +1,3 @@
-const bcrypt = require("bcryptjs");
-
 function loadError(){
     /**
      * @pre : #error : le message d'erreur envoyé par serveur.js

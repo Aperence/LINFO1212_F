@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 var MongoClient = require('mongodb').MongoClient
 var bodyParser = require("body-parser");
+const multer = require("multer");
+var fs = require('fs');
 
 const modifierHelp = require("../server_scripts/modifierMethods")
 const tableHelp = require("../server_scripts/table")
@@ -118,6 +120,45 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             }
         })
     })
+
+
+    const upload = multer({
+        dest: "dbimages"
+    });
+    router.post("/updateItem", (req,res)=>{
+        if (req.body.isAnimal === "true"){
+            var collect = "animal"
+        }else{
+            var collect = "employee"
+        }
+        dbo.collection(collect).find({name : req.body.name}).toArray((err,doc)=>{
+
+            dbo.collection(collect).updateOne({name : req.body.name},{$set: {description : req.body.desc}})
+
+            if (req.body.pictureUpload){
+                var countElement;
+                fs.readdir("./static/uploads", (err, files) => {
+                    countElement = files.length;   // regarde le nombre d'images dans le dossier
+
+                    var tempPath = req.file.path;
+                    var targetPath = doc.picture || path.join(__dirname, `./static/uploads/${countElement+1}image.png`);  // doit changer encore le nom pour qu'il soit unique
+
+                    fs.rename(tempPath, targetPath, err =>{   //ajoute l'image au dossier upload se trouvant dans static
+                        if (err) return error
+                        console.log("uploaded")
+                        res.redirect("/display")
+                    });
+                })
+    
+            }
+            if (req.body.isAnimal === "false"){
+                var startHour = modifierHelp.formatHourString([rangeStart - rangeStart%1, rangeStart%1*60])
+                var endHour = modifierHelp.formatHourString([rangeEnd - rangerangeEnd%1, rangeEnd%1*60])
+                dbo.collection("employee").updateOne({name :  req.body.name},{$set: {startHour : startHour, endHour : endHour}})
+            }
+        })
+    })
+
 
     router.use(express.static('static'));
 })

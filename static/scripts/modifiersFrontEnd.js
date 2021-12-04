@@ -75,6 +75,7 @@ function loadDescription(){
   xhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
       document.getElementById("description").innerHTML = this.responseText || ""
+      document.getElementById("desc").value = this.responseText || ""
       if (!this.responseText){
         $("#description").hide()
       }
@@ -141,6 +142,21 @@ function changeAnimalStaff(){
     document.getElementById("rangeEnd").style.display = "inline";
     document.getElementById("rangeResult").style.display = "inline";
   }
+
+  var expanded = false;
+  $("#desc").click(()=>{
+    if (!expanded){
+      $("#desc").animate({height : '+=150px'})
+      expanded = true
+    }
+  })
+
+  $("#desc").mouseleave(()=>{
+    if (expanded){
+      $("#desc").animate({height : '-=150px'})
+      expanded = false
+    }
+  })
 }
 
 function closePopup(){

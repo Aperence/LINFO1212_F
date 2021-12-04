@@ -34,11 +34,10 @@ function strCompare(str1, str2){
     var compatibilty = 0    
     var length = Math.min(str1.length, str2.length)
     var longest =  Math.max(str1.length, str2.length)
-    var str1IsLongest = str1.length > str2.length
     for (let index = 0; index< longest - length + 1; index++){
         var actualCompatibility = 0     // nombre de caractères en commun et à la même position à chaque boucle
         for (let character = 0; character < length; character++) {
-            if (str1IsLongest){         // str1 que l'on doit parcourir avec le pattern
+            if (str1.length > str2.length){         // str1 que l'on doit parcourir avec le pattern
                 if (str1[character + index] === str2[character]){
                     actualCompatibility ++
                 }
@@ -49,14 +48,13 @@ function strCompare(str1, str2){
                 }
             }
         }
-        var length_fract = (str1.length)/(str2.length) >= 1 ? 1 : (str1.length)/(str2.length)
-        compatibilty = Math.max(actualCompatibility*length_fract, compatibilty)
+        compatibilty = Math.max(actualCompatibility, compatibilty)
         if (compatibilty===length){   // compatibilité maximale  => on peut arrêter de suite
             return 1
         }
     }
-
-    return compatibilty/length
+    var length_fract = (str1.length)/(str2.length) >= 1 ? 1 : (str1.length)/(str2.length)
+    return compatibilty/length * length_fract
 }
 
 function sort(dictionnary){

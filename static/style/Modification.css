@@ -91,11 +91,14 @@ td{
 
 .buttonModif{
     margin-top: 5px;
-    border: solid 5px rgb(33, 120, 3);
+    border: solid 2px rgb(33, 120, 3);
     background-color: rgb(61, 208, 103);
     border-radius : 10px;
     text-decoration: none;
     padding : 3px;
+    margin-left: 5px;
+    height : 31.5px;
+    text-align: center;
 }
 
 .buttonModif:hover{
@@ -106,7 +109,7 @@ td{
     position: absolute;
     width : 50%;
     left : 25%;
-    top : calc(22% + 72px);
+    top : calc(15% + 72px);
     display: none;
     z-index: 1;
     margin : 0px;
@@ -116,6 +119,7 @@ td{
     align-items: center;
     justify-content: center;
     padding : 20px;
+    min-width: 350px;
 }
 
 .foot{
@@ -132,6 +136,7 @@ td{
 
 input[type="range"]{
     display: none;
+    width: 90%;
 }
 
 @media (max-width:700px){
