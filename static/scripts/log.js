@@ -17,7 +17,7 @@ function loadUpnav(){
    $("#upnav").load("/upnav_site")
 }
 
-function printheure(){
+function loadHour(){
     var startHour = document.getElementById("startHour").value;
     var endHour = document.getElementById("endHour").value;
     var heureDebut = startHour%1*60;
