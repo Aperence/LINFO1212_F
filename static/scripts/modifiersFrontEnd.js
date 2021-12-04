@@ -96,6 +96,7 @@ function loadHour(){
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var Hour = this.responseText.split("#")
+      console.log(Hour);
       document.getElementById("Start").innerHTML = Hour[0]
       document.getElementById("End").innerHTML = Hour[1]
       var startHour = formatHour(Hour[0])

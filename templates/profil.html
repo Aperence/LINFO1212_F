@@ -43,7 +43,7 @@
     <button type="submit" class = "link-report upperbox">Enregistrer</button>
     </form>
 
-    <form action="modifPicture.html" method="post" class="box2">
+    <form action="modifPicture.html" method="post" class="box2" enctype="multipart/form-data">
     <label for="picture"><b>Photo de profil</b><img src={{picture}}></label>
     <input type="file" id="picture" name="picture" accept="image/png, image/jpeg" required>
     <button type="submit" class = "link-report upperbox" onclick="checkoldmdp()">Enregistrer</button>
