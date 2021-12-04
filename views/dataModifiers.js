@@ -148,9 +148,15 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     countElement = files.length;   // regarde le nombre d'images dans le dossier
 
                     var tempPath = req.file.path;
-                    var targetPath = doc[0].picture || path.join(__dirname, `.././static/uploads/${countElement+1}image.png`);  // doit changer encore le nom pour qu'il soit unique
-                    var urlDestination = doc[0].picture || `./uploads/${countElement+1}image.png`
+                    console.log(tempPath)
+                    if (doc[0].picture ){
+                        var targetPath = path.join(__dirname, `.././static/` + doc[0].picture);  // doit changer encore le nom pour qu'il soit unique
+                    }else{
+                        var targetPath = path.join(__dirname, `.././static/uploads/${countElement+1}image.png`);  // doit changer encore le nom pour qu'il soit unique
+                    }
 
+                    var urlDestination = doc[0].picture || `./uploads/${countElement+1}image.png`
+                    console.log(targetPath)
 
                     fs.rename(tempPath, targetPath, err =>{   //ajoute l'image au dossier upload se trouvant dans static
                         if (err) return err
@@ -158,6 +164,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     });
                     dbo.collection(collect).updateOne({name : req.body.name},{$set: {picture : urlDestination}})
                 })
+                fs.unlinkSync(path.join(__dirname, '../dbimages/*'))
 
     
             }
@@ -168,7 +175,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                 var endHour = modifierHelp.formatHourString([rangeEnd - rangeEnd%1, rangeEnd%1*60])
                 dbo.collection("employee").updateOne({name :  req.body.name},{$set: {startHour : startHour, endHour : endHour}})
             }
-            console.log(req.body.admin)
             dbo.collection(collect).updateOne({name : req.body.name},{$set: {admin : req.body.adminCheck === "on"}})
             res.redirect(req.session.lastpage)
         })
