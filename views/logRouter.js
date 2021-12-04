@@ -1,10 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const multer = require("multer");
+var fs = require('fs');
+const path = require("path");
 var session = require('express-session');
 var MongoClient = require('mongodb').MongoClient
 
 var prefix = "/log"
+
+const upload = multer({
+    dest: "dbimages"
+});
 
 MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db("site")
@@ -35,8 +42,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                 var aStartHour = doc[0].startHour;
                 var aEndHour = doc[0].endHour;
                 var aPicture = doc[0].picture;
-                req.session.searchedName = doc[0].name;
-                console.log(aAdmin);
                 res.render('profil.html', {error : x, name : aName, description : aDescription, admin : aAdmin, startHour : aStartHour, endHour : aEndHour, picture : aPicture, Mode : req.session.theme, imageMode : req.session.theme + ".jpg"})
             });
         }
@@ -145,6 +150,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                         req.session.connected = true;
                         req.session.name = req.body.nameEmployee;
                         req.session.isAdmin = doc[0].admin;
+                        req.session.picture = doc[0].picture;
                         console.log(req.session.name)
                         res.redirect('/');
                     }
@@ -162,22 +168,58 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
 
     router.post('/modifDescription.html', function(req,res,next){
-        dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {description : req.body.descriptionEmployee}});
+        dbo.collection("employee").updateOne({name : req.session.name},{$set: {description : req.body.descriptionEmployee}});
         console.log("Description modifiée")
         res.redirect(req.session.lastpage)
     })
 
     router.post('/modifPassword.html', function(req,res,next){
         var hashedPassword = bcrypt.hashSync(req.body.connmdp, 8);
-        dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {password : hashedPassword}});
+        dbo.collection("employee").updateOne({name : req.session.name},{$set: {password : hashedPassword}});
         console.log("Mot de passe modifié")
         res.redirect(req.session.lastpage)
     })
 
-    router.post('/modifPicture.html', function(req,res,next){
-        dbo.collection("employee").updateOne({name : req.session.searchedName},{$set: {picture : req.body.picture}});
-        console.log("Photo de profil modifiée")
+    router.post('/modifPicture.html', upload.single('picture'), function(req,res,next){
+        console.log("-----",req.session.name)
+        dbo.collection("employee").find({name : req.session.name}).toArray((err,doc)=>{
+            if (req.file){
+                var countElement;
+                fs.readdir("./static/uploads", (err, files) => {
+                    countElement = files.length;   // regarde le nombre d'images dans le dossier
+
+                    var tempPath = req.file.path;
+                    console.log(tempPath)
+                    if (doc[0].picture ){
+                        var targetPath = path.join(__dirname, `.././static/` + doc[0].picture);  // doit changer encore le nom pour qu'il soit unique
+                    }else{
+                        var targetPath = path.join(__dirname, `.././static/uploads/${countElement+1}image.png`);  // doit changer encore le nom pour qu'il soit unique
+                    }
+
+                    var urlDestination = doc[0].picture || `./uploads/${countElement+1}image.png`
+                    console.log(targetPath)
+                    req.session.picture = urlDestination
+
+                    fs.rename(tempPath, targetPath, err =>{   //ajoute l'image au dossier upload se trouvant dans static
+                        if (err) return err
+                            fs.readdir("./dbimages", (err, files) => {
+                                console.log(files)
+                                for (const file of files){
+                                    try{
+                                        fs.unlinkSync( path.join(__dirname, "../dbimages/" + file))
+                                    }
+                                    catch{
+                                        console.log("No file to suppress")
+                                    }
+                                }
+                            })
+                        console.log("uploaded")
+                    });
+                    dbo.collection('employee').updateOne({name : req.session.name},{$set: {picture : urlDestination}})
+                })
+            }
         res.redirect(req.session.lastpage)
+        });
     })
 
     router.get('/deconnection.html', function(req,res,next){
