@@ -179,9 +179,10 @@ function changeAnimalStaff(){
   document.getElementById("popup").style.display = "flex";
   var isAnimal = document.getElementById("isAnimal").value
   if (isAnimal === "false"){
-    document.getElementById("rangeStart").style.display = "inline";
-    document.getElementById("rangeEnd").style.display = "inline";
-    document.getElementById("rangeResult").style.display = "inline";
+    var ids = ["rangeStart", "rangeEnd", "rangeResult", "checkLabel", "hideLabel"]
+    for (let id in ids){
+      document.getElementById(id).style.display = "inline";
+    }
   }
 
   var expanded = false;
