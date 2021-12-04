@@ -17,7 +17,6 @@ var AniSchRouter = require('./views/animalScheduleRouter')
 
 
 var searchHelp = require('./server_scripts/search');
-const { memoryUsage } = require("process");
 
 var app = express ();
 

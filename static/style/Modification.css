@@ -2,19 +2,6 @@
 *   Fichier css relatifs à la page dataModifiers.js
 */
 
-
-/** contenant pour le contenu de la page */
-.Maincontent{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 75%;
-    position: relative;
-    left: 12.5%;
-    min-height: 665px;
-    min-width: 500px;
-}
-
 /** contenant pour les cadres .BoxBorder (voir ci-dessous) afin que ceux-ci soient affichés en colonne*/
 .NameDateBorder{
     width: 90%;
@@ -37,8 +24,7 @@
 
 /** image de l'animal/employé chargé grâce à la base de données */
 .dbpicture{
-    width: 80%; 
-    height : 65%;
+    max-width: 400px;
     margin: 10px;
 }
 
@@ -75,18 +61,6 @@ td{
     width: 125px;
     height: 34px;
     border-radius: 30px;
-}
-
-/** Images de fond utilisées sur cette page */
-.Border{
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    top: 0px;
-    left: 0px;
-    z-index: -1;
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 .buttonModif{
@@ -130,7 +104,7 @@ td{
     margin-top: 20px;
 }
 
-#desc{
+#desc , input[type="text"]{
     width : 80%;
 }
 

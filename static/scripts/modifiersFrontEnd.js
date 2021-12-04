@@ -88,6 +88,30 @@ function loadDescription(){
   xhttp.send();
 }
 
+function loadHour(){
+  var isAnimal = document.getElementById("isAnimal").value === "true"
+  var name =  document.getElementById("name").value
+  var xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var Hour = this.responseText.split("#")
+      document.getElementById("Start").innerHTML = Hour[0]
+      document.getElementById("End").innerHTML = Hour[1]
+      var startHour = formatHour(Hour[0])
+      var endHour = formatHour(Hour[1])
+      document.getElementById("rangeStart").value = startHour[0] + startHour[1]/60
+      document.getElementById("rangeEnd").value = endHour[0] + endHour[1]/60
+      document.getElementById("adminCheck").checked = Hour[2] === "true"
+    }
+  }
+
+  if (!isAnimal){
+    xhttp.open("GET", `/modif/loadHour?name=${name}`, true);
+    xhttp.send();
+  }
+}
+
 function formatHourString(HourArray){
   /**
    * @pre : HourArray : un array représentant des heures suivant le format [heure, demi-heure] avec heure appartient à [0,23] 
@@ -107,6 +131,21 @@ function formatHourString(HourArray){
       strhalfhour = '0' + strhalfhour
   }
   return `${strHour}:${strhalfhour}`
+}
+
+function formatHour(hour){
+  /**
+   * @pre : Hour : un string suivant le format HH:MM avec HH qui est une heure appartenant à [0,23] et MM, 
+   * une demi-heure appartienant à {0, 30}
+   * @post : retourne un tableau d'int représentant cette heure
+   * exemple : Hour = "18:30"  => [18 , 30]
+   */
+  hour = hour.split(":")
+  hour[0] = hour[0][0] == "0" ? hour[0].slice(1,hour.length) : hour[0]
+  hour[1] = hour[1][0] == "0" ? hour[1].slice(1,hour.length) : hour[1]
+  hour[0] = parseInt(hour[0])
+  hour[1] = parseInt(hour[1])
+  return hour
 }
 
 function checkValidInput(){
@@ -165,6 +204,5 @@ function closePopup(){
 
 function modifiyHour(str){
   var startHour = parseFloat(document.getElementById("range" + str).value)
-  console.log(startHour)
   document.getElementById(str).innerHTML = formatHourString([startHour - startHour%1, (startHour%1)*60])
 }
