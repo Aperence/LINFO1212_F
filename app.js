@@ -58,16 +58,18 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             }
             var connectedLink = "/log/profil"   // provisoire
             var connected = "Profil"
+            var displaydeco = "opacity:1;"
         }else{
             var connectedLink = "/log/connexion"   // provisoire
             var connected = "Connexion"
+            var displaydeco = "opacity:1;display:none"
         }
         if (req.session.isAdmin){
             var display =  "opacity:1;"
         }else{
             var display = "opacity:1;display:none"
         }
-        return res.render("upnav_site.html", {userIcon : icon, ConnectionLink : connectedLink, Connected : connected, display : display})
+        return res.render("upnav_site.html", {userIcon : icon, ConnectionLink : connectedLink, Connected : connected, display : display, displaydeco : displaydeco})
     })
 
     app.get('/ChangeMode', (req,res)=>{
