@@ -83,7 +83,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     dbo.collection("employee").find().toArray((err,docEmployeeTF)=>{
                         dbo.collection("timetable").find().toArray((err,docTimetable)=>{
 
-                            var result_search = searchHelp.search(docAnimalTF.concat(docEmployeeTF), docTimetable, req.query.search)
+                            var result_search = searchHelp.search(docAnimalTF.concat(docEmployeeTF), req.query.search, docTimetable)
                             var finalResult = searchHelp.merge(result_search, docAnimal, docEmployee)
                             console.log(finalResult)
 

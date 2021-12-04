@@ -40,7 +40,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/loadTimeTable", (req,res)=>{
         var isAnimal = req.query.animal === "true"
-        req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
+        req.session.isAdmin = req.session.isAdmin || true  // !!!!!!!!changer
         if (isAnimal){
             var collection = "animal"
         }else{

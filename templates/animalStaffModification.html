@@ -23,10 +23,30 @@
     <title>Modification de l'attribution des {{title}} </title>   <!-- animaux / employés -->
 
 </head>
-<body onload="loadUpnav(), displayTable(), loadDescription(), loadImage(), loadError()">
+<body onload="loadUpnav(), displayTable(), loadDescription(), loadImage(), loadError(), hideIfNotAdmin()">
     <div id="upnav"></div>
-    
-    <div class="Maincontent">
+
+    <form class="flex-box popup" id="popup" action="" method="GET">
+        <h2>Modifications</h2>
+        <label for="desc" class="popupElement">Description</label>
+        <input type="text" id="desc" name="desc">
+
+        <label for="desc"  class="popupElement">Photo</label>
+        <input type="file" id="desc" name="desc" accept="image/*" class="fileInput">
+
+        <input type = "range" id = "rangeStart" class="popupElement" min="0" max="23.5" step="0.5" onchange="modifiyHour('Start')">
+        <input type = "range" id = "rangeEnd" class="popupElement" min="0" max="23.5" step="0.5" onchange="modifiyHour('End')">
+        <div class = "popupElement" id="rangeResult" style="display:none">
+            Travaillant de <span id="Start"></span> à <span id="End"></span>
+        </div>
+
+        <div class="foot popupElement">
+            <a onclick="closePopup()" href="#" class = "buttonModif">Quitter</a>
+            <input type="submit" class = "button">
+        </div>
+    </form>
+
+    <div class="Maincontent" id="Maincontent">
 
         <input type="hidden" id = "name" value= {{Name}}>   <!-- informations nécessaires pour charger la table -->
         <input type="hidden" id = "isAnimal" value= {{isAnimal}}>
@@ -37,7 +57,7 @@
             <div class="BoxBorder flex-box" id="description"></div>
             <img id="picture" class="dbpicture">
             <div class = "BoxBorder flex-box">Date actuelle {{ActualDate}}</div>
- 
+            <a onclick="changeAnimalStaff()" id="descModifier" class = "buttonModif">Modifier les caractéristiques</a>
         </div>
 
         <div class = "tableHeader">
