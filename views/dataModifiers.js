@@ -164,9 +164,17 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     });
                     dbo.collection(collect).updateOne({name : req.body.name},{$set: {picture : urlDestination}})
                 })
-                fs.unlinkSync(path.join(__dirname, '../dbimages/*'))
-
-    
+                fs.readdir("./dbimages", (err, files) => {
+                    console.log(files)
+                    for (const file of files){
+                        try{
+                            fs.unlinkSync( path.join(__dirname, "../dbimages/" + file))
+                        }
+                        catch{
+                            console.log("No file to suppress")
+                        }
+                    }
+                })
             }
             if (req.body.isAnimal === "false"){
                 var rangeStart = req.body.rangeStart
