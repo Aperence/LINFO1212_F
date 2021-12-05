@@ -111,7 +111,7 @@ function getIfTimesExists(databaseDocument,exactHour){
 function defineState(item, isAnimal){
     /**
      * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé
-     * @pre : item : un objet possédant un champ name
+     * @pre : item : un objet JSON
      * @post : retourne : - "requiredField" si l'objet est une objet vide       => champ nécessaire de compléter
      *                    - "unrequiredField" si l'objet possède le nom "null"  => champ non nécessaire
      *                    - "FilledField" si l'objet possède déjà un nom        => champ déjà complété
@@ -135,7 +135,7 @@ function defineState(item, isAnimal){
 function getName(item, isAnimal){
     /**
      * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé
-     * @pre : item : un objet possédant un champ name
+     * @pre : item : un objet JSON
      * @post : retourne : - "Pas d'employé" si l'objet est une objet vide
      *                    - "-" si l'objet possède le nom "null"
      *                    - le nom de l'animal/employé autrement

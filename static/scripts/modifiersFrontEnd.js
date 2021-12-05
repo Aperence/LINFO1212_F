@@ -89,6 +89,11 @@ function loadDescription(){
 }
 
 function loadPopup(){
+  /**
+   * @pre : -
+   * @post : charge les informations nécessaires au pop-up, notamment la description, 
+   * l'heure de début et de fin ainsi que si l'utilisateur est un admin ou non
+   */
   var isAnimal = document.getElementById("isAnimal").value === "true"
   var name =  document.getElementById("name").value
   var xhttp = new XMLHttpRequest();
@@ -180,14 +185,21 @@ function checkValidInput(){
 }
 
 function changeAnimalStaff(){
+  /**
+   * @pre : - 
+   * @post : affiche le cadre pop-up contenant la modification des caractéristiques de l'employé/animal (description, image, ...)
+   */
   document.getElementById("popup").style.display = "flex";
   var isAnimal = document.getElementById("isAnimal").value
   if (isAnimal === "false"){
     var ids = ["rangeStart", "rangeEnd", "rangeResult", "checkLabel", "hideLabel"]
-    for (let id in ids){
+    for (let id of ids){
+      console.log(id)
       document.getElementById(id).style.display = "inline";
     }
   }
+
+  document.getElementById("Maincontent").style.filter = 'brightness(50%)'
 
   var expanded = false;
   $("#desc").click(()=>{
@@ -206,10 +218,20 @@ function changeAnimalStaff(){
 }
 
 function closePopup(){
+  /**
+   * @pre : -
+   * @post : ferme le pop-up avec les modifications des caractéristiques de l'animal/employé
+   */
   document.getElementById("popup").style.display = "none";
+  document.getElementById("Maincontent").style.filter = 'brightness(100%)'
 }
 
 function modifiyHour(str){
+  /**
+   * @pre : str : un string pouvant représentant le nom de la range et du span pour afficher l'heure (en pratique : "Start" ou "End")
+   * @post : affiche dans l'élement ayant l'id "str" la valeur de l'input range ayant l'id "rangestr"
+   * 
+   */
   var startHour = parseFloat(document.getElementById("range" + str).value)
   document.getElementById(str).innerHTML = formatHourString([startHour - startHour%1, (startHour%1)*60])
 }

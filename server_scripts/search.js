@@ -199,6 +199,11 @@ function search(databaseDocumentLiving, searchQuery, databaseDocumentTime=null){
 
 
 function mergeResult(...listsResult){
+    /**
+     * @pre : listsResult : un array à 2 dimensions contenant des résultats de recherche (objets JSON)
+     * @post : fusionne les array afin de n'en avoir plus qu'un à une dimension contenant tous les 
+     * éléments uniques de l'array de départ 
+     */
     var merged = []
     for (let list of listsResult){
         if (!list){

@@ -20,6 +20,7 @@ const upload = multer({
 MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db("site")
 
+    // renvoie la page staffmodif (modification des horaires d'un animal)
     router.get("/animalmodif",(req,res)=>{
         if (!req.query.name){
             return res.redirect("/")
@@ -32,6 +33,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         return res.render("animalStaffModification.html",renderObject)
     })
 
+    // renvoie la page staffmodif (modification des horaires d'un employé)
     router.get("/staffmodif",(req,res)=>{
         if (!req.query.name){
             return res.redirect("/")
@@ -44,6 +46,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         return res.render("animalStaffModification.html",renderObject)
     })
 
+    // renvoie comme réponse la table formatée pour un animal/employé
     router.get("/loadTimeTable", (req,res)=>{
         var isAnimal = req.query.animal === "true"
         req.session.isAdmin = req.session.isAdmin || true  // !!!!!!!!changer
@@ -72,7 +75,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         })
     })
 
-
+    // modifications des horaires d'un employé/animal
     router.post("/modifyTimeTable", (req,res)=>{
         var day = req.body.dateModif.split("/")[3]                      // Lundi, Mardi, ...
         var date = req.body.dateModif.split("/").slice(0,3).join("/")  //    DD/MM/YYYY
@@ -104,7 +107,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     })
 
-
+    // envoie le lien de l'image en réponse pour un employé ou animal
     router.get("/loadImage",(req,res)=>{
         dbo.collection(req.query.tableName).find({name : req.query.name}).toArray((err,doc)=>{
             if (err) { console.log(err) }
@@ -114,6 +117,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         })
     })
 
+    // envoie la description en réponse pour un employé ou animal
     router.get("/loadDescription",(req,res)=>{
         dbo.collection(req.query.tableName).find({name : req.query.name}).toArray((err,doc)=>{
             if (err) { console.log(err) }
@@ -125,6 +129,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         })
     })
 
+    // envoie l'heure de début et de fin en réponse pour un employé ainsi que s'il s'agit d'un admin
     router.get("/loadHour", (req,res)=>{
         dbo.collection("employee").find({name : req.query.name}).toArray((err,doc)=>{
             if (doc[0]){
@@ -136,6 +141,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     })
 
 
+    // modifie les caractéristiques d'un animal/employé à partir des requêtes faites
     router.post("/updateItem", upload.single('pictureUpload'),(req,res)=>{
         if (!req.session.isAdmin){
             return res.redirect(req.session.lastpage)
@@ -157,7 +163,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     var tempPath = req.file.path;
                     console.log(tempPath)
                     if (doc[0].picture ){
-                        var targetPath = path.join(__dirname, `.././static/` + doc[0].picture);  // doit changer encore le nom pour qu'il soit unique
+                        var targetPath = path.join(__dirname, `.././static/` + doc[0].picture);  // si il y a déjà une image => écrase l'ancienne pour économiser le stockage
                     }else{
                         var targetPath = path.join(__dirname, `.././static/uploads/${countElement+1}image.png`);  // doit changer encore le nom pour qu'il soit unique
                     }
@@ -169,7 +175,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                         if (err) return err
                         console.log("uploaded")
                         fs.readdir("./dbimages", (err, files) => {
-                            console.log(files)
+                            // supprime les fichiers temporaires quand on a fini avec cette image
                             for (const file of files){
                                 try{
                                     fs.unlinkSync( path.join(__dirname, "../dbimages/" + file))

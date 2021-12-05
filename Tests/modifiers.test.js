@@ -59,7 +59,7 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 10000, 'Timed out after 20 seconds', 1000)
+    }, 10000, 'Timed out after 10 seconds', 1000)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
   });
@@ -91,7 +91,7 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 10000, 'Timed out after 20 seconds', 1000)
+    }, 10000, 'Timed out after 10 seconds', 1000)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
   });
@@ -177,7 +177,7 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 10000, 'Timed out after 20 seconds', 1000)
+    }, 10000, 'Timed out after 10 seconds', 1000)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
   });
@@ -205,7 +205,7 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 10000, 'Timed out after 20 seconds', 1000)
+    }, 10000, 'Timed out after 10 seconds', 1000)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
   });
@@ -250,7 +250,7 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 10000, 'Timed out after 20 seconds', 1000)
+    }, 10000, 'Timed out after 10 seconds', 1000)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
     await driver.wait( async ()=>{

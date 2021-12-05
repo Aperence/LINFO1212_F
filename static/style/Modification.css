@@ -63,6 +63,7 @@ td{
     border-radius: 30px;
 }
 
+/** Boutons se trouvant dans le pop-up et qui permet de l'ouvrir/fermer/soumettre */
 .buttonModif{
     margin-top: 5px;
     border: solid 2px rgb(33, 120, 3);
@@ -79,8 +80,9 @@ td{
     background-color: rgb(71, 197, 107);
 }
 
+/** Cadre contenant le pop-up */
 .popup{
-    position: absolute;
+    position: fixed;
     width : 50%;
     left : 25%;
     top : calc(15% + 72px);
@@ -93,21 +95,25 @@ td{
     align-items: center;
     justify-content: center;
     padding : 20px;
-    min-width: 350px;
+    flex-wrap: wrap;
 }
 
+/** 2 boutons se trouvant au dessous du pop-up */
 .foot{
     align-self: center;
 }
 
+/** Un des éléments repris dans le pop-up (chaque input) */
 .popupElement{
     margin-top: 20px;
 }
 
+/** input de description */
 #desc , input[type="text"]{
     width : 80%;
 }
 
+/** barre pour sélectionner l'heure */
 input[type="range"]{
     width: 90%;
     -webkit-appearance: none !important;
@@ -134,5 +140,17 @@ input[type='range']::-webkit-slider-thumb{
         width : 70%;
         left : 15%;
         top : calc(15% + 72px);
+    }
+}
+
+@media (max-width:500px){
+    .popup{
+        width : 99%;
+        left : 1%;
+        top : calc(15% + 72px);
+    }
+
+    input[type="file"]{
+        width : 135px;
     }
 }

@@ -48,6 +48,12 @@ function returnTaskListAccordingStatus(status, strActualHour, task){
 
 
 function makeListEmployeeNotAvailable(documentTimetable, hour){
+    /**
+     * @pre : documentTimetable : un array contenant tous les objets de la collection timetable pour une date donnée
+     * @pre : hour : une heure sous le format string 'HH:MM'
+     * @post : retourne un array contenant les noms de tous les employés ayant déjà un objet dans cette collection pour cette heure,
+     * et donc ayant déjà une assignation pour cette date et heure
+     */
     var listEmployeeNotAvailable = []       //liste des employés déjà occupés pour cette heure
     for (let item of documentTimetable){
         if (item.time === hour){
@@ -59,6 +65,12 @@ function makeListEmployeeNotAvailable(documentTimetable, hour){
 
 
 function makeListAnimalNotAvailable(documentTimetable, hour){
+    /**
+     * @pre : documentTimetable : un array contenant tous les objets de la collection timetable pour une date donnée
+     * @pre : hour : une heure sous le format string 'HH:MM'
+     * @post : retourne un array contenant les noms de tous les animaux ayant déjà un objet dans cette collection pour cette heure,
+     * et donc ayant déjà une assignation pour cette date et heure
+     */
     var listAnimalNotAvailable = []
     for (let item of documentTimetable){
         if (item.time === hour){
@@ -116,6 +128,7 @@ function returnNameSelectionAccordingStatus(status, isAnimal, listAnimalStaff, s
             }
             var startHourFormated = modifierHelp.formatHour(item.startHour)   // pour avoir un array de int à partir de l'heure     ex : [17,0] ou [14,30]  => 17h00 ou 14h30
             var endHourFormated = modifierHelp.formatHour(item.endHour)
+            var actualHour = modifierHelp.formatHour(strActualHour)
 
             if (modifierHelp.comprisedBetween(startHourFormated, endHourFormated, actualHour)){
                 name += `<option value=${item.name}>${item.name}</option>`
@@ -140,7 +153,8 @@ function renderTimeTableAdmin(timeTable, listAnimalStaff, isAnimal, request, doc
      * @pre : ListAnimalStaff : un document avec tous les employés ou animaux
      * @pre : isAnimal : un booléen indiquant si l'objet représente un animal ou un employé 
      * @pre : Request : objet permettant de récupérer les information demandées (queries)
-     * @pre : un objet JSON représentant l'employé dont on veut avoir la sélection
+     * @pre : documentTimetable : un array contenant tous les objets de la collection timetable pour une date donnée
+     * @pre : Employee : un objet JSON représentant l'employé dont on veut avoir la sélection
      * @post : retourne un string représentant la table d'affichage avec la personne en charge pour 
      * chaque tranche horaire (version admin => avec sélection d'un employé)
      */
@@ -158,6 +172,7 @@ function renderTimeTableAdmin(timeTable, listAnimalStaff, isAnimal, request, doc
     for (let i = 0; i<timeTable.length; i++){
         actualHour = [ Math.floor(i/2) , (i%2)*30 ]
         if (Employee && !modifierHelp.comprisedBetween(modifierHelp.formatHour( Employee.startHour), modifierHelp.formatHour( Employee.endHour), actualHour)){
+            // heure à laquelle l'employé ne travaille pas => passe cette heure
             continue
         }
         strActualHour = modifierHelp.formatHourString(actualHour)
