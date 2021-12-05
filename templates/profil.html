@@ -33,7 +33,7 @@
 
     <form action="modifDescription.html" method="post" class="box2">
     <label for="descriptionEmployee"><b>Description</b></label>
-    <input type="text" id="descriptionEmployee" name="descriptionEmployee" value={{description}} placeholder="Tapez votre description ici" required>
+    <input type="text" id="descriptionEmployee" name="descriptionEmployee" value="{{description}}" placeholder="Tapez votre description ici" required>
     <button type="submit" class = "link-report upperbox">Enregistrer</button>
     </form>
 
@@ -44,7 +44,7 @@
     </form>
 
     <form action="modifPicture.html" method="post" class="box2" enctype="multipart/form-data">
-    <label for="picture"><b>Photo de profil</b><img src={{picture}}></label>
+    <label for="picture"><b>Photo de profil</b><br><center><img src={{picture}} style="max-width:81%; max-height : 400px;"></center></label>
     <input type="file" id="picture" name="picture" accept="image/png, image/jpeg" required>
     <button type="submit" class = "link-report upperbox" onclick="checkoldmdp()">Enregistrer</button>
     </form>

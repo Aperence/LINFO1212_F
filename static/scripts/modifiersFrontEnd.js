@@ -89,7 +89,6 @@ function loadDescription(){
 }
 
 function loadPopup(){
-  console.log("send")
   var isAnimal = document.getElementById("isAnimal").value === "true"
   var name =  document.getElementById("name").value
   var xhttp = new XMLHttpRequest();
@@ -97,9 +96,7 @@ function loadPopup(){
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var Hour = this.responseText.split("#")
-      console.log(Hour);
       document.getElementById("Start").innerHTML = Hour[0]
-      console.log(Hour)
       document.getElementById("End").innerHTML = Hour[1]
       var startHour = formatHour(Hour[0])
       var endHour = formatHour(Hour[1])
@@ -162,14 +159,20 @@ function checkValidInput(){
    */
   for (let hour = 0 ; hour<24; hour++){
     for (let halfhour=0; halfhour<2; halfhour++){
-      hourStr = formatHourString([hour,halfhour*30])
-      employeeAnimalSelection = document.getElementById("nameSelection"+hourStr).value
-
-      var taskSelection = document.getElementById("taskList"+hourStr);
-      var taskOption = taskSelection.options[taskSelection.selectedIndex].text;   // prend l'élément sélectionné grâce à son index
-      if((employeeAnimalSelection && !taskOption) || (!employeeAnimalSelection && taskOption)){    //un seul champ parmis les deux
-        alert("Veuillez renseigner les deux champs pour l'heure suivant : "+hourStr)
-        return false
+      try{
+        hourStr = formatHourString([hour,halfhour*30])
+        employeeAnimalSelection = document.getElementById("nameSelection"+hourStr).value
+        console.log(hourStr)
+        console.log(employeeAnimalSelection)
+        var taskSelection = document.getElementById("taskList"+hourStr);
+        var taskOption = taskSelection.options[taskSelection.selectedIndex].text;   // prend l'élément sélectionné grâce à son index
+        if((employeeAnimalSelection && !taskOption) || (!employeeAnimalSelection && taskOption)){    //un seul champ parmis les deux
+          alert("Veuillez renseigner les deux champs pour l'heure suivant : "+hourStr)
+          return false
+        }
+      }
+      catch{   // quand l'heure n'existe pas pour un employé à cette heure
+        continue
       }
     }
   }

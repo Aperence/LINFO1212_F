@@ -38,6 +38,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             dbo.collection("employee").find({name : req.session.name}).toArray((err,doc)=>{
                 var aName = doc[0].name;
                 var aDescription = doc[0].description;
+                console.log(aDescription)
                 var aAdmin = doc[0].admin;
                 var aStartHour = doc[0].startHour;
                 var aEndHour = doc[0].endHour;

@@ -62,7 +62,9 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             })
         })
 
-        res.redirect("/")
+        setTimeout(()=>{       // Permet aux autres fonction de finir leur travail avant de redirect
+            res.redirect("/")
+        },400)
     })
 
     // permet de recréer la base de donnée à partir du fichier JSON sérialisé
@@ -91,7 +93,9 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             }
         })
 
-        res.redirect("/")
+        setTimeout(()=>{       // Permet aux autres fonction de finir leur travail avant de redirect
+            res.redirect("/")
+        },400)
     })
 })
 

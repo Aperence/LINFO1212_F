@@ -127,12 +127,19 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get("/loadHour", (req,res)=>{
         dbo.collection("employee").find({name : req.query.name}).toArray((err,doc)=>{
-            res.send(doc[0].startHour + "#" + doc[0].endHour + "#" + (doc[0].admin || ""))
+            if (doc[0]){
+                res.send(doc[0].startHour + "#" + doc[0].endHour + "#" + (doc[0].admin || ""))
+            }else{
+                res.send("")
+            }
         })
     })
 
 
     router.post("/updateItem", upload.single('pictureUpload'),(req,res)=>{
+        if (!req.session.isAdmin){
+            return res.redirect(req.session.lastpage)
+        }
         if (req.body.isAnimal === "true"){
             var collect = "animal"
         }else{
