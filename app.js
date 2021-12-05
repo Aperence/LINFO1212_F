@@ -54,7 +54,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         var icon = "<i class='bx bxs-user-account bx-md' style='color:white'></i>"
         if (req.session.connected){
             if (req.session.picture){
-               icon = `<img src = ${req.session.picture} style="height:40px; width:40px">`
+               icon = `<img style="height:40px; width:40px; background-image:url(${req.session.picture}); background-size: cover;">`
             }
             var connectedLink = "/log/profil"   // provisoire
             var connected = "Profil"
