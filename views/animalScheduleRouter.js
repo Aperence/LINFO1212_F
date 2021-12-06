@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 var MongoClient = require('mongodb').MongoClient
 
-var prefix = "/schedule"
+const prefix = "/schedule"
 
 MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db("site")
@@ -16,6 +16,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.use(express.static('static'));
 })
+
 module.exports = {
     "AniSchRouter" : router
 }

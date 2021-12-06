@@ -5,7 +5,7 @@ var generate = require("../server_scripts/randomGeneration")
 
 const router = express.Router();
 
-var prefix = "/tools"
+const prefix = "/tools"
 
 
 MongoClient.connect('mongodb://localhost:27017', (err,db)=>{

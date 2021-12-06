@@ -11,7 +11,7 @@ const tableHelp = require("../server_scripts/table")
 
 router.use(bodyParser.urlencoded({ extended: true })); 
 
-var prefix = "/modif"
+const prefix = "/modif"
 
 const upload = multer({
     dest: "dbimages"
@@ -22,6 +22,11 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     // renvoie la page staffmodif (modification des horaires d'un animal)
     router.get("/animalmodif",(req,res)=>{
+        /** 
+        if (!req.session.connected){
+            return res.redirect('/log/connexion')
+        }
+        */
         if (!req.query.name){
             return res.redirect("/")
         }
@@ -35,6 +40,11 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     // renvoie la page staffmodif (modification des horaires d'un employé)
     router.get("/staffmodif",(req,res)=>{
+        /** 
+        if (!req.session.connected){
+            return res.redirect('/log/connexion')
+        }
+        */
         if (!req.query.name){
             return res.redirect("/")
         }
@@ -49,7 +59,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     // renvoie comme réponse la table formatée pour un animal/employé
     router.get("/loadTimeTable", (req,res)=>{
         var isAnimal = req.query.animal === "true"
-        req.session.isAdmin = req.session.isAdmin || true  // !!!!!!!!changer
         if (isAnimal){
             var collection = "animal"
         }else{

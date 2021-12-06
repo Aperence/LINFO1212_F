@@ -7,7 +7,7 @@ const path = require("path");
 var session = require('express-session');
 var MongoClient = require('mongodb').MongoClient
 
-var prefix = "/log"
+const prefix = "/log"
 
 const upload = multer({
     dest: "dbimages"
