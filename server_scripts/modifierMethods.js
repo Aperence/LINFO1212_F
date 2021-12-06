@@ -239,12 +239,12 @@ function defineState(item, isAnimal){
         return 'requiredField'
     }
     if (isAnimal){
-        if (item.staffName === "null"){
+        if (item.staffName === "null" || item.staffName === null){
             return "unrequiredField"
         }
         return "FilledField"
     }else{
-        if (item.animalName === "null"){
+        if (item.animalName === "null" || item.animalName === null){
             return "unrequiredField"
         }
         return "FilledField"

@@ -166,12 +166,14 @@ function checkValidInput(){
     for (let halfhour=0; halfhour<2; halfhour++){
       try{
         hourStr = formatHourString([hour,halfhour*30])
-        employeeAnimalSelection = document.getElementById("nameSelection"+hourStr).value
-        console.log(hourStr)
-        console.log(employeeAnimalSelection)
+        var employeeAnimalSelection = document.getElementById("nameSelection"+hourStr)
+        var employeeOption = employeeAnimalSelection.options[employeeAnimalSelection.selectedIndex].value
         var taskSelection = document.getElementById("taskList"+hourStr);
         var taskOption = taskSelection.options[taskSelection.selectedIndex].text;   // prend l'élément sélectionné grâce à son index
-        if((employeeAnimalSelection && !taskOption) || (!employeeAnimalSelection && taskOption)){    //un seul champ parmis les deux
+        if (employeeOption ==="__null__"){  // pas besoin de tâche car c'est une heure sans employé nécessaire
+          continue
+        }
+        if((employeeOption && ((!taskOption) || taskOption === "Pas de tâche")) || (!employeeOption && taskOption)){    //un seul champ parmis les deux
           alert("Veuillez renseigner les deux champs pour l'heure suivant : "+hourStr)
           return false
         }

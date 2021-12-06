@@ -1,7 +1,7 @@
 
 const modifierHelp = require("./modifierMethods")
 
-const ListTask = ["Soins", "Nourrir", "Nettoyer l'enclos", "Spectacle", "Dressage"]
+const ListTask = ["Soins", "Nourrir", "Nettoyer", "Spectacle", "Dressage"]
 
 function generateTaskList(strActualHour, hasAlreadyTask){
     /**
@@ -17,7 +17,9 @@ function generateTaskList(strActualHour, hasAlreadyTask){
             options += `<option value=${option}>${option}</option>`
         }
     }
-    if (hasAlreadyTask){    // met la tâche déjà choisie en première
+    if (hasAlreadyTask === "Pas de tâche"){  // met la valeur à __null__ pour facilement l'identifier
+        options = `<option value="__null__">${hasAlreadyTask}</option>` + options + `<option value=""></option>`
+    }else if (hasAlreadyTask){    // met la tâche déjà choisie en première
         options = `<option value=${hasAlreadyTask}>${hasAlreadyTask}</option>` + options + `<option value=""></option>`
     }else{
         options = `<option value=""></option>` + options
@@ -40,7 +42,7 @@ function returnTaskListAccordingStatus(status, strActualHour, task){
         case "requiredField":
             return generateTaskList(strActualHour, null)  // génère la sélection de tâche 
         case "unrequiredField":
-            return "-"
+            return generateTaskList(strActualHour, "Pas de tâche")
         case "FilledField":
             return generateTaskList(strActualHour, task)
     }
@@ -103,7 +105,9 @@ function returnNameSelectionAccordingStatus(status, isAnimal, listAnimalStaff, s
             name += `<option value=''></option>`   //option vide par défaut
             break;
         case "unrequiredField":
-            return "-"       // pas d'option choisisable -> peut direct renvoyer la sélection vide (juste un string)
+            name += `<option value="__null__">Pas d'employé</option>`    //option préalablement choisie dans la base de données
+            nameAlreadyAdded = "Pas d'employé";
+            break;
         case "FilledField":
             name += `<option value=${potentialName}>${potentialName}</option>`    //option préalablement choisie dans la base de données
             nameAlreadyAdded = potentialName;
@@ -134,6 +138,9 @@ function returnNameSelectionAccordingStatus(status, isAnimal, listAnimalStaff, s
                 name += `<option value=${item.name}>${item.name}</option>`
             }
         }
+    }
+    if (nameAlreadyAdded!="Pas d'employé" && isAnimal){
+        name += `<option value="__null__">Pas d'employé</option>`
     }
     if (nameAlreadyAdded){   // si on a le nom déjà sélectionné => oublie pas de rajouter option vide à la fin
         name += `<option value=""></option>`

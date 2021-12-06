@@ -110,7 +110,7 @@ function randomTime(){
     var choiceCase = generateNumber(0,5)
     var name;
     if (choiceCase==0){
-        name = "null"
+        name = null
     }else{
         name = generateEmployeeName()
     }
