@@ -172,7 +172,7 @@ function checkValidInput(){
         var taskSelection = document.getElementById("taskList"+hourStr);
         var taskOption = taskSelection.options[taskSelection.selectedIndex].text;   // prend l'élément sélectionné grâce à son index
         if((employeeAnimalSelection && !taskOption) || (!employeeAnimalSelection && taskOption)){    //un seul champ parmis les deux
-          alert("Veuillez renseigner les deux champs pour l'heure suivant : "+hourStr)
+          alert("Veuillez renseigner les deux champs pour l'heure suivante : "+hourStr)
           return false
         }
       }
