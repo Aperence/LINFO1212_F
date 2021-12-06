@@ -87,15 +87,15 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             }
             for (let hour = 0; hour<24; hour++){
                 for( let halfhour=0; halfhour<2; halfhour++){
-                    formatHour = modifierHelp.formatHourString([hour,halfhour*30])
+                    var formatHour = modifierHelp.formatHourString([hour,halfhour*30])
                     if (req.body.isAnimalModif==="true"){
                         dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif})  //supprime si existe déjà pour cet animal
-                        if (req.body["nameSelection"+formatHour]!==""){    // si on a sélectionné au moins un nom
+                        if (req.body["nameSelection"+formatHour]){    // si on a sélectionné au moins un nom
                             dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif, "staffName": req.body["nameSelection"+formatHour], "task" : req.body["taskList"+formatHour]})
                         }
                     }else{ 
                         dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif})    //supprime si existe déjà 
-                        if (req.body["nameSelection"+formatHour]!==""){    // si on a sélectionné au moins un nom
+                        if (req.body["nameSelection"+formatHour]){    // si on a sélectionné au moins un nom
                             dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif, "animalName": req.body["nameSelection"+formatHour], "task" : req.body["taskList"+formatHour]})  
                         }
                     }
@@ -189,15 +189,24 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     dbo.collection(collect).updateOne({name : req.body.name},{$set: {picture : urlDestination}})
                 })
             }
+
             if (req.body.isAnimal === "false"){
                 var rangeStart = req.body.rangeStart
+                rangeStart = [rangeStart - rangeStart%1, rangeStart%1*60]
                 var rangeEnd = req.body.rangeEnd
-                var startHour = modifierHelp.formatHourString([rangeStart - rangeStart%1, rangeStart%1*60])
-                var endHour = modifierHelp.formatHourString([rangeEnd - rangeEnd%1, rangeEnd%1*60])
+                rangeEnd = [rangeEnd - rangeEnd%1, rangeEnd%1*60]
+                var startHour = modifierHelp.formatHourString(rangeStart)
+                var endHour = modifierHelp.formatHourString(rangeEnd)
                 dbo.collection("employee").updateOne({name :  req.body.name},{$set: {startHour : startHour, endHour : endHour}})
+                modifierHelp.updateTimetableAfterModif(req.body.name, rangeStart, rangeEnd, dbo)
             }
             dbo.collection(collect).updateOne({name : req.body.name},{$set: {admin : req.body.adminCheck === "on"}})
-            res.redirect(req.session.lastpage)
+
+            setTimeout(()=>{
+                // laisse un délai de 0.4s pour actualiser
+                res.redirect(req.session.lastpage)
+            },400)
+
         })
     })
 

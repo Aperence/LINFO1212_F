@@ -47,10 +47,10 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     //temporaire
     app.get("/",(req,res)=>{
         req.session.lastpage = "/"
-        res.redirect("/schedule/animal_schedule")
+        res.redirect("/schedule/animalSchedule")
     })
 
-    app.get("/upnav_site",(req,res)=>{
+    app.get("/upnavSite",(req,res)=>{
         var icon = "<i class='bx bxs-user-account bx-md' style='color:white'></i>"
         if (req.session.connected){
             if (req.session.picture){
@@ -69,7 +69,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         }else{
             var display = "opacity:1;display:none"
         }
-        return res.render("upnav_site.html", {userIcon : icon, ConnectionLink : connectedLink, Connected : connected, display : display, displaydeco : displaydeco})
+        return res.render("upnavSite.html", {userIcon : icon, ConnectionLink : connectedLink, Connected : connected, display : display, displaydeco : displaydeco})
     })
 
     app.get('/ChangeMode', (req,res)=>{
@@ -85,11 +85,11 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                         dbo.collection("timetable").find().toArray((err,docTimetable)=>{
 
                             var result_search = searchHelp.search(docAnimalTF.concat(docEmployeeTF), req.query.search, docTimetable)
-                            var finalResult = searchHelp.merge(result_search, docAnimal, docEmployee)
+                            var finalResult = searchHelp.merge(docAnimal, docEmployee, result_search)  // les résultats avec l'index apparaissent en premier
                             console.log(finalResult)
 
                             if (finalResult.length === docAnimalTF.concat(docEmployeeTF).length){
-                                return res.render("animal_schedule.html", {error : "Aucun résultat trouvé en particulier"})   // à changer
+                                return res.render("animalSchedule.html", {error : "Aucun résultat trouvé en particulier"})   // à changer
                             }
                             else{
                                 // displaySchedule(result_search)

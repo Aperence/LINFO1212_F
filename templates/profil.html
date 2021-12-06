@@ -21,7 +21,7 @@
     <title>Inscription</title>
 
 </head>
-<body onload="loadUpnav(), loadError(), printheure()">
+<body onload="loadUpnav(), loadError(), loadHour()">
     <div id="upnav"></div>
 <div class="flex-box">
 <input type="hidden" value="{{error}}" id="error">
@@ -44,7 +44,7 @@
     </form>
 
     <form action="modifPicture.html" method="post" class="box2" enctype="multipart/form-data">
-    <label for="picture"><b>Photo de profil</b><br><center><img src={{picture}} style="max-width:81%; max-height : 400px;"></center></label>
+    <label for="picture"><b>Photo de profil</b><br><center><img src="{{picture}}" style="max-width:81%; max-height : 400px;"></center></label>
     <input type="file" id="picture" name="picture" accept="image/png, image/jpeg" required>
     <button type="submit" class = "link-report upperbox" onclick="checkoldmdp()">Enregistrer</button>
     </form>

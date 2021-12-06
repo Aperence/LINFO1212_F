@@ -14,7 +14,7 @@ function loadUpnav(){
    * @pre : -
    * @post : charge la barre de navigation supérieure dans l'élément ayant l'id "upnav"
    */
-   $("#upnav").load("/upnav_site")
+   $("#upnav").load("/upnavSite")
 }
 
 function loadHour(){

@@ -53,8 +53,8 @@ function strCompare(str1, str2){
             return 1
         }
     }
-    var length_fract = (str1.length)/(str2.length) >= 1 ? 1 : (str1.length)/(str2.length)
-    return compatibilty/length * length_fract
+    var lengthFract = (str1.length)/(str2.length) >= 1 ? 1 : (str1.length)/(str2.length)  // quand le pattern est plus long que mot => veut que ce soit moins pertinent
+    return compatibilty/length * lengthFract
 }
 
 function sort(dictionnary){
@@ -176,11 +176,11 @@ function search(databaseDocumentLiving, searchQuery, databaseDocumentTime=null){
         if (emptyWords.includes(word)){  // ignore les mots vides
             continue
         }else{
-            var IDF_result = IDF(wordMatrix, word)
+            var IDFResult = IDF(wordMatrix, word)
             for (let item of wordMatrix){
-                var TF_result = TF(item,word)
+                var TFResult = TF(item,word)
                 var previousScore = TF_IDF_score.get(item.get("_originalDocument")) || 0
-                TF_IDF_score.set(item.get("_originalDocument"), previousScore + TF_result*IDF_result)
+                TF_IDF_score.set(item.get("_originalDocument"), previousScore + TFResult*IDFResult)
             } 
         }
     }
