@@ -170,16 +170,11 @@ function checkValidInput(){
         var employeeOption = employeeAnimalSelection.options[employeeAnimalSelection.selectedIndex].value
         var taskSelection = document.getElementById("taskList"+hourStr);
         var taskOption = taskSelection.options[taskSelection.selectedIndex].text;   // prend l'élément sélectionné grâce à son index
-<<<<<<< HEAD
-        if((employeeAnimalSelection && !taskOption) || (!employeeAnimalSelection && taskOption)){    //un seul champ parmis les deux
-          alert("Veuillez renseigner les deux champs pour l'heure suivante : "+hourStr)
-=======
         if (employeeOption ==="__null__"){  // pas besoin de tâche car c'est une heure sans employé nécessaire
           continue
         }
         if((employeeOption && ((!taskOption) || taskOption === "Pas de tâche")) || (!employeeOption && taskOption)){    //un seul champ parmis les deux
           alert("Veuillez renseigner les deux champs pour l'heure suivant : "+hourStr)
->>>>>>> a725ac19d758afa9c1d390dafb0edc057de051c5
           return false
         }
       }
