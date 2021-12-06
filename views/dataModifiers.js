@@ -100,7 +100,13 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     if (req.body.isAnimalModif==="true"){
                         dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif})  //supprime si existe déjà pour cet animal
                         if (req.body["nameSelection"+formatHour]){    // si on a sélectionné au moins un nom
-                            dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif, "staffName": req.body["nameSelection"+formatHour], "task" : req.body["taskList"+formatHour]})
+                            var nameEmployee = req.body["nameSelection"+formatHour]
+                            var taskDone = req.body["taskList"+formatHour]
+                            if (nameEmployee === "__null__"){
+                                nameEmployee = null
+                                taskDone = "Pas de tâche"
+                            }
+                            dbo.collection("timetable").insertOne({"day" : day, "date" : date, "time" : formatHour, "animalName": req.body.nameModif, "staffName": nameEmployee, "task" : taskDone})
                         }
                     }else{ 
                         dbo.collection("timetable").deleteOne({"day" : day, "date" : date, "time" : formatHour, "staffName": req.body.nameModif})    //supprime si existe déjà 
