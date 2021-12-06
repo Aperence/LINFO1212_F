@@ -13,12 +13,10 @@
 
 /** Cadres se trouvant au sommet de la page et contenant le nom et la description de l'animal/employé ainsi que la date actuelle */
 .BoxBorder{
-    border: solid 5px rgb(33, 120, 3);
-    background-color: rgb(61, 208, 103);
-    padding: 15px;
-    border-radius: 25px;
+    padding: 10px;
+    border-radius: 15px;
     justify-content: center;
-    width: 100%;
+    width: 90%;
     margin-top: 7px;
 }
 
@@ -35,8 +33,6 @@
 
 /** Contenant pour la table en entier */
 .tableContent{
-    background-color: rgb(255,255,255);
-    border: 3px solid rgb(63,89,133);
     margin-bottom: 20px;
     align-items: center;
     justify-content: center;
@@ -69,18 +65,10 @@ td{
 /** Boutons se trouvant dans le pop-up et qui permet de l'ouvrir/fermer/soumettre */
 .buttonModif{
     margin-top: 5px;
-    border: solid 2px rgb(33, 120, 3);
-    background-color: rgb(61, 208, 103);
-    border-radius : 10px;
+    border-radius : 20px;
     text-decoration: none;
-    padding : 3px;
-    margin-left: 5px;
-    height : 31.5px;
+    padding : 4px;
     text-align: center;
-}
-
-.buttonModif:hover{
-    background-color: rgb(71, 197, 107);
 }
 
 /** Cadre contenant le pop-up */
@@ -92,7 +80,6 @@ td{
     display: none;
     z-index: 1;
     margin : 0px;
-    border: 5px solid rgb(33, 120, 3);
     border-radius : 10px;
     flex-direction: column;
     align-items: center;
@@ -122,13 +109,6 @@ input[type="range"]{
     -webkit-appearance: none !important;
     background: rgb(166,166,166);
     height: 7px;
-}
-
-input[type='range']::-webkit-slider-thumb{
-    -webkit-appearance: none !important;
-    background: rgb(4,147,2);
-    height: 10px;
-    width: 10px;
 }
 
 @media (max-width:767px){

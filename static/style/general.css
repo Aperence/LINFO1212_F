@@ -9,7 +9,6 @@
 
 /** contenant pour le contenu de la page */
 .Maincontent{
-  background-color: rgb(255,255,255,0.7);
     margin-left: auto;
     margin-right: auto;
   display: flex;
@@ -17,12 +16,17 @@
   flex-direction: column;
   width: 50%;
   position: relative;
-    border: 3px solid rgb(63,89,133);
   padding: 10px;
   min-height: 665px;
   min-width: 500px;
     margin-top: 20px;
     margin-bottom: 20px;
+}
+
+input[type='range']::-webkit-slider-thumb{
+    -webkit-appearance: none !important;
+    height: 15px;
+    width: 15px;
 }
 
 /** Images de fond utilisées sur cette page */

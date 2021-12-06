@@ -168,7 +168,7 @@ function renderTimeTableAdmin(timeTable, listAnimalStaff, isAnimal, request, doc
     var renderedTimeTable = `<table>
                                 <input type="hidden" id="dateModif" name="dateModif" value = '${request.query.date}/${request.query.day}'>
                                 <tr>
-                                    <th>Status</th>
+                                    <th>Statut</th>
                                     <th>Heure</th>
                                     <th>Assignation</th>
                                     <th>Tâche</th>
