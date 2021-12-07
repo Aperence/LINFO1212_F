@@ -5,27 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
 
-    <link href="style/bootstrap.min.css" rel="stylesheet">
-    <link rel = "stylesheet" href = "style/general.css">
+    <link rel="stylesheet" href="style/bootstrap.min.css">
+    <link rel="stylesheet" href="style/general.css">
     <link rel="stylesheet" href="../style/log.css">
-    <link rel = "stylesheet" href = "style/{{Mode}}Version.css">
+    <link rel="stylesheet" href="style/{{Mode}}Version.css">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/scripts/log.js" type="text/javascript"></script>
 
     <title>Inscription</title>
 
+
+
 </head>
 <body onload="loadUpnav(), loadError(), loadHour()">
     <div id="upnav"></div>
 <div class="flex-box">
 <input type="hidden" value="{{error}}" id="error">
-<!--formulaire pour les animaux-->
+
+
+
+<!-- Formulaire pour ajouter les animaux -->
 <form action="createAnimal.html" method="post" class="midbox">
     <div class="BoxBorder flex-box"><h1>Ajouter un animal</div>
 
@@ -35,10 +39,12 @@
     <label for="descriptionAnimal"><b>Description</b></label>
     <input type="text" id="descriptionAnimal" name="descriptionAnimal" required>
     
-    <button type="submit" class = "buttonModif">Enregistrer</button>
+    <button type="submit" class="buttonModif">Enregistrer</button>
 </form>
 
-<!--formulaire pour les employés-->
+
+
+<!-- Formulaire pour ajouter les employés -->
 <form action="createEmployee.html" method="post" class="midbox">
     <div class="BoxBorder flex-box"><h1>Ajouter un employé</div>
 
@@ -49,21 +55,20 @@
     <input type="text" id="descriptionEmployee" name="descriptionEmployee" required>
 
     <label for="startHour"><b>Horaire<span id="horaire"></span></b></label>
-    <input type="range" id="startHour" name="startHour" value="12" min="0" max="23.5" step="0.5" oninput="loadHour()">
-    <input type="range" id="endHour" name="endHour" value="12" min="0" max="23.5" step="0.5" oninput="loadHour()">
+    <input type="range" id="startHour" name="startHour" value="12" min="0" max="23.5" step="0.5" oninput="loadHour()"> <!-- Sélection de l'heure -->
+    <input type="range" id="endHour" name="endHour" value="12" min="0" max="23.5" step="0.5" oninput="loadHour()"> <!-- Sélection de l'heure -->
 
     <label for="connmdp"><b>Mot de passe </b><input type="checkbox" onclick="AfficherMDP()"><sup>Voir</sup></label>
-    <!-- Empêche d'entrer des espaces-->
-    <input type="password" id="connmdp" name="connmdp" onchange="checkmdp()" onkeypress="return event.charCode != 32" required>
+    <input type="password" id="connmdp" name="connmdp" onchange="checkmdp()" onkeypress="return event.charCode!=32" required> <!-- Empêche d'entrer des espaces -->
 
     <label for="confmdp"><b>Répétez le mot de passe</b></label>
-    <!-- Empêche d'entrer des espaces-->
-    <input type="password" id="confmdp" name="confmdp" onchange="checkmdp()" onkeypress="return event.charCode != 32" required>
+    <input type="password" id="confmdp" name="confmdp" onchange="checkmdp()" onkeypress="return event.charCode!=32" required> <!-- Empêche d'entrer des espaces -->
+
     <button type="submit" class = "buttonModif">Enregistrer</button>
 </form>
 </div>
 
-<img  class="Border" style="background-image : url(/images/{{imageMode}})">
+<img class="Border" style="background-image:url(/images/{{imageMode}})">
 
 </body>
 </html>

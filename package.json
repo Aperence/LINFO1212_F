@@ -32,11 +32,14 @@
     "fs": "^0.0.1-security",
     "hogan": "^1.0.2",
     "https": "^1.0.0",
-    "jest": "^27.3.1",
     "mongodb": "^4.1.4",
     "multer": "^1.4.3",
     "path": "^0.12.7",
+    "pirates": "^4.0.3",
     "selenium": "^2.20.0",
-    "selenium-webdriver": "^4.0.0"
+    "selenium-webdriver": "^4.1.0"
+  },
+  "devDependencies": {
+    "jest": "^27.4.3"
   }
 }

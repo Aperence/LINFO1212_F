@@ -47,6 +47,8 @@ input[type="range"]{
     width: 90%;
     -webkit-appearance: none !important;
     height: 7px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /** Curseur sur les barres */
