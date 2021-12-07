@@ -188,10 +188,10 @@ function renderTimeTableAdmin(timeTable, listAnimalStaff, isAnimal, request, doc
         nameList = returnNameSelectionAccordingStatus(timeTable[i].status, isAnimal, listAnimalStaff, strActualHour, timeTable[i].name, documentTimetable)
 
         renderedTimeTable += `<tr>
-                                <td style="min-width: 50px;">${status}</td>
-                                <td style="min-width: 100px;">${timeTable[i].time}</td>
-                                <td style="min-width: 180px;">${nameList}</td>
-                                <td style="min-width: 120px;">${taskList}</td>
+                                <td>${status}</td>
+                                <td>${timeTable[i].time}</td>
+                                <td>${nameList}</td>
+                                <td>${taskList}</td>
                              </tr>`
     }
     renderedTimeTable += "</table>"

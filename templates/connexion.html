@@ -27,7 +27,7 @@
 <input type="hidden" value="{{error}}" id="error">
 <!--formulaire de connexion-->
 <form action="connexion.html" method="post" class="box">
-    <h1>Se connecter</h1>
+    <div class="BoxBorder flex-box"><h1>Se connecter</div>
 
     <label for="nameEmployee"><b>Nom_Prénom</b></label>
     <input type="text" id="nameEmployee" name="nameEmployee" required>
@@ -35,7 +35,7 @@
     <label for="connmdp"><b>Mot de passe </b><input type="checkbox" onclick="AfficherMDP()"><sup>Voir</sup></label>
     <!-- Empêche d'entrer des espaces-->
     <input type="password" id="connmdp" name="connmdp" onkeypress="return event.charCode != 32" required>
-    <button type="submit" class = "link-report upperbox">Se connecter</button>
+    <button type="submit" class = "buttonModif">Se connecter</button>
 
 </form>
 </div>

@@ -1,99 +1,104 @@
-/**
-*  Fichier css concernant le style sombre des pages
-*/
+/** Fichier css pour le style sombre des pages */
 
+
+/** Couleurs du sites */
+:root {
+  --translucid: rgb(0, 0, 0, 0.8);
+  --border: rgb(70, 180, 180);
+  --background: rgb(30, 30, 50);
+  --input: rgb(70, 70, 90);
+  --inputhover: rgb(60, 60, 60);
+}
+
+/** Cadre principal de la page (translucide) */
 .Maincontent{
-    border: 3px solid rgb(63,89,133);
-    background-color: rgb(25, 39, 45 , 0.7);
-    color: azure;
+    border: 3px solid var(--border);
+    background-color: var(--translucid);
+    color: white;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-body{
-    background-color: #2e3039;
-}
-
-.tableContent{
-    border: 3px solid rgb(63,89,133);
-    background-color: rgb(40, 40, 40);
-}
-
-input[type='range']::-webkit-slider-thumb{
-    background-color: rgb(63,89,133);
-}
-
-/** Cadres se trouvant au sommet de la page et contenant le nom et la description de l'animal/employé ainsi que la date actuelle */
+/** Grands cadres arrondis */
 .BoxBorder{
-    border: 3px solid rgb(63,89,133);
-    background-color: rgb(40, 44, 60);
+    border: 3px solid var(--border);
+    background-color: var(--background);
 }
 
-/** select de la page de modification des horaires d'animaux/employés */
-select{
-    background-color: rgb(30, 30, 30);
-    color: white;
-}
-
-/** input pour la page de connexion et d'inscription */
-input{
-    background-color: rgb(40, 40, 40);
-    color: white;
-}
-
-/** Sélectionne tous les inputs de la page sauf la barre de recherche de la barre de navigation supérieure */
-input:not(:first-child):hover, select:hover{    
-    background-color: rgb(60, 60, 60);
-}
-
-/** Sélectionne tous les boutons de la page sauf celui de la barre de navigation supérieure */
-button:nth-child(n+3){
-    background-color: rgb(60, 60, 60);
-    color: white;
-}
-
-button:nth-child(n+3):hover{
-    background-color: rgb(76, 76, 76);
-}
-
-/* cadres pour la connexion et l'inscription */
-.box, .midbox{
-    background-color: rgb(25, 39, 45 , 0.7);
-    color :white
-}
-
-textarea{
-    background-color: rgb(40,40,40);
-    color: white;
-}
-
-/** Style des placeholder se trouvant dans les barres de recherche */
-::placeholder { 
-    color: rgb(220, 220, 220);
-    opacity: 1; 
-}
-
-:-ms-input-placeholder { 
-    color: rgb(220, 220, 220);
-}
-
-::-ms-input-placeholder { 
-    color: rgb(220, 220, 220);
-}
-
+/** Fenêtre qui apparait sur la page d'attribution des heures */
 .popup{
-    border: 5px solid rgb(63,89,133);
-    background-color: #2e3039;
+    border: 5px solid var(--border);
+    background-color: var(--background);
     color: white;
 }
 
+/** Table contenant l'attribution des heures */
+.tableContent{
+    border: 3px solid var(--border);
+    background-color: var(--background);
+}
+
+/** Endroits où l'on peut taper du texte */
+textarea{
+    background-color: var(--input);
+    color: white;
+}
+
+/** Endroits à remplir dans les formulaires */
+input{
+    background-color: var(--input);
+    color: white;
+}
+
+/** Selections sur la page d'attribution des heures */
+select{
+    background-color: var(--background);
+    color: white;
+}
+
+/** Changement de couleur quand on passe sur les sélections */
+select:hover{
+    background-color: var(--inputhover);
+}
+
+/** Barres pour sélectionner les heures */
+input[type="range"]{
+    background: var(--input);
+}
+
+/** Curseur sur les barres */
+input[type='range']::-webkit-slider-thumb{
+    background-color: var(--border);
+}
+
+
+/** Cadres de tailles différentes pour la connexion et l'inscription */
+.box, .midbox{
+    background-color: var(--translucid);
+    border: 3px solid var(--border);
+    color: white;
+}
+
+/** Boutons utilisés sous des formulaires */
 .buttonModif{
-    border: 3px solid rgb(63,89,133);
+    border: 3px solid var(--border);
     color: white;
-    background-color : rgb(70, 74, 90);
+    background-color: var(--input);
 }
 
+/** Changement de couleur quand on passe sur les boutons */
 .buttonModif:hover{
     color: white;
-    background-color : rgb(90, 94, 110);
+    background-color: var(--inputhover);
 }
 
+/** Boutons utilisés sous des formulaires */
+.submitButton{
+    border: 3px solid var(--border);
+    color: white;
+    background-color: var(--input);
+}
+
+/** Changement de couleur quand on passe sur les boutons */
+.submitButton:hover{
+    background-color: var(--inputhover);
+}

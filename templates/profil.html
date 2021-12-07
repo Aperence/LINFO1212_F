@@ -27,26 +27,26 @@
 <input type="hidden" value="{{error}}" id="error">
 
 <cadre class="box">
-    <h1>Informations de profil</h1>
+    <div class="BoxBorder flex-box"><h1>Informations de profil</div>
 
     <label for="nameEmployee"><b>Nom_Prénom</b><span>{{name}}</span></label>
 
     <form action="modifDescription.html" method="post" class="box2">
     <label for="descriptionEmployee"><b>Description</b></label>
     <input type="text" id="descriptionEmployee" name="descriptionEmployee" value="{{description}}" placeholder="Tapez votre description ici" required>
-    <button type="submit" class = "link-report upperbox">Enregistrer</button>
+    <button type="submit" class = "buttonModif">Enregistrer</button>
     </form>
 
     <form action="modifPassword.html" method="post" class="box2">
     <label for="password"><b>Mot de passe </b><input type="checkbox" onclick="AfficherMDP()"><sup>Voir</sup></label>
     <input type="password" id="connmdp" name="connmdp" placeholder="Tapez votre nouveau mot de passe ici" onkeypress="return event.charCode != 32" required>
-    <button type="submit" class = "link-report upperbox">Enregistrer</button>
+    <button type="submit" class = "buttonModif">Enregistrer</button>
     </form>
 
     <form action="modifPicture.html" method="post" class="box2" enctype="multipart/form-data">
     <label for="picture"><b>Photo de profil</b><br><center><img src="{{picture}}" style="max-width:81%; max-height : 400px;"></center></label>
     <input type="file" id="picture" name="picture" accept="image/png, image/jpeg" required>
-    <button type="submit" class = "link-report upperbox" onclick="checkoldmdp()">Enregistrer</button>
+    <button type="submit" class = "buttonModif">Enregistrer</button>
     </form>
 
     <label for="admin"><b>Administrateur ?</b><span>{{admin}}</span></label>

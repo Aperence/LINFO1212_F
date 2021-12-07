@@ -129,7 +129,7 @@ function makeRenderObject(isAnimal, name, request){
     var month = date.getMonth();
     var year = date.getFullYear();
     var ListNextWeek = calculateListNextWeek(date);
-    var renderName = isAnimal ? "Nom de l'animal : " +  name : "Nom de l'employé : " + name
+    var renderName = isAnimal ? "Nom de l'animal : " +  name : "Nom_Prénom de l'employé : " + name
     var error = request.session.error || ""
     if (error){
         request.session.error = ""

@@ -1,23 +1,12 @@
-/**
-*   Fichier css relatifs à la page dataModifiers.js
-*/
+/** Fichier css pour la page dataModifiers.js */
 
 /** contenant pour les cadres .BoxBorder (voir ci-dessous) afin que ceux-ci soient affichés en colonne*/
 .NameDateBorder{
     width: 90%;
     flex-direction: column;
     justify-content: space-between;
-    margin : 20px 0px;
+    margin: 20px 0px;
     align-items: center;
-}
-
-/** Cadres se trouvant au sommet de la page et contenant le nom et la description de l'animal/employé ainsi que la date actuelle */
-.BoxBorder{
-    padding: 10px;
-    border-radius: 15px;
-    justify-content: center;
-    width: 90%;
-    margin-top: 7px;
 }
 
 /** image de l'animal/employé chargé grâce à la base de données */
@@ -31,6 +20,10 @@
     margin: 10px;
 }
 
+.BoxBorder{
+    width: 80%;
+}
+
 /** Contenant pour la table en entier */
 .tableContent{
     margin-bottom: 20px;
@@ -41,7 +34,7 @@
 
 /** Modifications des bordures des cellules de la table */
 table, th, td{
-    border : solid 1px black;
+    border: solid 2px black;
     border-collapse: collapse;
     text-align: center;
 }
@@ -51,7 +44,8 @@ th{
 }
 
 td{
-    height : 50px;
+    width: 180px;
+    height: 50px;
 }
 
 /** Style du bouton de soumission */
@@ -62,29 +56,20 @@ td{
     border-radius: 30px;
 }
 
-/** Boutons se trouvant dans le pop-up et qui permet de l'ouvrir/fermer/soumettre */
-.buttonModif{
-    margin-top: 5px;
-    border-radius : 20px;
-    text-decoration: none;
-    padding : 4px;
-    text-align: center;
-}
-
 /** Cadre contenant le pop-up */
 .popup{
     position: fixed;
-    width : 50%;
-    left : 25%;
-    top : calc(15% + 72px);
+    width: 50%;
+    left: 25%;
+    top: calc(15% + 72px);
     display: none;
     z-index: 1;
-    margin : 0px;
-    border-radius : 10px;
+    margin: 0px;
+    border-radius: 10px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding : 20px;
+    padding: 20px;
     flex-wrap: wrap;
 }
 
@@ -99,42 +84,18 @@ td{
 }
 
 /** input de description */
-#desc , input[type="text"]{
-    width : 80%;
+#desc, input[type="text"]{
+    width: 80%;
 }
 
-/** barre pour sélectionner l'heure */
-input[type="range"]{
-    width: 90%;
-    -webkit-appearance: none !important;
-    background: rgb(166,166,166);
-    height: 7px;
-}
+@media (max-width: 767px){
 
-@media (max-width:767px){
-
-    /** suppression des bordures sur petit écran */
     .Maincontent{
         width: 90%;
-        left: 0%;
-
     }
 
     .popup{
-        width : 70%;
-        left : 15%;
-        top : calc(15% + 72px);
-    }
-}
-
-@media (max-width:500px){
-    .popup{
-        width : 99%;
-        left : 1%;
-        top : calc(15% + 72px);
-    }
-
-    input[type="file"]{
-        width : 135px;
+        width: 70%;
+        left: 15%;
     }
 }
