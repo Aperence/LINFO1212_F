@@ -61,5 +61,5 @@ La liste des commandes est la suivante :
 ### Fichiers de tests Jest
 Nous avons également réalisés des fichiers de test Jest pour tester de manière plus approfondie les fonctionnalités de notre site.
 Pour lancer ces tests et s'assurer du bon fonctionnement du site, vous n'avez qu'à lancer la commande suivant en vous trouvant de le dossier LINFO1212_F : 
-```npm test```
+```npm test```. Attention, pour pouvoir faire tourner ces tests, assurez vous d'abord que la base de données est vide grâce à la commande /tools/clear citée juste au dessus et puis rajouter les fichiers d'exemple avec mongoimport (nécessaire pour pouvoir se connecter en admin afin d'accéder au site).
 
