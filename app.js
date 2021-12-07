@@ -5,10 +5,6 @@ var bodyParser = require("body-parser");
 var https = require('https');
 var fs = require('fs');
 var session = require('express-session');
-var Server = require('mongodb').Server;
-const multer = require("multer");
-const path = require("path");
-const bcrypt = require("bcryptjs");
 
 var dataModifs = require("./views/dataModifiers")
 var DBTools = require('./views/databaseTools')

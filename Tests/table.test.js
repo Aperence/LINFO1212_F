@@ -1,3 +1,9 @@
+/**
+ * 
+ * Suite de test sur la modifications des horaires dans la table et des attributions de tâches à des employés/animaux
+ * 
+ */
+
 require('chromedriver');
 
 const {Builder,By,Key,Util,  until} = require('selenium-webdriver');
@@ -147,7 +153,7 @@ describe('Execute tests on modifs pages', () => {
     expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
     await driver.wait( async ()=>{
       MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
-          db.db('site').collection("timetable").find({time : "05:30"}).toArray((err,doc)=>{
+          db.db('site').collection("timetable").find({time : listHour[Hourindex]}).toArray((err,doc)=>{
             assert(doc.length>0,"Requête non aboutie : l'objet n'a pas été ajouté")
           })
       })

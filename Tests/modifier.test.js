@@ -1,3 +1,11 @@
+/**
+ * 
+ * Suite de test sur le fonctionnement du pop-up permettant de modifier la description des employés et animaux,
+ * l'heure de fin et de début d'horaire des employés et si les employés sont admins ou non
+ * 
+ */
+
+
 require('chromedriver');
 
 const {Builder,By,Key,Util,  until} = require('selenium-webdriver');
