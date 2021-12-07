@@ -31,6 +31,26 @@
             <div class = "BoxBorder flex-box" > Horaire des tâches à faire sur animaux</div>
             <div class = "BoxBorder flex-box" id="clockDisplay"></div>
 
+            <div class="schedule" style="display: block;">
+                <input type="hidden" id="cat" value={{cat}}>
+                <input type="hidden" id="sort" value={{sort}}>
+                <table class="scheduleTable">
+                    <thead class="scheduleTableHead">
+                        <tr class="scheduleTableHeaderRow">
+                            <th>  </th>
+                            <th> animal</th>
+                            <th> Incomplet le</th>
+                        </tr>
+                    </thead>
+                    <tbody class="scheduleTable-Body"></tbody>
+                    {{#list}}
+                    <tr>
+                        <td style="text-align: center;">{{animal}}</td>
+                        <td style="text-align: center;">{{date}}</td>
+                    </tr>
+                {{/list}}
+                </table>
+            </div>
     <input type="hidden" id="error" value="{{error}}">
 </body>
         
