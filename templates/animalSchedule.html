@@ -44,14 +44,20 @@
                     </thead>
                     <tbody class="scheduleTable-Body"></tbody>
                     {{#list}}
-                    <tr>
-                        <td style="text-align: center;">{{animal}}</td>
-                        <td style="text-align: center;">{{date}}</td>
+                    <tr> 
+                        <td style="text-align: center; max-width : 80px" class="status"><i class="{{status1}}" style="{{status2}}"></i></td>
+                        <td style="text-align: center; min-width : 200px"><a href="{{nameLink}}">{{name}}</td>
+                        <td style="text-align: center; min-width : 220px">{{date}}</td>
                     </tr>
-                {{/list}}
+                    {{/list}}
                 </table>
             </div>
+            <div>{{#numlist}}
+                <a href={{ref}} value={{main}}>{{number}}</a>
+                {{/numlist}}
+            </div>
     <input type="hidden" id="error" value="{{error}}">
+    <img  class="Border" style="background-image : url(/images/{{imageMode}})">
 </body>
         
 </html>
