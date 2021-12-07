@@ -35,7 +35,7 @@
 /** Boutons utilisés sous des formulaires */
 .buttonModif{
     cursor: pointer;
-    margin-top: auto;
+    margin-top: 5px;
     border-radius: 20px;
     text-decoration: none;
     padding: 4px;
@@ -47,6 +47,8 @@ input[type="range"]{
     width: 90%;
     -webkit-appearance: none !important;
     height: 7px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /** Curseur sur les barres */
@@ -80,4 +82,8 @@ input[type='range']::-webkit-slider-thumb{
 
 ::-ms-input-placeholder { 
     color: rgb(220, 220, 220);
+}
+
+a{
+    text-decoration: none;
 }
