@@ -64,6 +64,11 @@ input[type="range"]{
     background: var(--input);
 }
 
+/** Changement de couleur quand on passe sur les barres */
+input[type="range"]:hover{
+    background: var(--inputhover);
+}
+
 /** Curseur sur les barres */
 input[type='range']::-webkit-slider-thumb{
     background-color: var(--border);
