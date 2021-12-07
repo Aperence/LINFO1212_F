@@ -56,20 +56,25 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             if (req.session.picture){
                icon = `<img style="height:40px; width:40px; background-image:url(${req.session.picture}); background-size: cover;">`
             }
-            var connectedLink = "/log/profil"   // provisoire
+            var connectedLink = "/log/profil"
             var connected = "Profil"
+            var horaireLink = "/modif/staffmodif?name="+req.session.name
             var displaydeco = "opacity:1;"
+            var horairedisplay = "opacity:1;"
         }else{
-            var connectedLink = "/log/connexion"   // provisoire
+            var connectedLink = "/log/connexion"
             var connected = "Connexion"
+            var horaireLink = ""
             var displaydeco = "opacity:1;display:none"
+            var horairedisplay = "opacity:1;display:none"
         }
         if (req.session.isAdmin){
             var display =  "opacity:1;"
         }else{
             var display = "opacity:1;display:none"
         }
-        return res.render("upnavSite.html", {userIcon : icon, ConnectionLink : connectedLink, Connected : connected, display : display, displaydeco : displaydeco})
+        console.log(horairedisplay, horaireLink)
+        return res.render("upnavSite.html", {userIcon : icon, ConnectionLink : connectedLink, HoraireLink : horaireLink, Connected : connected, display : display, displaydeco : displaydeco, horairedisplay : horairedisplay})
     })
 
     app.get('/ChangeMode', (req,res)=>{
