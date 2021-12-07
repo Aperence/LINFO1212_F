@@ -89,8 +89,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                                 return res.render("animalSchedule.html", {error : "Aucun résultat trouvé en particulier"})   // à changer
                             }
                             else{
-                                // displaySchedule(result_search)
-                                res.redirect("/")
+                                //createTable.returnPages(finalResult, req, docTimetable, req.session.sorted)
                             }
                         })
                     })
@@ -99,31 +98,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         })
 
     })
-
-    app.get("/animalSchedule",(req,res)=>{
-        req.query.num = req.query.num || req.session.num || "1"   // si pas de numéro de page défini, charge la première page
-        req.session.num = req.query.num
-        var sortOrder = parseInt(req.session.sort) || 0  //pas de tri par défaut
-        var search = req.session.search
-        if (sortOrder){
-           var item ={}
-            if(req.session.cat ="name"){
-                item = {"name" : req.session.sort}
-            } 
-            
-            dbo.collection("animal").find(search).sort(item).collation({ locale: "en", caseLevel: true }).toArray((err,doc) =>{
-                if (err) {console.log(err)}
-                if (req.session.cat=="isAvailable"){
-                   doc = createTable.sorted(doc)
-                }
-                return res.render("animalSchedule.html",createTable.returnPages(doc,req,lenght))})
-        }
-        dbo.collection("animal").find({}).toArray((err,doc)=>{
-            if (err) {console.log(err)}
-            return res.render("animalSchedule.html",createTable.returnPages(doc,req,lenght))})
-        })
-
-    
+ 
 
     // ajouts de routeurs
     app.use("/modif",dataModifs.dataModifiers)

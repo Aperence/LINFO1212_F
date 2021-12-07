@@ -1,5 +1,6 @@
 //3 first functions made by @Aperence
 
+const { comprisedBetween } = require("./modifierMethods")
 const modifHelp = require("./modifierMethods")
 
 const length = 20    //nombre d'animaux affiché par page
@@ -117,62 +118,61 @@ function getListForAnimal(name, timetable, isAnimal){
     return ret
 }
 
-
-function defineState(listTime){
-    if (listTime.length >= 336){
-        return ['bx bxs-check-circle','color:#29f40a']
-    }
-    return  ['bx bx-x-circle bx-tada','color:#fa0000']
-}
-
-
-function defineDate(listTime){
+function defineDateStatus(listTime, isAnimal, Employee){
     var date = new Date()
     var count = date.getDay()
     const DayList = ["Dimanche","Lundi" , "Mardi" , "Mercredi" , "Jeudi", "Vendredi" , "Samedi" ]  
     for (let day = 0; day < 7; day++) {
         for (let hour = 0; hour < 24; hour++) {
             for (let halfHour = 0; halfHour < 60; halfHour+=30) {
-                var hasNotHour = true
-                var countItem = 0
-                for (let index = 0; index < listTime.length; index++) {
-                    countItem = index
-                    if (listTime[index].day === DayList[(count+day)%7] && listTime[index].time === modifHelp.formatHourString([hour,halfHour])){
-                        hasNotHour = false
-                        break;
+                if (!isAnimal){
+                    var formatedStartHour = modifHelp.formatHour(Employee.startHour)
+                    var formatedEndHour = modifHelp.formatHour(Employee.endHour)
+                    if (!modifHelp.comprisedBetween(formatedStartHour, formatedEndHour, [hour,halfHour])){
+                        continue
                     }
                 }
-                listTime.splice(1, countItem)
+                var hasNotHour = true
+                for (let item of listTime) {
+                    if (item.day === DayList[(count+day)%7] && item.time === modifHelp.formatHourString([hour,halfHour])){
+                        hasNotHour = false
+                        break
+                    }
+                }
                 if (hasNotHour){
                     var newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + day)
-                    return `${DayList[(count+day)%7]} ${newDate.getDate()}`
+                    return [['bx bx-x-circle bx-tada','color:#fa0000'],`${DayList[(count+day)%7]} ${newDate.getDate()}`, 336 - 48*day - 2*hour - halfHour]
                 }
             }
         }
     }
-    return "Complet"
+    return [['bx bxs-check-circle','color:#29f40a'],"Complet", -1]
 }
 
-function defineNameLink(name){
-    return `/modif/animalmodif?name=${name}`
+function defineNameLink(name, isAnimal){
+    if (isAnimal){
+        return `/modif/animalmodif?name=${name}`
+    }
+    return `/modif/staffmodif?name=${name}`
 }
 
-function formatRenderObjects(doc, timetable){
+function formatRenderObjects(doc, timetable, isAnimal){
     var ret = []
     for (let index = 0; index < doc.length; index++) {
         var name = doc[index].name
-        var nameLink = defineNameLink(name)
-        var listTime = getListForAnimal(name, timetable, true)
-        var temp = defineState(listTime)
-        var element = temp[0]
-        var color = temp[1]
-        var date = defineDate(listTime)
-        ret.push({status1 : element, status2 : color,  nameLink : nameLink, name : name, date : date})
+        var nameLink = defineNameLink(name, isAnimal)
+        var listTime = getListForAnimal(name, timetable, isAnimal)
+        var temp = defineDateStatus(listTime, isAnimal , doc[index])
+        var element = temp[0][0]
+        var color = temp[0][1]
+        var date = temp[1]
+        var sortIndex = temp[2]
+        ret.push({status1 : element, status2 : color,  nameLink : nameLink, name : name, date : date, sortIndex : sortIndex})
     }
     return ret
 }
 
-function returnPages(doc,req, timetable){
+function returnPages(doc, req, timetable, sorted=null){
     /**
      * @pre : doc : la liste des animaux (triés ou non)
      * @pre : req : la variable permettant de déterminer les requêtes ayant été faites (notamment le numéro de page)
@@ -181,15 +181,40 @@ function returnPages(doc,req, timetable){
      */ 
     num = get_num(doc,length,parseInt(req.query.num))  // retourne la liste des numéros de page avec les bons liens
     num_page = calc_pagenum(doc,length)   // calcule le nombre de numéros de page
+    doc = formatRenderObjects(doc, timetable, req.session.isAnimal)
+    if (req.session.isAnimal){
+        options = [{"value" : true, "title" : "Animal"}, {"value" : false, "title" : "Employé"}]
+    }else{
+        options = [{"value" : false, "title" : "Employé"}, {"value" : true, "title" : "Animal"}]
+    }
+    if (sorted){
+        doc.sort((o1,o2)=>{
+            return sorted*(o1.sortIndex - o2.sortIndex)
+        })
+    }
     doc = doc.slice((req.query.num-1)*length,(req.query.num-1)*length+length)   //prend les éléments de [numéro_page: numéro_page+length_claims]  => affiche seulement 1 page (nombre incident arbitraire) et pas toute base données
-    doc = formatRenderObjects(doc, timetable)
     return {     //retourne l'objet pour remplir la template
         "cat" : req.session.cat,
         "sort" : req.session.sort,
         "list" : doc,
         "numlist" : num,
         "Mode" : req.session.theme,
-        "imageMode" : req.session.theme + ".jpg"
+        "imageMode" : req.session.theme,
+        "options" : options
+    }
+}
+
+function displaySearch(docSearched, req){
+    num = get_num(docSearched, length, parseInt(req.session.num))  // retourne la liste des numéros de page avec les bons liens
+    num_page = calc_pagenum(docSearched, length)   // calcule le nombre de numéros de page
+    doc = doc.slice((req.query.num-1)*length,(req.query.num-1)*length+length)   //prend les éléments de [numéro_page: numéro_page+length_claims]  => affiche seulement 1 page (nombre incident arbitraire) et pas toute base données
+    return {     //retourne l'objet pour remplir la template
+        "cat" : req.session.cat,
+        "sort" : req.session.sort,
+        "list" : doc,
+        "numlist" : num,
+        "Mode" : req.session.theme,
+        "imageMode" : req.session.theme,
     }
 }
 

@@ -23,7 +23,7 @@
     <title>Horaire animaux </title>
 
 </head>
-<body onload="loadUpnav(),loadTime(), loadError()">
+<body onload="loadUpnav(),loadTime(), loadError(), rotate()">
     <div id="upnav"></div>
     <div class="Maincontent">
 
@@ -34,12 +34,17 @@
             <div class="schedule" style="display: block;">
                 <input type="hidden" id="cat" value={{cat}}>
                 <input type="hidden" id="sort" value={{sort}}>
+                <select onchange="loadTableAnimalEmployee()" id="tableSelection">
+                    {{#options}}
+                    <option value="{{value}}">{{title}}</option>
+                    {{/options}}
+                </select>
                 <table class="scheduleTable">
                     <thead class="scheduleTableHead">
                         <tr class="scheduleTableHeaderRow">
                             <th>  </th>
-                            <th> animal</th>
-                            <th> Incomplet le</th>
+                            <th> animal <a onclick="changeSort('name')"><img src="/images/right-arrow-solid-{{imageMode}}.png" id="name" style="width : 15px"></a></th>
+                            <th> Incomplet le <a onclick="changeSort('isAvailable')"><img src="/images/right-arrow-solid-{{imageMode}}.png" id="isAvailable" style="width : 15px"></a></th>
                         </tr>
                     </thead>
                     <tbody class="scheduleTable-Body"></tbody>
@@ -51,13 +56,17 @@
                     </tr>
                     {{/list}}
                 </table>
+                <div>
+                    <a href="/schedule/decreaseNum"><img src="/images/left-arrow-{{imageMode}}.png" style="width : 20px"></a>
+                    {{#numlist}}
+                    <a href={{ref}} value={{main}}>{{number}}</a>
+                    {{/numlist}}
+                    <a href="/schedule/increaseNum"><img src="/images/right-arrow-{{imageMode}}.png" style="width : 20px"></a>
+                </div>
             </div>
-            <div>{{#numlist}}
-                <a href={{ref}} value={{main}}>{{number}}</a>
-                {{/numlist}}
-            </div>
+
     <input type="hidden" id="error" value="{{error}}">
-    <img  class="Border" style="background-image : url(/images/{{imageMode}})">
+    <img  class="Border" style="background-image : url(/images/{{imageMode}}.jpg)">
 </body>
         
 </html>

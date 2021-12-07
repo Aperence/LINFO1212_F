@@ -81,3 +81,7 @@ input[type='range']::-webkit-slider-thumb{
 ::-ms-input-placeholder { 
     color: rgb(220, 220, 220);
 }
+
+a{
+    text-decoration: none;
+}
