@@ -9,7 +9,7 @@
   "scripts": {
     "prestart": "mongod --dbpath database&",
     "start": "node app.js",
-    "test": "jest"
+    "test": "jest --detectOpenHandles"
   },
   "repository": {
     "type": "git",

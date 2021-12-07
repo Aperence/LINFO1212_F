@@ -1,6 +1,6 @@
 {
     "name" : "Georges",
-    "password" : "test",
+    "password" : "$2a$08$R27f0iKs4H2ziBqPC9BMD.vKZq5sTinaG/OMm56zWN/3tgjJXqZ9e", 
     "description" : "En vacances",
     "admin" : true,
     "startHour" : "00:00",

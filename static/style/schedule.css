@@ -8,7 +8,6 @@
     flex-direction: column;
     width: 75%;
     position: relative;
-    left: 12.5%;
     min-height: 50vw;
     min-width: 500px;
 }
