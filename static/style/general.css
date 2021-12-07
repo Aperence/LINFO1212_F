@@ -35,7 +35,7 @@
 /** Boutons utilisés sous des formulaires */
 .buttonModif{
     cursor: pointer;
-    margin-top: 5px;
+    margin-top: auto;
     border-radius: 20px;
     text-decoration: none;
     padding: 4px;
