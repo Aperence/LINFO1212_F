@@ -110,3 +110,15 @@ input[type='range']::-webkit-slider-thumb{
 a{
     color : white
 }
+
+a:hover{
+    color : white
+}
+
+.true{
+    background-color: rgb(82, 194, 162);
+}
+
+.true:hover{
+    background-color: rgb(40, 143, 114);
+}

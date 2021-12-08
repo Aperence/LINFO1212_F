@@ -18,7 +18,7 @@ function calc_pagenum(list,length){
     return num_page
 }
 
-function get_num(list,length,actual=0){
+function get_num(list,length,actual=1){
     /**
      * @pre : list : la liste des incidents
      * @pre : length : la longueur d'une page (le nombre d'incidents affiché par page)
@@ -28,10 +28,13 @@ function get_num(list,length,actual=0){
     num_page = calc_pagenum(list,length)
     var lst = []
     if (num_page<=6){     // si moins de 6 pages, affiche tous les numéros à la suite
-        for (var i = 1; i<=num_page;i++){
+        for (var num = 1; num<=num_page;num++){
+            var main = num==actual
             lst.push({
-                "ref" : `display?num=${i}`,
-                "number" : i})
+                "ref" : `display?num=${num}`,
+                "number" : num, 
+                'main' : main
+            })
         }
         return lst
     }
@@ -42,13 +45,10 @@ function get_num(list,length,actual=0){
     // Si on est au début des numéros de pages, affiche tous ceux du début à la suite ex:  1 2 3 4 ... n-1 n
     if (actual<=5){
         for (var i = 1; i<actual+3;i++){
-            if (i==actual){
-                lst.push({"ref" : `display?num=${i}`,
-                "number" : i, "main" : "true"})
-                continue;
-            }
+            var main = i==actual
             lst.push({"ref" : `display?num=${i}`,
-            "number" : i, 'main' : "false"})
+            "number" : i, 
+            "main" : main})
         }
         lst.push({"ref" : "#",
         "number" : "...", 'main' : "false"})
@@ -67,13 +67,10 @@ function get_num(list,length,actual=0){
         lst.push({"ref" : "#",
         "number" : "...", 'main' : "false"})
         for (var i = actual-2; i<actual+3;i++){
-            if (i==actual){
-                lst.push({"ref" : `display?num=${i}`,
-                "number" : i, 'main' : "true"})
-                continue;
-            }
+            var main = i==actual
             lst.push({"ref" : `display?num=${i}`,
-                        "number" : i, 'main' : "false"})
+            "number" : i, 
+            'main' : main})
         }
 
         lst.push({"ref" : "#",
@@ -92,13 +89,10 @@ function get_num(list,length,actual=0){
         lst.push({"ref" : "#",
         "number" : "...", 'main' : "false"})
         for (var i = actual-2; i<=num_page;i++){
-            if (i==actual){
-                lst.push({"ref" : `display?num=${i}`,
-                "number" : i, 'main' : "true"})
-                continue;
-            }
+            var main = i==actual
             lst.push({"ref" : `display?num=${i}`,
-                        "number" : i, 'main' : "false"})
+            "number" : i, 
+            'main' : main})
         }
     }
     //retourne la liste contenant les string des références des numéros de page ainsi que leur chiffre
@@ -177,7 +171,7 @@ function returnPages(doc, req, timetable, sorted=null){
      * @pre : sortpages : l'ordre de tri (par défaut : pas de tri)
      * @post : retourne un objet json pour pouvoir remplir la template associée
      */ 
-    num = get_num(doc,length,parseInt(req.query.num))  // retourne la liste des numéros de page avec les bons liens
+    num = get_num(doc,length,parseInt(req.session.num))  // retourne la liste des numéros de page avec les bons liens
     num_page = calc_pagenum(doc,length)   // calcule le nombre de numéros de page
     doc = formatRenderObjects(doc, timetable, req.session.isAnimal)
     if (req.session.isAnimal){
@@ -209,21 +203,6 @@ function returnPages(doc, req, timetable, sorted=null){
         "error" : error
     }
 }
-
-function displaySearch(docSearched, req){
-    num = get_num(docSearched, length, parseInt(req.session.num))  // retourne la liste des numéros de page avec les bons liens
-    num_page = calc_pagenum(docSearched, length)   // calcule le nombre de numéros de page
-    doc = doc.slice((req.query.num-1)*length,(req.query.num-1)*length+length)   //prend les éléments de [numéro_page: numéro_page+length_claims]  => affiche seulement 1 page (nombre incident arbitraire) et pas toute base données
-    return {     //retourne l'objet pour remplir la template
-        "cat" : req.session.cat,
-        "sort" : req.session.sort,
-        "list" : doc,
-        "numlist" : num,
-        "Mode" : req.session.theme,
-        "imageMode" : req.session.theme,
-    }
-}
-
 
 module.exports = {
     "returnPages" : returnPages,

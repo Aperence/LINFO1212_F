@@ -68,6 +68,15 @@ select{
     margin-top : 15px
 }
 
+.true, .false{
+    display: inline-block;
+    width : 15px;
+    text-align : center;
+}
+.true{
+    border-radius: 3px;
+}
+
 @media (max-width:700px){
 
     .Maincontent{
