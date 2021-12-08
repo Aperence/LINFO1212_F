@@ -32,7 +32,6 @@
             <div class = "BoxBorder flex-box" > Horaire des tâches à faire sur animaux</div>
             <div class = "BoxBorder flex-box" id="clockDisplay"></div>
 
-            <div class="schedule">
                 <input type="hidden" id="cat" value={{cat}}>
                 <input type="hidden" id="sort" value={{sort}}>
                 <select onchange="loadTableAnimalEmployee()" id="tableSelection">
@@ -61,7 +60,6 @@
                     {{/numlist}}
                     <a href="/schedule/increaseNum"><img src="/images/right-arrow-{{imageMode}}.png" style="width : 20px"></a>
                 </div>
-            </div>
 
     <input type="hidden" id="error" value="{{error}}">
     <img  class="Border" style="background-image : url(/images/{{imageMode}}.jpg)">
