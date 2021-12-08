@@ -1,3 +1,5 @@
+/** Fichier contenant le code côté client de la page 404.html */
+
 function loadPage(){
     /**
      * @pre : -

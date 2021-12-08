@@ -1,3 +1,5 @@
+/** Routeur pour la page principale du site (animalSchedule.html) montrant tous les animaux */
+
 const express = require('express');
 const router = express.Router();
 var MongoClient = require('mongodb').MongoClient

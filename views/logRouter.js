@@ -1,3 +1,5 @@
+/** Routeur pour les pages de gestion et créations de profils (profil, inscription et connexion.html) */
+
 const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
