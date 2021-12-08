@@ -21,6 +21,12 @@
     margin-bottom: 20px;
 }
 
+table, th, td{
+    border: solid 2px black;
+    border-collapse: collapse;
+    text-align: center;
+}
+
 /** Grands cadres arrondis */
 .BoxBorder{
     padding: 10px;

@@ -2,10 +2,6 @@
 *   Fichier css de la page d'affichage des animaux et des employés
 */
 
-#upnav{
-    min-width: 500px;
-}
-
 .NameDateBorder{
     width: 90%;
     flex-direction: column;
@@ -15,13 +11,7 @@
 }
 
 .BoxBorder{
-    border: solid 5px rgb(33, 120, 3);
-    background-color: rgb(61, 208, 103);
-    padding: 15px;
-    border-radius: 25px;
-    justify-content: center;
-    width: 100%;
-    margin-top: 7px;
+    width: 80%;
 }
 
 .dbpicture{
@@ -30,23 +20,9 @@
     margin: 10px;
 }
 
-.schedule{
-    display : flex;
-    background-color: rgb(255,255,255);
-    border: 3px solid rgb(63,89,133);
-    margin-bottom: 20px;
-    margin-top: 20px;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    padding :10px;
-    justify-content: center;
-}
-
 /** Modifications des bordures des cellules de la table */
 table, th, td{
-    border : solid 1px black;
+    border : solid 2px black;
     border-collapse: collapse;
     text-align: center; 
     width : 100%;
@@ -57,11 +33,12 @@ th{
 }
 
 td{
+    width: 180px;
     height : 50px;
 }
 
 select{
-    margin : 15px 0;
+    margin : 15px;
 }
 
 .numlist{
@@ -77,10 +54,9 @@ select{
     border-radius: 3px;
 }
 
-@media (max-width:700px){
+@media (max-width:767px){
 
     .Maincontent{
-        width: 100%;
-        left: 0%;
+        width: 90%;
     }
 }
