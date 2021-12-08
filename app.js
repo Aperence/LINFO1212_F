@@ -13,7 +13,6 @@ var AniSchRouter = require('./views/animalScheduleRouter')
 
 
 var searchHelp = require('./server_scripts/search');
-var createTable = require('./server_scripts/displayTable');
 
 var app = express ();
 
@@ -50,6 +49,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     app.get("/upnavSite",(req,res)=>{
         var icon = "<i class='bx bxs-user-account bx-md' style='color:white'></i>"
         if (req.session.connected){
+            console.log("Photo", req.session.picture)
             if (req.session.picture){
                icon = `<img style="height:40px; width:40px; background-image:url(${req.session.picture}); background-size: cover;">`
             }
@@ -70,7 +70,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         }else{
             var display = "opacity:1;display:none"
         }
-        console.log(horairedisplay, horaireLink)
         return res.render("upnavSite.html", {userIcon : icon, ConnectionLink : connectedLink, HoraireLink : horaireLink, Connected : connected, display : display, displaydeco : displaydeco, horairedisplay : horairedisplay})
     })
 
@@ -88,13 +87,15 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
                             var result_search = searchHelp.search(docAnimalTF.concat(docEmployeeTF), req.query.search, docTimetable)
                             var finalResult = searchHelp.merge(docAnimal, docEmployee, result_search)  // les résultats avec l'index apparaissent en premier
-                            console.log(finalResult)
 
                             if (finalResult.length === docAnimalTF.concat(docEmployeeTF).length){
-                                return res.render("animalSchedule.html", {error : "Aucun résultat trouvé en particulier"})   // à changer
+                                req.session.error = "Aucun résultat trouvé en particulier"
+                                return res.redirect("/")
                             }
                             else{
-                                //createTable.returnPages(finalResult, req, docTimetable, req.session.sorted)
+                                req.session.searchResult = finalResult
+                                req.session.searched = req.query.search
+                                return res.redirect("/")
                             }
                         })
                     })
@@ -104,6 +105,14 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     })
  
+    app.get("/clearsession", (req,res)=>{
+        req.session.searched = undefined
+        req.session.searchResult = undefined
+        req.session.sort = undefined
+        req.session.cat = undefined
+        req.session.num = undefined
+        res.redirect("/")
+    })
 
     // ajouts de routeurs
     app.use("/modif",dataModifs.dataModifiers)

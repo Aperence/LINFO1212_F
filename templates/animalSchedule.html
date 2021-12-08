@@ -8,6 +8,7 @@
     <link href="style/bootstrap.min.css" rel="stylesheet">
     <link rel = "stylesheet" href = "style/general.css">
     <link rel = "stylesheet" href = "style/schedule.css">
+    <link rel = "stylesheet" href = "style/{{Mode}}Version.css">
 
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
@@ -31,7 +32,7 @@
             <div class = "BoxBorder flex-box" > Horaire des tâches à faire sur animaux</div>
             <div class = "BoxBorder flex-box" id="clockDisplay"></div>
 
-            <div class="schedule" style="display: block;">
+            <div class="schedule">
                 <input type="hidden" id="cat" value={{cat}}>
                 <input type="hidden" id="sort" value={{sort}}>
                 <select onchange="loadTableAnimalEmployee()" id="tableSelection">
@@ -40,26 +41,23 @@
                     {{/options}}
                 </select>
                 <table class="scheduleTable">
-                    <thead class="scheduleTableHead">
-                        <tr class="scheduleTableHeaderRow">
-                            <th>  </th>
-                            <th> animal <a onclick="changeSort('name')"><img src="/images/right-arrow-solid-{{imageMode}}.png" id="name" style="width : 15px"></a></th>
-                            <th> Incomplet le <a onclick="changeSort('isAvailable')"><img src="/images/right-arrow-solid-{{imageMode}}.png" id="isAvailable" style="width : 15px"></a></th>
-                        </tr>
-                    </thead>
-                    <tbody class="scheduleTable-Body"></tbody>
+                    <tr>
+                        <th style="text-align: center; min-width : 40px; max-width: 80px;">-</th>
+                        <th style="text-align: center; min-width : 200px"> animal <a onclick="changeSort('name')"><img src="/images/right-arrow-solid-{{imageMode}}.png" id="name" style="width : 15px"></a></th>
+                        <th style="text-align: center; min-width : 180px"> Incomplet le <a onclick="changeSort('isAvailable')"><img src="/images/right-arrow-solid-{{imageMode}}.png" id="isAvailable" style="width : 15px"></a></th>
+                    </tr>
                     {{#list}}
                     <tr> 
-                        <td style="text-align: center; max-width : 80px" class="status"><i class="{{status1}}" style="{{status2}}"></i></td>
+                        <td style="text-align: center; min-width : 40px"><i class="{{status1}}" style="{{status2}}"></i></td>
                         <td style="text-align: center; min-width : 200px"><a href="{{nameLink}}">{{name}}</td>
-                        <td style="text-align: center; min-width : 220px">{{date}}</td>
+                        <td style="text-align: center; min-width : 180px">{{date}}</td>
                     </tr>
                     {{/list}}
                 </table>
-                <div>
+                <div class="numlist">
                     <a href="/schedule/decreaseNum"><img src="/images/left-arrow-{{imageMode}}.png" style="width : 20px"></a>
                     {{#numlist}}
-                    <a href={{ref}} value={{main}}>{{number}}</a>
+                    <a href={{ref}} class={{main}}>{{number}}</a>
                     {{/numlist}}
                     <a href="/schedule/increaseNum"><img src="/images/right-arrow-{{imageMode}}.png" style="width : 20px"></a>
                 </div>

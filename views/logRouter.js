@@ -38,7 +38,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             dbo.collection("employee").find({name : req.session.name}).toArray((err,doc)=>{
                 var aName = doc[0].name;
                 var aDescription = doc[0].description;
-                console.log(aDescription)
                 var aAdmin = doc[0].admin;
                 var aStartHour = doc[0].startHour;
                 var aEndHour = doc[0].endHour;
@@ -132,21 +131,17 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     // fonction du formulaire de connexion
     router.post('/connexion.html', function(req,res,next){
-        console.log(req.body.nameEmployee , req.body.connmdp)
         if (req.body.nameEmployee != null && req.body.connmdp != null){
             console.log("Compte cherché : ", req.body.nameEmployee, req.body.connmdp)
             dbo.collection("employee").find({name : req.body.nameEmployee}).toArray((err,doc)=>{
-                console.log(doc)
                 if (doc.length===0){
                   req.session.error = "Utilisateur inexistant.";
                   res.redirect(req.session.lastpage)
                 }
                 else{
                     pwd = doc[0].password;
-                    console.log(pwd);
                     const verifPassword =  bcrypt.compareSync(req.body.connmdp, pwd);
                     console.log("Connected" , req.body.nameEmployee , pwd)
-                    console.log(verifPassword);
                     if (verifPassword){
                         req.session.connected = true;
                         req.session.name = req.body.nameEmployee;
@@ -190,7 +185,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     countElement = files.length;   // regarde le nombre d'images dans le dossier
 
                     var tempPath = req.file.path;
-                    console.log(tempPath)
                     if (doc[0].picture ){
                         var targetPath = path.join(__dirname, `.././static/` + doc[0].picture);  // doit changer encore le nom pour qu'il soit unique
                     }else{
@@ -198,8 +192,8 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     }
 
                     var urlDestination = doc[0].picture || `./uploads/${countElement+1}image.png`
-                    console.log(targetPath)
                     req.session.picture = urlDestination
+                    console.log("Uploadé : ", urlDestination,"\t", req.session.picture)
 
                     fs.rename(tempPath, targetPath, err =>{   //ajoute l'image au dossier upload se trouvant dans static
                         if (err) return err
@@ -219,7 +213,8 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     dbo.collection('employee').updateOne({name : req.session.name},{$set: {picture : urlDestination}})
                 })
             }
-        res.redirect(req.session.lastpage)
+            setTimeout(()=>res.redirect(req.session.lastpage), 100)  // laisse le temps de charger l'image dans la upnav
+            
         });
     })
 

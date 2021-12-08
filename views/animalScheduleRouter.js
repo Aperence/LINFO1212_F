@@ -22,12 +22,14 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         var search = req.session.search
         var collection = req.session.isAnimal ? "animal" : "employee"
         dbo.collection("timetable").find({}).toArray((err, docTimetable)=>{
+            if (req.session.searched && !req.session.error){
+                return res.render("animalSchedule.html",createTable.returnPages(req.session.searchResult,req, docTimetable, sortOrder))
+            }
             if (sortOrder){
                 var item = {}
                  if(req.session.cat === "name"){
                      item = {"name" : req.session.sort}
                  } 
-                 
                  dbo.collection(collection).find(search).sort(item).collation({ locale: "en", caseLevel: true }).toArray((err,doc) =>{
                      req.session.numberPages = displayHelp.calc_pagenum(doc,length)
                      if (err) {console.log(err)}

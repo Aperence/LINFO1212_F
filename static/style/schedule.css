@@ -2,13 +2,7 @@
 *   Fichier css de la page d'affichage des animaux et des employés
 */
 
-.Maincontent{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 75%;
-    position: relative;
-    min-height: 50vw;
+#upnav{
     min-width: 500px;
 }
 
@@ -37,6 +31,7 @@
 }
 
 .schedule{
+    display : flex;
     background-color: rgb(255,255,255);
     border: 3px solid rgb(63,89,133);
     margin-bottom: 20px;
@@ -45,16 +40,16 @@
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    padding :10px
+    padding :10px;
+    justify-content: center;
 }
 
 /** Modifications des bordures des cellules de la table */
 table, th, td{
     border : solid 1px black;
     border-collapse: collapse;
-    text-align: center;
-    width: 100%;
-    
+    text-align: center; 
+    width : 100%;
 }
 
 th{
@@ -63,6 +58,14 @@ th{
 
 td{
     height : 50px;
+}
+
+select{
+    margin : 15px 0;
+}
+
+.numlist{
+    margin-top : 15px
 }
 
 @media (max-width:700px){

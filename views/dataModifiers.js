@@ -202,6 +202,9 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                         })
                     });
                     dbo.collection(collect).updateOne({name : req.body.name},{$set: {picture : urlDestination}})
+                    if (req.session.name === req.body.name){
+                        req.session.picture = urlDestination
+                    }
                 })
             }
 

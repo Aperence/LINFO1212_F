@@ -105,13 +105,10 @@ function get_num(list,length,actual=0){
     return lst
 }
 
-function getListForAnimal(name, timetable, isAnimal){
+function getListForAnimal(name, timetable){
     var ret = []
     for (let item of timetable){
-        if (isAnimal && item.animalName === name){
-            ret.push(item)
-        }
-        if (!isAnimal && item.staffName === name){
+        if (item.animalName === name || item.staffName === name){
             ret.push(item)
         }
     }
@@ -156,12 +153,13 @@ function defineNameLink(name, isAnimal){
     return `/modif/staffmodif?name=${name}`
 }
 
-function formatRenderObjects(doc, timetable, isAnimal){
+function formatRenderObjects(doc, timetable){
     var ret = []
     for (let index = 0; index < doc.length; index++) {
         var name = doc[index].name
+        var isAnimal = doc[index].password === undefined // le mot de passe est d'office rempli => permet de déterminer si c'est un animal ou un employé
         var nameLink = defineNameLink(name, isAnimal)
-        var listTime = getListForAnimal(name, timetable, isAnimal)
+        var listTime = getListForAnimal(name, timetable)
         var temp = defineDateStatus(listTime, isAnimal , doc[index])
         var element = temp[0][0]
         var color = temp[0][1]
@@ -193,6 +191,13 @@ function returnPages(doc, req, timetable, sorted=null){
         })
     }
     doc = doc.slice((req.query.num-1)*length,(req.query.num-1)*length+length)   //prend les éléments de [numéro_page: numéro_page+length_claims]  => affiche seulement 1 page (nombre incident arbitraire) et pas toute base données
+    var error = ""
+    if (req.session.error){
+        error = req.session.error
+        req.session.error = undefined
+        req.session.searched = undefined
+        req.session.searchResult = undefined
+    }
     return {     //retourne l'objet pour remplir la template
         "cat" : req.session.cat,
         "sort" : req.session.sort,
@@ -200,7 +205,8 @@ function returnPages(doc, req, timetable, sorted=null){
         "numlist" : num,
         "Mode" : req.session.theme,
         "imageMode" : req.session.theme,
-        "options" : options
+        "options" : options,
+        "error" : error
     }
 }
 
