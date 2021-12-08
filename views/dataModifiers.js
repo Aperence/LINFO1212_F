@@ -22,11 +22,9 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     // renvoie la page staffmodif (modification des horaires d'un animal)
     router.get("/animalmodif",(req,res)=>{
-        /** 
         if (!req.session.connected){
             return res.redirect('/log/connexion')
         }
-        */
         if (!req.query.name){
             return res.redirect("/")
         }
@@ -40,11 +38,9 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     // renvoie la page staffmodif (modification des horaires d'un employé)
     router.get("/staffmodif",(req,res)=>{
-        /** 
         if (!req.session.connected){
             return res.redirect('/log/connexion')
         }
-        */
         if (!req.query.name){
             return res.redirect("/")
         }

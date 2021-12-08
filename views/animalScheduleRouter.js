@@ -11,6 +11,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db("site")
 
     router.get("/animalSchedule",(req,res)=>{
+        if (req.session.name){
         req.session.theme = req.session.theme || "light"
         req.session.lastpage = prefix + "/animalSchedule"
         req.query.num = req.query.num || req.session.num || 1   
@@ -47,7 +48,10 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     return res.render("animalSchedule.html",createTable.returnPages(doc,req, docTimetable))
                 })
              }
-        })
+        })}
+        else{
+            res.redirect("/log/connexion")
+        }
     })
 
     router.get("/display", (req,res)=>{
