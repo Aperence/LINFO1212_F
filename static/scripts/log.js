@@ -1,3 +1,5 @@
+/** Fichier contenant le code côté client des pages connexion, inscription et profil.html */
+
 function loadError(){
     /**
      * @pre : #error : le message d'erreur envoyé par serveur.js

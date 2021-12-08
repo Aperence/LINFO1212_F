@@ -1,3 +1,5 @@
+/** Fichier contenant le code côté client de la page animalStaffModification.html */
+
 function loadUpnav(){
   /**
    * @pre : -

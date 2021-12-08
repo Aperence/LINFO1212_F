@@ -1,3 +1,6 @@
+/** Routeur pour la page de modification des horaires et d'affichage de ceux-ci 
+ *(+ modification des caractéristiques des animaux/employés) concernant animalStaffModification.html*/
+
 const express = require('express');
 const router = express.Router();
 var MongoClient = require('mongodb').MongoClient
@@ -31,7 +34,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             return res.redirect("/")
         }
         modifierHelp.updateDB(dbo)
-        req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
+        req.session.isAdmin = req.session.isAdmin || false
         req.session.lastpage = prefix + "/animalmodif" + (req.query.name ? `?name=${req.query.name}` : "")    // utilisé pour rediriger après changement de couleur/mode
         req.session.theme = req.session.theme || "light"
         var renderObject = modifierHelp.makeRenderObject(true,req.query.name,req, dbo);
@@ -49,7 +52,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             return res.redirect("/")
         }
         modifierHelp.updateDB(dbo)
-        req.session.isAdmin = req.session.isAdmin || true // !!!!!!!!changer
+        req.session.isAdmin = req.session.isAdmin || false
         req.session.lastpage = prefix + "/staffmodif" + (req.query.name ? `?name=${req.query.name}` : "") 
         req.session.theme = req.session.theme || "light"
         var renderObject = modifierHelp.makeRenderObject(false,req.query.name,req, dbo);

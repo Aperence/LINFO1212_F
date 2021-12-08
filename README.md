@@ -40,7 +40,7 @@ Pour tester le bon fonctionnement de notre site, nous avons utilisé divers moye
 
 ### Fichiers d'exemple
 
-Dans le dossier database_example, vous pourrez trouver 3 fichiers JSON contenant des exemples basiques l'éléments de la base de données.
+Dans le dossier database_example, vous pourrez trouver 3 fichiers JSON contenant des exemples basiques d'éléments de la base de données.
 Pour la ajouter à la base de données, il vous suffit de lancer les commandes suivantes dans votre invite de commande à partir du dossier database_example: 
 ```bash
 mongoimport -d site -c animal exampleAnimal.json
@@ -53,7 +53,7 @@ Vous aurez ainsi inséré quelques petits examples pour tester le site.
 
 Nous avons aussi, toujours dans une optique de test, rajouté des fonctions accessibles depuis le navigateur pour manipuler la base de données.
 Celles-ci sont accessibles à partir du site en tapant le lien : ```https://localhost:8080/tools/(commande)```.
-Attention, veillez à désativer ces fonctionnalités lorsque le serveur est en ligne pour éviter à tout utilisateur de pouvoir modifier drastiquement la base de données, en supprimant la ligne ou en la mettant en commentaire ```app.use("/tools", DBTools.DBTools)``` du fichier app.js.
+Attention, veillez à désativer ces fonctionnalités lorsque le serveur est en ligne pour éviter à tout utilisateur de pouvoir modifier drastiquement la base de données, en supprimant la ligne ou en la mettant en commentaire ```app.use("/tools", DBTools.DBTools)``` du fichier app.js. Ces fonctions doivent donc servir uniquement à pouvoir débugger le site et en aucun cas être mises à la disposition des visiteurs du site
 
 La liste des commandes est la suivante : 
 - append : rajoute un certain nombre d'employés, d'animaux et d'affectations aléatoires dans la base de données.
@@ -67,6 +67,6 @@ La liste des commandes est la suivante :
 ### Fichiers de tests Jest
 
 Nous avons également réalisés des fichiers de test Jest pour tester de manière plus approfondie les fonctionnalités de notre site.
-Pour lancer ces tests et s'assurer du bon fonctionnement du site, vous n'avez qu'à lancer la commande suivant en vous trouvant de le dossier LINFO1212_F : 
-```npm test```. Attention, pour pouvoir faire tourner ces tests, assurez vous d'abord que la base de données soit vide grâce à la commande /tools/clear citée juste [au dessus](###Fonctions-de-gestion-de-la-base-de-données-et-de-débuggage) et puis rajouter les fichiers d'exemple avec mongoimport (nécessaire pour pouvoir se connecter en admin afin d'accéder au site).
+Pour lancer ces tests et s'assurer du bon fonctionnement du site, vous n'avez qu'à lancer la commande suivante en vous trouvant dans le dossier LINFO1212_F : 
+```npm test```. Attention, pour pouvoir faire tourner ces tests, assurez vous d'abord que la base de données soit vide grâce à la commande /tools/clear citée juste [au dessus](###Fonctions-de-gestion-de-la-base-de-données-et-de-débuggage) et puis rajoutez les fichiers d'exemple avec mongoimport (nécessaire pour pouvoir se connecter en admin afin d'accéder au site).
 

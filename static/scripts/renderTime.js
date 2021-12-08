@@ -1,5 +1,10 @@
+/** Fichier concernant le code côté client de la page animalScheduler.html */
+
 function renderTime(){
- 
+    /**
+     * @pre : -
+     * @post : affiche la date sur la page animalSchedule.html
+     */
     // Date
   
     var date = new Date()
@@ -44,17 +49,30 @@ function renderTime(){
     }
 
 function loadTime(){
+  /**
+   * @pre : -
+   * @post : charge la date sur la page animalSchedule.html et la met à jour chaque seconde
+   */
   renderTime()
   setInterval(()=>renderTime(), 1000)
 }
 
 function loadTableAnimalEmployee(){
+  /**
+   * @pre : -
+   * @post : permet d'échanger entre la table d'affichage des animaux et des employés
+   */
   var select = document.getElementById("tableSelection")
   var option = select.options[select.selectedIndex].value
   window.location = `/schedule/animalSchedule?isAnimal=${option}&modifIsAnimal=true`
 }
 
 function rotate(){
+  /**
+   * @pre : -
+   * @post : effectue une rotation des flèches se trouvant au dessus du tableau en fonction de
+   * la catégorie (cat) de tri et de l'ordre (sort) de tri
+   */
   var cat = document.getElementById("cat").value
   var sort = document.getElementById("sort").value
   $("#"+cat).css('-webkit-transform',`rotate(${90*sort}deg)`); 
@@ -63,6 +81,12 @@ function rotate(){
 }
 
 function changeSort(sort){
+  /**
+   * @pre : -
+   * @post : change la catégorie de tri si l'on veut trier selon une autre catégorie,
+   * sinon, si l'on veut trier selon la même catégorie, inverse l'ordre de tri (échange entre
+   * croissant et décroissant)
+   */
   if (document.getElementById("cat").value === sort){
     console.log(document.getElementById("cat").value)
     var sortOrder = parseInt(document.getElementById("sort").value)
