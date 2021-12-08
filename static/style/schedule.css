@@ -10,6 +10,9 @@
     align-items: center;
 }
 
+.BoxBorder{
+    width: 80%;
+}
 
 .dbpicture{
     width: 80%; 
@@ -35,7 +38,7 @@ td{
 }
 
 select{
-    margin : 15px 0;
+    margin : 15px;
 }
 
 .numlist{

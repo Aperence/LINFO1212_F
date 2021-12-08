@@ -17,13 +17,14 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/renderTime.js"></script>
     <script type="text/javascript" src="/scripts/log.js"></script>
     <script type="text/javascript" src="/scripts/modifiersFrontEnd.js"></script>
 
     <title>Modification de l'attribution des {{title}} </title>   <!-- animaux / employés -->
 
 </head>
-<body onload="loadUpnav(), displayTable(), loadDescription(), loadImage(), loadPopup(), loadError(), hideIfNotAdmin()">
+<body onload="loadUpnav(), displayTable(), loadDescription(), loadTime(), loadImage(), loadPopup(), loadError(), hideIfNotAdmin()">
     <div id="upnav"></div>
 
     <form class="flex-box popup" id="popup" action="/modif/updateItem" method="POST" enctype="multipart/form-data">
@@ -62,7 +63,7 @@
             <div class = "BoxBorder flex-box" > {{StaffAnimalName}}</div>
             <div class="BoxBorder flex-box" id="description"></div>
             <img id="picture" class="dbpicture">
-            <div class = "BoxBorder flex-box">Date actuelle : {{ActualDate}}</div>
+            <div class = "BoxBorder flex-box" id="clockDisplay"></div>
             <a onclick="changeAnimalStaff()" id="descModifier" class = "buttonModif">Modifier les caractéristiques</a>
         </div>
 
