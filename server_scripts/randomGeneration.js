@@ -125,7 +125,8 @@ function generateEmployeeName(idx = null){
      * @pre : idx : un int
      * @post : génère un nom d'employé selon l'index idx, si celui-ci n'est pas spécifié, retourne un nom aléatoire
      */
-    const listName = ["Jean", "Michel", "Georges", "Luc", "Exedius", "Rick", "Elvis", "Astley", "Xander", "Takumi", "Simon"]
+    const listName = ["Jean", "Michel", "Luc", "Exedius", "Rick", "Elvis", "Astley", "Xander", "Takumi", "Simon", "Charles", "Olivier", "Pierre", "Julie", "Sandra",
+    "Marie", "Roxanne", "Illia", "Lucie", "Camille", "Lize", "Samuel", "Stéphanie", "Lucas", "Franck"]
     if (idx == null){
         return listName[generateNumber(0,listName.length)]
     }
@@ -140,7 +141,8 @@ function generateAnimalName(idx = null){
      * @pre : idx : un int
      * @post : génère un nom d'animal selon l'index idx, si celui-ci n'est pas spécifié, retourne un nom aléatoire
      */
-    const listAnimal = ["Lion", "Tortue", "Hirondelle", "Chenilles", "Papillons", "Chauve-souris", "Crocodile", "Serpent", "Hyene", "Dauphin"]
+    const listAnimal = ["Lion", "Tortue", "Hirondelle", "Chenilles", "Papillons", "Chauve-souris", "Crocodile", "Serpent", "Hyene", "Dauphin",
+    "Girafe", "Singe", "Gorille", "Baleine", "Requin", "Panda", "Loups", "Elephant", "Poissons", "Wapiti", "Loutre"]
     if (idx == null){
         return listAnimal[generateNumber(0,listAnimal.length)]
     }
