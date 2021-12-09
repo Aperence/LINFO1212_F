@@ -27,6 +27,19 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         res.redirect("/")
     })
 
+    router.get("/addBasicAdmin", (req,res)=>{
+        dbo.collection("employee").insertOne({
+            "name" : "Georges",
+            "password" : "$2a$08$R27f0iKs4H2ziBqPC9BMD.vKZq5sTinaG/OMm56zWN/3tgjJXqZ9e", 
+            "description" : "En vacances",
+            "admin" : true,
+            "startHour" : "00:00",
+            "endHour" : "12:00",
+            "picture" : ""
+        })
+        res.redirect('/')
+    })
+
     // permet de créer un fichier JSON contenant tous les incidents de la base de donnée
     router.get("/serialize", (req,res) =>{
         

@@ -1,59 +1,93 @@
-require('chromedriver');
+/**
+ * 
+ * Suite de test sur le fonctionnement de la page principale
+ * 
+ */
 
-const {Builder,By,Key,Util,  until} = require('selenium-webdriver');
-const script = require('jest');
-const { beforeAll } = require('@jest/globals');
- 
-var url;
+ require('chromedriver');
+
+ const {Builder,By,Key,Util,  until} = require('selenium-webdriver');
+ const script = require('jest');
+ const { beforeAll , afterAll} = require('@jest/globals');
+ const assert = require("assert")
+ const MongoClient = require('mongodb').MongoClient
   
-// // declaring one test group, with common initialisation.
-// describe('Execute tests on localhost', () => {
-
-//   let driver;
-
-//   beforeAll(async () => {    
-//     driver = new Builder().forBrowser("chrome").build();
-//   }, 10000);
+ const url = "https://localhost:8080"
+ const urlAppend = "https://localhost:8080/tools/append"
+ const urlConnect = "https://localhost:8080/log/connexion"
+ const urlAnimal = "https://localhost:8080/modif/animalmodif"
+ const urlEmployee = "https://localhost:8080/modif/staffmodif"
  
-//   afterAll(async () => {
-//     await driver.quit();
-//   }, 15000);
-
-//   jest.setTimeout(300000)
+ 
+ describe('Exécute les tests sur la recherche', () => {
+   let driver;
+ 
+   beforeAll(async () => {    
+     driver = new Builder().forBrowser("chrome").build();   // connecter en admin
+     await driver.get(urlConnect)
+     await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
+     await driver.findElement(By.id("proceed-link")).click()
+     await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+     await driver.findElement(By.id("connmdp")).sendKeys("test")
+     await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
+     await driver.get(urlAppend)
+     return true
+   }, 10000);
   
-//   test("Vérifie que l'on ne peut se connecter avec un mauvais mot de passe", async () => {
-//     await driver.get( url );
-//     await driver.findElement(By.id("details-button")).click()
-//     await driver.findElement(By.id("proceed-link")).click()
-    
-//     await driver.findElement( By.css(".username-container")).click();
-//     await driver.findElement ( By.css (".second")).sendKeys ( "Aperence", Key.TAB)
-//     await driver.findElement ( By.name ("inscmdp")).sendKeys ( "test", Key.TAB)
-//     await driver.findElement ( By.name ("confmdp")).sendKeys ( "test", Key.RETURN)
-//     try{
-//         await driver.switchTo().alert().dismiss();    // si on a déjà ce nom dans la base de donnée
-//         console.warn("Nom d'utilisateur déjà utilisé")
-//     }catch{
-//         await driver.findElement(By.css(".username-container")).click();
-//         await driver.findElement(By.css(".link-report")).click();
-//         console.warn("Nom d'utilisateur créé")
-//     }
-//     await driver.findElement ( By.css (".first")).sendKeys ( "Aperence", Key.TAB)
-    
-//     await driver.findElement ( By.id ("connmdp")).sendKeys ( "test2", Key.ENTER)
-//     await driver.switchTo().alert().dismiss();
-//     let urlDestination = await driver.getCurrentUrl()
-//     console.log(urlDestination)
-//     expect(urlDestination).toContain(url + "/log.html")
+   afterAll(async () => {
+     await driver.quit();
+     return true
+   }, 4000);
+ 
+   jest.setTimeout(3600000)  // laisse 10 minutes max pour tous les tests
+   
+   test("Vérifie que l'on arrive bien sur la page de l'employé en cliquant sur son lien", async () => {
+     await driver.get(url)
+     await driver.wait(async ()=>{
+      try{
+        await driver.findElement(By.id("LinkForTest")).click()
+        return true
+      }catch{
+        return false
+      }
+     }, 1000, "Erreur : la page n'a pas chargé à temps", 100)
+     urlDestination = await driver.getCurrentUrl()
+     expect(urlDestination).toContain(urlEmployee)
+   });
 
-//     await driver.findElement ( By.css (".first")).sendKeys ( "Aperence", Key.TAB)
-    
-//     await driver.findElement ( By.id ("connmdp")).sendKeys ( "test", Key.ENTER)
+   test("Vérifie que l'on arrive bien sur la page de l'animal en cliquant sur son lien", async () => {
+    await driver.get(url)
+    await driver.wait(async ()=>{
+      try{
+        var select = await driver.findElement(By.id("tableSelection"))
+        select.click()
+        select.sendKeys(Key.ARROW_DOWN)
+        select.sendKeys(Key.ENTER)
+        return true
+      }catch{
+        return false
+      }
+     }, 1000, "Erreur : la page n'a pas chargé à temps", 100)
+    await driver.wait(async ()=>{
+     try{
+       await driver.findElement(By.id("LinkForTest")).click()
+       return true
+     }catch{
+       return false
+     }
+    }, 1000, "Erreur : la page n'a pas chargé à temps", 100)
+    urlDestination = await driver.getCurrentUrl()
+    expect(urlDestination).toContain(urlAnimal)
+  });
 
-//     urlDestination = await driver.getCurrentUrl()
-
-//     expect(urlDestination).toContain(url + "/display.html")
-//     //await driver.wait(false, 300000, 'Timed out after 30 seconds', 5000)
-
-//   });
-// });
+  test("Vérifie que l'on peut passer du mode sombre au mode clair", async () => {
+    await driver.get(url)
+    var mode = await driver.findElement(By.id("modeCssTest")).getAttribute("href")
+    assert(mode === url + "/schedule/" + "style/lightVersion.css", `Le site ne charge pas le bon mode au lancement : la css est ${mode} alors qu'elle aurait du être ${url + "/schedule/" + "style/lightVersion.css"}`)
+    await driver.findElement(By.id("changeModeTest")).click()
+    var mode = await driver.findElement(By.id("modeCssTest")).getAttribute("href")
+    assert(mode === url + "/schedule/" + "style/darkVersion.css", `Le site ne change pas de mode en cliquant sur le bouton : la css est ${mode} alors qu'elle aurait du être ${url + "/schedule/" + "style/darkVersion.css"}`)
+    expect(urlDestination).toContain(url)
+  });
+ });
+ 

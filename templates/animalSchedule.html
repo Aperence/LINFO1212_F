@@ -8,7 +8,7 @@
     <link href="style/bootstrap.min.css" rel="stylesheet">
     <link rel = "stylesheet" href = "style/general.css">
     <link rel = "stylesheet" href = "style/schedule.css">
-    <link rel = "stylesheet" href = "style/{{Mode}}Version.css">
+    <link rel = "stylesheet" href = "style/{{Mode}}Version.css" id="modeCssTest">
 
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
@@ -46,9 +46,9 @@
                         <th style="text-align: center; width: 40%"> Incomplet le <a onclick="changeSort('isAvailable')"><img src="/images/right-arrow-solid-{{imageMode}}.png" id="isAvailable" style="width : 15px"></a></th>
                     </tr>
                     {{#list}}
-                    <tr> 
+                    <tr class="ElementForTest"> 
                         <td style="text-align: center; min-width : 40px"><i class="{{status1}}" style="{{status2}}"></i></td>
-                        <td style="text-align: center; min-width : 200px"><a href="{{nameLink}}">{{name}}</td>
+                        <td style="text-align: center; min-width : 200px"><a href="{{nameLink}}" id="LinkForTest">{{name}}</td>
                         <td style="text-align: center; min-width : 180px">{{date}}</td>
                     </tr>
                     {{/list}}

@@ -47,7 +47,7 @@ select{
 
 .true, .false{
     display: inline-block;
-    width : 15px;
+    width : 25px;
     text-align : center;
 }
 .true{

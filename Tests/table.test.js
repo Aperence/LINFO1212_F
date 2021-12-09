@@ -14,7 +14,6 @@ var MongoClient = require('mongodb').MongoClient
  
 var url = "https://localhost:8080/modif"
 var urlAppend = "https://localhost:8080/tools/append"
-var urlClear = "https://localhost:8080/tools/clear"
 var urlConnect = "https://localhost:8080/log/connexion"
 var listHour = ["00:00", "08:00", "16:00"]
 
@@ -30,10 +29,7 @@ describe('Execute tests on modifs pages', () => {
     await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
     await driver.findElement(By.id("connmdp")).sendKeys("test")
     await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
-    await driver.get(urlClear)
-    await driver.get(urlAppend)
-    await driver.get( url + "/staffmodif");
-    
+    await driver.get(urlAppend) 
     return true
   }, 10000);
  
