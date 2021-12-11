@@ -32,6 +32,8 @@ describe('Tests des pages de connexion, inscription, profil', () => {
     await driver.get(urlConnect)
     await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
     await driver.findElement(By.id("proceed-link")).click()
+    await driver.get(url + '/tools/importEmployee')
+    await driver.get(url + '/tools/importAnimal')
     return true
   }, 10000);
 
@@ -43,7 +45,7 @@ describe('Tests des pages de connexion, inscription, profil', () => {
   afterAll(async () => {
     await driver.quit();
     return true
-  }, 10000);
+  }, 4000);
 
   jest.setTimeout(3600000)  // laisse 10 minutes max pour tous les tests
 
@@ -136,7 +138,7 @@ describe('Tests des pages de connexion, inscription, profil', () => {
         })
       });
 
-      test("Vérifie la fonctionnalité du profil des employés", async () => {
+      test("Vérifie la fonctionnalité du profil des employés (modification du mot de passe)", async () => {
 
         await driver.get(urlConnect)
         await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")

@@ -65,11 +65,11 @@ La liste des commandes est la suivante :
     - sauvegarde la collection animal dans animalSave.json
     - sauvegarde la collection employee dans employeeSave.json
     - sauvegarde la collection timetable dans timetableSave.json
-- deserialize : recrée la base de données à partir de 3 fichiers tels que ceux cités dans serialize (JSON avec un attribut list : ensemble des document JSON de la collection)
+- deserialize : recrée la base de données à partir de 3 fichiers tels que ceux cités dans serialize (JSON avec un attribut list : ensemble des document JSON de la collection). Passez l'argument auto=true pour charger la dernière sauvegarde automatique réalisée (```ex : tools/deserialize?auto=true```)
 
 ### Fichiers de tests Jest
 
 Nous avons également réalisés des fichiers de test Jest pour tester de manière plus approfondie les fonctionnalités de notre site.
 Pour lancer ces tests et s'assurer du bon fonctionnement du site, vous n'avez qu'à lancer la commande suivante en vous trouvant dans le dossier LINFO1212_F : 
-```npm test```. Attention, pour pouvoir faire tourner ces tests, assurez vous d'abord que la base de données soit vide grâce à la commande /tools/clear citée juste [au dessus](###Fonctions-de-gestion-de-la-base-de-données-et-de-débuggage) et puis rajoutez les fichiers d'exemple avec mongoimport (nécessaire pour pouvoir se connecter en admin afin d'accéder au site).
+```npm test```.
 

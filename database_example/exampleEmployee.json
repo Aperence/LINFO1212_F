@@ -1,5 +1,5 @@
 {
-    "name" : "Georges",
+    "name" : "Georges_Tel",
     "password" : "$2a$08$R27f0iKs4H2ziBqPC9BMD.vKZq5sTinaG/OMm56zWN/3tgjJXqZ9e", 
     "description" : "En vacances",
     "admin" : true,
@@ -9,7 +9,7 @@
 }
 
 {
-    "name" : "Julien",
+    "name" : "Julien_doré",
     "password" : "test2",
     "description" : "En vacances 2",
     "admin" : false,
@@ -20,7 +20,7 @@
 
 
 {
-    "name" : "Jean",
+    "name" : "Jean_Castex",
     "password" : "test",
     "description" : "En vacances",
     "admin" : true,

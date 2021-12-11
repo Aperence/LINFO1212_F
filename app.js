@@ -14,6 +14,7 @@ var AniSchRouter = require('./views/animalScheduleRouter')
 
 var searchHelp = require('./server_scripts/search');
 const { calc_pagenum } = require("./server_scripts/displayTable");
+const save = require("./server_scripts/save")
 
 var app = express ();
 
@@ -34,6 +35,11 @@ https.createServer({
     passphrase: 'ingi'
   }, app).listen(8080);
 
+
+
+setInterval(()=>{
+    save.saveDB(true)  // auto-save toutes les 5 mins
+}, 300000)
 
 MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     dbo = db.db('site')

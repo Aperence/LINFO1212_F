@@ -31,6 +31,8 @@ describe('Tests de la modifications des caractéristiques des employés/animaux'
     await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
     await driver.findElement(By.id("connmdp")).sendKeys("test")
     await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
+    await driver.get('https://localhost:8080/tools/importEmployee')
+    await driver.get('https://localhost:8080/tools/importAnimal')
     return true
   }, 10000);
  

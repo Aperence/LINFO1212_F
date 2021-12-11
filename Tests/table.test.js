@@ -13,7 +13,7 @@ const assert = require("assert")
 var MongoClient = require('mongodb').MongoClient;
  
 var url = "https://localhost:8080/modif"
-var urlAppend = "https://localhost:8080/tools/append"
+var urlClear = "https://localhost:8080/tools/clear"
 var urlConnect = "https://localhost:8080/log/connexion"
 var listHour = ["00:00", "08:00", "16:00"]
 
@@ -29,10 +29,13 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
     await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
     await driver.findElement(By.id("connmdp")).sendKeys("test")
     await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
+    await driver.get('https://localhost:8080/tools/importEmployee')
+    await driver.get('https://localhost:8080/tools/importAnimal')
     return true
   }, 10000);
  
   afterAll(async () => {
+    await driver.get(urlClear)
     await driver.quit();
     return true
   }, 15000);
@@ -268,12 +271,19 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
     await driver.wait( async ()=>{
-      MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
-          db.db('site').collection("timetable").find({time : "07:30"}).toArray((err,doc)=>{
-            assert(doc.length>0, "Requête non aboutie : l'objet n'a pas été ajouté")
-          })
-      })
-      return true
-    }, 2000, "Requête non aboutie : l'objet n'a pas été ajouté", 500)
+      try{
+        MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
+            db.db('site').collection("timetable").find({time : "07:30"}).toArray((err,doc)=>{
+              
+                assert(doc.length>0, "Requête non aboutie : l'objet n'a pas été ajouté")
+
+            })
+        })
+        return true
+      }catch{
+        return false
+      }
+
+    }, 6000, "Requête non aboutie : l'objet n'a pas été ajouté", 500)
   });
 });
