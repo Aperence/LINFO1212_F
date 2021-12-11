@@ -15,13 +15,12 @@ const assert = require("assert")
 const MongoClient = require('mongodb').MongoClient
 const modifHelp = require("./../server_scripts/modifierMethods")
  
-var url = "https://localhost:8080/modif"
-var urlAppend = "https://localhost:8080/tools/append"
-var urlConnect = "https://localhost:8080/log/connexion"
-var listHour = ["07:00", "12:00", "17:00"]
+const url = "https://localhost:8080/modif"
+const urlConnect = "https://localhost:8080/log/connexion"
+const listHour = ["07:00", "12:00", "17:00"]
 
 
-describe('Execute tests on modifs pages', () => {
+describe('Tests de la modifications des caractéristiques des employés/animaux', () => {
   let driver;
 
   beforeAll(async () => {    
@@ -32,7 +31,6 @@ describe('Execute tests on modifs pages', () => {
     await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
     await driver.findElement(By.id("connmdp")).sendKeys("test")
     await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
-    await driver.get(urlAppend)
     return true
   }, 10000);
  
@@ -111,12 +109,14 @@ describe('Execute tests on modifs pages', () => {
         selection.sendKeys(Key.ARROW_DOWN)  
         return true
         }
-        catch{
-        Hourindex++
-        Hourindex = Hourindex%3
-        return false
+        catch (e){
+            if (e.name == "NoSuchElementError"){  // l'employé ne travaille pas à cette heure
+                Hourindex++;
+                Hourindex = Hourindex%3
+              }
+            return false
         }
-    }, 10000, 'La requête n\'a pas abouti', 1500)
+    }, 4000, 'La requête n\'a pas abouti', 500)
 
     //choisi une tâche
     await driver.wait( async ()=>{

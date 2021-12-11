@@ -10,7 +10,8 @@ const {Builder,By,Key,Util,  until} = require('selenium-webdriver');
 const script = require('jest');
 const { beforeAll , afterAll} = require('@jest/globals');
 const assert = require("assert")
-var MongoClient = require('mongodb').MongoClient
+var MongoClient = require('mongodb').MongoClient;
+const e = require('express');
  
 var url = "https://localhost:8080/modif"
 var urlAppend = "https://localhost:8080/tools/append"
@@ -18,7 +19,7 @@ var urlConnect = "https://localhost:8080/log/connexion"
 var listHour = ["00:00", "08:00", "16:00"]
 
 
-describe('Execute tests on modifs pages', () => {
+describe('Tests de la modifications des horaires des employés/animaux', () => {
   let driver;
 
   beforeAll(async () => {    
@@ -29,12 +30,12 @@ describe('Execute tests on modifs pages', () => {
     await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
     await driver.findElement(By.id("connmdp")).sendKeys("test")
     await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
-    await driver.get(urlAppend) 
     return true
   }, 10000);
  
   afterAll(async () => {
     await driver.quit();
+    return true
   }, 15000);
 
   jest.setTimeout(3600000)  // laisse 10 minutes max pour tous les tests
@@ -50,12 +51,14 @@ describe('Execute tests on modifs pages', () => {
         selection.sendKeys(Key.ARROW_DOWN)
         return true
       }
-      catch{
-        Hourindex++;
-        Hourindex = Hourindex%3
+      catch (e){
+        if (e.name == "NoSuchElementError"){    // l'employé ne travaille pas à cette heure
+          Hourindex++;
+          Hourindex = Hourindex%3
+        }
         return false
       }
-    }, 10000, 'La requête n\'a pas abouti', 1500)
+    }, 4000, 'La requête n\'a pas abouti', 500)
     await driver.wait( async () =>{
       try{
         var submit = await driver.findElement(By.css(".submitButton"))
@@ -66,7 +69,7 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 10000, 'La requête n\'a pas abouti', 1000)
+    }, 4000, 'La requête n\'a pas abouti', 5000)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
   });
@@ -82,12 +85,14 @@ describe('Execute tests on modifs pages', () => {
         selection.sendKeys(Key.ARROW_DOWN)
         return true
       }
-      catch{
-        Hourindex++
-        Hourindex = Hourindex%3
+      catch (e){
+        if (e.name == "NoSuchElementError"){   // l'employé ne travaille pas à cette heure
+          Hourindex++;
+          Hourindex = Hourindex%3
+        }
         return false
       }
-    }, 10000, 'La requête n\'a pas abouti', 1500)
+    }, 4000, 'La requête n\'a pas abouti', 500)
     await driver.wait( async () =>{
       try{
         var submit = await driver.findElement(By.css(".submitButton"))
@@ -98,7 +103,7 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 10000, 'La requête n\'a pas abouti', 1000)
+    }, 4000, 'La requête n\'a pas abouti', 500)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
   });
@@ -115,12 +120,14 @@ describe('Execute tests on modifs pages', () => {
         selection.sendKeys(Key.ARROW_DOWN)  
         return true
       }
-      catch{
-        Hourindex++
-        Hourindex = Hourindex%3
+      catch (e){
+        if (e.name == "NoSuchElementError"){  // l'employé ne travaille pas à cette heure
+          Hourindex++;
+          Hourindex = Hourindex%3
+        }
         return false
       }
-    }, 10000, 'La requête n\'a pas abouti', 1500)
+    }, 4000, 'La requête n\'a pas abouti', 500)
 
     //choisi une tâche
     await driver.wait( async ()=>{
@@ -133,7 +140,7 @@ describe('Execute tests on modifs pages', () => {
       catch{
         return false
       }
-    }, 10000, 'La requête n\'a pas abouti', 2000)
+    }, 4000, 'La requête n\'a pas abouti', 500)
     //envoie la requête
     await driver.wait( async () =>{
       try{
@@ -144,20 +151,21 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 10000, 'La requête n\'a pas abouti', 1000)
+    }, 4000, 'La requête n\'a pas abouti', 500)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
     await driver.wait( async ()=>{
       MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
           db.db('site').collection("timetable").find({time : listHour[Hourindex]}).toArray((err,doc)=>{
+            //vérifie que ajouté à la DB
             assert(doc.length>0,"Requête non aboutie : l'objet n'a pas été ajouté")
           })
       })
       return true
-    }, 10000, "Requête non aboutie : l'objet n'a pas été ajouté", 3000)
+    }, 4000, "Requête non aboutie : l'objet n'a pas été ajouté", 500)
 
 
-    //vérifie que ajouté à la DB
+    
   });
 
 
@@ -173,7 +181,7 @@ describe('Execute tests on modifs pages', () => {
       catch{
         return false
       }
-    }, 10000, 'La requête n\'a pas abouti', 2000)
+    }, 2000, 'La requête n\'a pas abouti', 500)
     await driver.wait( async () =>{
       try{
         var submit = await driver.findElement(By.css(".submitButton"))
@@ -184,7 +192,7 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 10000, 'La requête n\'a pas abouti', 1000)
+    }, 2000, 'La requête n\'a pas abouti', 500)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
   });
@@ -201,7 +209,7 @@ describe('Execute tests on modifs pages', () => {
       catch{
         return false
       }
-    }, 10000, 'La requête n\'a pas abouti', 2000)
+    }, 2000, 'La requête n\'a pas abouti', 500)
     await driver.wait( async () =>{
       try{
         var submit = await driver.findElement(By.css(".submitButton"))
@@ -212,7 +220,7 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 10000, 'La requête n\'a pas abouti', 1000)
+    }, 2000, 'La requête n\'a pas abouti', 500)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
   });
@@ -232,7 +240,7 @@ describe('Execute tests on modifs pages', () => {
       catch{
         return false
       }
-    }, 10000, 'La requête n\'a pas abouti', 2000)
+    }, 2000, 'La requête n\'a pas abouti', 500)
 
     //choisi une tâche
     await driver.wait( async ()=>{
@@ -245,7 +253,7 @@ describe('Execute tests on modifs pages', () => {
       catch{
         return false
       }
-    }, 10000, 'La requête n\'a pas abouti', 2000)
+    }, 2000, 'La requête n\'a pas abouti', 500)
 
     //envoie la requête
     await driver.wait( async () =>{
@@ -257,7 +265,7 @@ describe('Execute tests on modifs pages', () => {
         return false
       }
 
-    }, 5000, 'La requête n\'a pas abouti', 1000)
+    }, 2000, 'La requête n\'a pas abouti', 500)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
     await driver.wait( async ()=>{
@@ -267,6 +275,6 @@ describe('Execute tests on modifs pages', () => {
           })
       })
       return true
-    }, 10000, "Requête non aboutie : l'objet n'a pas été ajouté", 5000)
+    }, 2000, "Requête non aboutie : l'objet n'a pas été ajouté", 500)
   });
 });

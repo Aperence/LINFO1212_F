@@ -10,16 +10,14 @@
  const script = require('jest');
  const { beforeAll , afterAll} = require('@jest/globals');
  const assert = require("assert")
- const MongoClient = require('mongodb').MongoClient
   
  const url = "https://localhost:8080"
- const urlAppend = "https://localhost:8080/tools/append"
  const urlConnect = "https://localhost:8080/log/connexion"
  const urlAnimal = "https://localhost:8080/modif/animalmodif"
  const urlEmployee = "https://localhost:8080/modif/staffmodif"
  
  
- describe('Exécute les tests sur la recherche', () => {
+ describe('Tests de la page principale', () => {
    let driver;
  
    beforeAll(async () => {    
@@ -30,7 +28,6 @@
      await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
      await driver.findElement(By.id("connmdp")).sendKeys("test")
      await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
-     await driver.get(urlAppend)
      return true
    }, 10000);
   
@@ -89,5 +86,36 @@
     assert(mode === url + "/schedule/" + "style/darkVersion.css", `Le site ne change pas de mode en cliquant sur le bouton : la css est ${mode} alors qu'elle aurait du être ${url + "/schedule/" + "style/darkVersion.css"}`)
     expect(urlDestination).toContain(url)
   });
+
+  test("Vérifie que la page est bien triée par nom en appuyant sur le bouton ", async () => {
+    await driver.get(url)
+    await driver.wait(async ()=>{
+     try{
+       await driver.findElement(By.id("sortNameTest")).click()
+       return true
+     }catch{
+       return false
+     }
+    }, 1500, "Erreur : la page n'a pas chargé à temps", 100)
+    var listName;
+    await driver.wait(async ()=>{
+      try{
+        listName = []
+        var iterator = await driver.findElements(By.id("LinkForTest"))
+        for (let elem of iterator){
+          await elem.getText().then((val)=>{    // getText retourne une Promise
+            listName.push(val.toLowerCase())
+          })
+        }
+        return true
+      }catch{
+        return false
+      }
+     }, 2000, "Erreur : la page n'a pas chargé à temps", 100)
+     for (let index = 0; index < listName.length-1; index++) {
+       assert(listName[index]<=listName[index+1], `L'affichage ne trie pas les noms : ${listName[index]} n'est pas inférieur à ${listName[index+1]}`)
+     }
+  });
+
  });
  

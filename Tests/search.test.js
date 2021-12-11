@@ -27,7 +27,6 @@
      await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
      await driver.findElement(By.id("connmdp")).sendKeys("test")
      await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
-     await driver.get(urlAppend)
      return true
    }, 10000);
   
