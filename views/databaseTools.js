@@ -27,6 +27,11 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         res.redirect("/")
     })
 
+    router.get("/deleteOne", (req,res)=>{
+        dbo.collection(req.query.coll).deleteOne({name : req.query.name})
+        return res.redirect("/")
+    })
+
     router.get("/deleteOriginal", (req,res)=>{
         dbo.collection("employee").deleteOne({ name : "__originalAdmin__"});
         if (req.session.name === "__originalAdmin__"){

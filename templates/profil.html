@@ -39,14 +39,14 @@
     <form action="modifDescription.html" method="post" class="box2">
     <label for="descriptionEmployee"><b>Description</b></label>
     <input type="text" id="descriptionEmployee" name="descriptionEmployee" value="{{description}}" placeholder="Tapez votre description ici" required>
-    <button type="submit" class = "buttonModif">Enregistrer</button>
+    <button type="submit" class = "buttonModif" id="descModifTest">Enregistrer</button>
     </form>
 
     <!-- Formulaire pour changer le mot de passe -->
     <form action="modifPassword.html" method="post" class="box2">
     <label for="password"><b>Mot de passe </b><input type="checkbox" onclick="AfficherMDP()"><sup>Voir</sup></label>
     <input type="password" id="connmdp" name="connmdp" placeholder="Tapez votre nouveau mot de passe ici" onkeypress="return event.charCode!=32" required> <!-- Empêche d'entrer des espaces -->
-    <button type="submit" class = "buttonModif">Enregistrer</button>
+    <button type="submit" class = "buttonModif" id="mdpModifTest">Enregistrer</button>
     </form>
 
     <!-- Formulaire pour changer la photo de profil -->

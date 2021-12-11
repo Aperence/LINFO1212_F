@@ -11,7 +11,6 @@ const script = require('jest');
 const { beforeAll , afterAll} = require('@jest/globals');
 const assert = require("assert")
 var MongoClient = require('mongodb').MongoClient;
-const e = require('express');
  
 var url = "https://localhost:8080/modif"
 var urlAppend = "https://localhost:8080/tools/append"

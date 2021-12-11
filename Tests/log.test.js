@@ -1,59 +1,168 @@
-require('chromedriver');
+/**
+ * 
+ * Suite de test sur le fonctionnement des pages de connexion, inscription, profil
+ * 
+ */
+
+ require('chromedriver');
 
 const {Builder,By,Key,Util,  until} = require('selenium-webdriver');
 const script = require('jest');
-const { beforeAll } = require('@jest/globals');
- 
-var url;
+const { beforeAll , afterAll, beforeEach, afterEach} = require('@jest/globals');
+const assert = require("assert")
+const MongoClient = require('mongodb').MongoClient
+const { DBTools } = require('../views/databaseTools');
+const bcrypt = require("bcryptjs");
   
-// // declaring one test group, with common initialisation.
-// describe('Execute tests on localhost', () => {
+ const url = "https://localhost:8080"
+ const urlConnect = "https://localhost:8080/log/connexion"
+ const urlDisconnect = "https://localhost:8080/log/deconnection.html"
+ const urlInscription = "https://localhost:8080/log/inscription"
+ const urlDeleteOne = "https://localhost:8080/tools/deleteOne"
+ const urlProfil = "https://localhost:8080/log/profil"
 
-//   let driver;
 
-//   beforeAll(async () => {    
-//     driver = new Builder().forBrowser("chrome").build();
-//   }, 10000);
- 
-//   afterAll(async () => {
-//     await driver.quit();
-//   }, 15000);
 
-//   jest.setTimeout(300000)
+
+describe('Tests des pages de connexion, inscription, profil', () => {
+  let driver;
+
+  beforeAll(async () => {    
+    driver = new Builder().forBrowser("chrome").build();   
+    await driver.get(urlConnect)
+    await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
+    await driver.findElement(By.id("proceed-link")).click()
+    return true
+  }, 10000);
+
+  afterEach(async()=>{
+    await driver.get(urlDisconnect)
+    return true
+  })
   
-//   test("Vérifie que l'on ne peut se connecter avec un mauvais mot de passe", async () => {
-//     await driver.get( url );
-//     await driver.findElement(By.id("details-button")).click()
-//     await driver.findElement(By.id("proceed-link")).click()
-    
-//     await driver.findElement( By.css(".username-container")).click();
-//     await driver.findElement ( By.css (".second")).sendKeys ( "Aperence", Key.TAB)
-//     await driver.findElement ( By.name ("inscmdp")).sendKeys ( "test", Key.TAB)
-//     await driver.findElement ( By.name ("confmdp")).sendKeys ( "test", Key.RETURN)
-//     try{
-//         await driver.switchTo().alert().dismiss();    // si on a déjà ce nom dans la base de donnée
-//         console.warn("Nom d'utilisateur déjà utilisé")
-//     }catch{
-//         await driver.findElement(By.css(".username-container")).click();
-//         await driver.findElement(By.css(".link-report")).click();
-//         console.warn("Nom d'utilisateur créé")
-//     }
-//     await driver.findElement ( By.css (".first")).sendKeys ( "Aperence", Key.TAB)
-    
-//     await driver.findElement ( By.id ("connmdp")).sendKeys ( "test2", Key.ENTER)
-//     await driver.switchTo().alert().dismiss();
-//     let urlDestination = await driver.getCurrentUrl()
-//     console.log(urlDestination)
-//     expect(urlDestination).toContain(url + "/log.html")
+  afterAll(async () => {
+    await driver.quit();
+    return true
+  }, 10000);
 
-//     await driver.findElement ( By.css (".first")).sendKeys ( "Aperence", Key.TAB)
-    
-//     await driver.findElement ( By.id ("connmdp")).sendKeys ( "test", Key.ENTER)
+  jest.setTimeout(3600000)  // laisse 10 minutes max pour tous les tests
 
-//     urlDestination = await driver.getCurrentUrl()
+      
+      test("Vérifie la fonctionnalité d'inscription employé", async () => {
 
-//     expect(urlDestination).toContain(url + "/display.html")
-//     //await driver.wait(false, 300000, 'Timed out after 30 seconds', 5000)
+            await driver.get(urlDeleteOne + '?coll=employee&name=test_')
+            await driver.get(urlConnect)
+            await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+            await driver.findElement(By.id("connmdp")).sendKeys("test")
+            await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
+            await driver.get(urlInscription)
+            await driver.findElement(By.id("nameEmployee")).sendKeys("test_")
+            await driver.findElement(By.id("descriptionEmployee")).sendKeys("description test")
+            await driver.executeScript("document.getElementById('startHour').value = '10.5'")  // met l'heure à 10:30
+            await driver.executeScript("document.getElementById('endHour').value = '18.0'")  // met l'heure à 18:00
+            await driver.findElement(By.id("connmdp")).sendKeys("password")
+            await driver.findElement(By.id("confmdp")).sendKeys("passwor")
+            urlDestination = await driver.getCurrentUrl()
+            assert(urlDestination === urlInscription, "Les mots de passe sont différents")
+            await driver.findElement(By.id("confmdp")).sendKeys("d")
+            await driver.findElement(By.id("employeeSubTest")).click()
+            urlDestination = await driver.getCurrentUrl()
+            assert(urlDestination === urlInscription, "Problème")
+            var hasElement = false
+            await driver.wait(()=>{
+              MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
+                  dbo = db.db("site")
+                  dbo.collection('employee').find({name : "test_"}).toArray((err,doc)=>{
+                      assert(doc.length>0, "L'élément n'a pas été rajouté")
+                      assert(doc[0].description == "description test", "Description inexacte")
+                      assert(doc[0].startHour == "10:30", "Heure début inexacte")
+                      assert(doc[0].endHour == "18:00", "Heure fin inexacte")
+                      assert(bcrypt.compareSync("password", doc[0].password), "Mot de passe inexact")
+                      hasElement = true
+                  })
+              })
+              if (hasElement){
+                return true
+              }
+            }, 4000, "La requête n'a pas abouti", 500)
 
-//   });
-// });
+      });
+
+      test("Vérifie la fonctionnalité d'inscription animal", async () => {
+
+        await driver.get(urlDeleteOne + '?coll=animal&name=Pingouin')
+        await driver.get(urlConnect)
+        await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+        await driver.findElement(By.id("connmdp")).sendKeys("test")
+        await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
+        await driver.get(urlInscription)
+        await driver.findElement(By.id("nameAnimal")).sendKeys("Pingouin")
+        await driver.findElement(By.id("descriptionAnimal")).sendKeys("Gros pingouin")
+        await driver.findElement(By.id("animalSubTest")).click()
+        urlDestination = await driver.getCurrentUrl()
+        assert(urlDestination === urlInscription, "Problème")
+        var hasElement = false
+        await driver.wait(()=>{
+            MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
+              dbo = db.db("site")
+              dbo.collection('animal').find({name : "Pingouin"}).toArray((err,doc)=>{
+                  assert(doc.length>0, "L'élément n'a pas été rajouté")
+                  hasElement = true
+              })
+            })
+            if (hasElement){
+              return true
+            }
+
+        }, 4000, "La requête n'a pas abouti", 500)
+
+      });
+
+      test("Vérifie la fonctionnalité du profil des employés (modification de la description)", async () => {
+
+        await driver.get(urlConnect)
+        await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+        await driver.findElement(By.id("connmdp")).sendKeys("test")
+        await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
+        await driver.get(urlProfil)
+        var desc = await driver.findElement(By.id("descriptionEmployee")).getAttribute("value")
+        await driver.findElement(By.id("descriptionEmployee")).sendKeys(" pendant une semaine")
+        await driver.findElement(By.id("descModifTest")).click()
+        MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
+            dbo = db.db("site")
+            dbo.collection("employee").find({name : "Georges"}).toArray((err,doc)=>{
+              assert(doc[0].description === desc + " pendant une semaine", `La description n'a pas été modifiée : obtenu ${doc[0].description} , attendu ${desc + " pendant une semaine"}`)
+            })
+        })
+      });
+
+      test("Vérifie la fonctionnalité du profil des employés", async () => {
+
+        await driver.get(urlConnect)
+        await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+        await driver.findElement(By.id("connmdp")).sendKeys("test")
+        await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
+        await driver.get(urlProfil)
+        await driver.findElement(By.id("connmdp")).sendKeys("test2")
+        await driver.findElement(By.id("mdpModifTest")).click()
+        var hasResult = false
+        MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
+            dbo = db.db("site")
+            dbo.collection("employee").find({name : "Georges"}).toArray((err,doc)=>{
+              assert(bcrypt.compareSync("test2", doc[0].password), `Le mot de passe n'a pas été modifiée`)
+              hasResult = true
+            })
+        })
+        await driver.wait(async ()=>{
+          if (hasResult){
+            await driver.findElement(By.id("connmdp")).sendKeys("test")
+            await driver.findElement(By.id("mdpModifTest")).click()
+            return true
+          }
+          return false
+        }, 5000, "La requête n'a pas abouti", 1500)
+      });
+});
+
+
+ 

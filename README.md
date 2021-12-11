@@ -35,7 +35,7 @@ db.employee.createIndex({name: "text" })
 
 Vous pouvez ensuite vous connecter au site en vous rendant dans votre moteur de recherche favori et en vous connectant à l'url suivante ```https://localhost:8080```
 
-N.B. : La connexion à la page principale nécessitant un compte préalable (pour simuler le fait que seuls les employés ont accès au site), nous fournissons un compte secret primordial permettant de créer les premiers comptes admins et accéder ainsi à la gestion propre du site (Nom : ``` __original__admin``` et mot de passe : ```IOpenedTheDoorGently```). Nous vous invitons à le supprimer par la suite (quand vous aurez créé vos premiers comptes admin permettant de gérer le site)en vous rendant à l'url ```https://localhost:8080/tools/deleteOriginal``` en ayant le site lancé
+N.B. : La connexion à la page principale nécessitant un compte préalable (pour simuler le fait que seuls les employés ont accès au site), nous fournissons un compte secret primordial permettant de créer les premiers comptes admins et accéder ainsi à la gestion propre du site (Nom : ``` __originalAdmin__``` et mot de passe : ```IOpenedTheDoorGently```). Nous vous invitons à le supprimer par la suite (quand vous aurez créé vos premiers comptes admin permettant de gérer le site)en vous rendant à l'url ```https://localhost:8080/tools/deleteOriginal``` en ayant le site lancé
 
 ## Méthodes de test
 
