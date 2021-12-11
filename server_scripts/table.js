@@ -79,6 +79,7 @@ function makeListAnimalNotAvailable(documentTimetable, hour){
             listAnimalNotAvailable.push(item.animalName)
         }
     }
+    listAnimalNotAvailable.push("__originalAdmin__")
     return listAnimalNotAvailable
 }
 

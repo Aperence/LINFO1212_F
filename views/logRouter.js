@@ -6,7 +6,6 @@ const bcrypt = require("bcryptjs");
 const multer = require("multer");
 var fs = require('fs');
 const path = require("path");
-var session = require('express-session');
 var MongoClient = require('mongodb').MongoClient
 
 const prefix = "/log"

@@ -181,6 +181,9 @@ function formatRenderObjects(doc, timetable){
     var ret = []
     for (let index = 0; index < doc.length; index++) {
         var name = doc[index].name
+        if (name=="__originalAdmin__"){
+            continue
+        }
         var isAnimal = doc[index].password === undefined // le mot de passe est d'office rempli si c'est un employé => permet de déterminer si c'est un animal ou un employé
         var nameLink = defineNameLink(name, isAnimal)
         var listTime = getListForAnimal(name, timetable)
