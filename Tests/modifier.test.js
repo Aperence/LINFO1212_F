@@ -25,14 +25,14 @@ describe('Tests de la modifications des caractéristiques des employés/animaux'
 
   beforeAll(async () => {    
     driver = new Builder().forBrowser("chrome").build();   // connecter en admin
-    await driver.get(urlConnect)
+    await driver.get('https://localhost:8080/tools/importEmployee')
     await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
     await driver.findElement(By.id("proceed-link")).click()
+    await driver.get('https://localhost:8080/tools/importAnimal')
+    await driver.get(urlConnect)
     await driver.findElement(By.id("nameEmployee")).sendKeys("Georges_Tel")
     await driver.findElement(By.id("connmdp")).sendKeys("test")
     await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
-    await driver.get('https://localhost:8080/tools/importEmployee')
-    await driver.get('https://localhost:8080/tools/importAnimal')
     return true
   }, 10000);
  

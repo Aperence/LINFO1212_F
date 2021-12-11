@@ -227,6 +227,7 @@ function returnPages(doc, req, timetable, sorted=null){
         req.session.searchResult = undefined
     }
     return {     //retourne l'objet pour remplir la template
+        "animaux" : req.session.isAnimal? "animaux" : "employés",
         "cat" : req.session.cat,
         "sort" : req.session.sort,
         "list" : doc,

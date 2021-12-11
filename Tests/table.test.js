@@ -23,14 +23,15 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
 
   beforeAll(async () => {    
     driver = new Builder().forBrowser("chrome").build();   // connecter en admin
-    await driver.get(urlConnect)
+    await driver.get('https://localhost:8080/tools/importEmployee')
     await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
     await driver.findElement(By.id("proceed-link")).click()
+    await driver.get('https://localhost:8080/tools/importAnimal')
+    await driver.get(urlConnect)
     await driver.findElement(By.id("nameEmployee")).sendKeys("Georges_Tel")
     await driver.findElement(By.id("connmdp")).sendKeys("test")
     await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
-    await driver.get('https://localhost:8080/tools/importEmployee')
-    await driver.get('https://localhost:8080/tools/importAnimal')
+
     return true
   }, 10000);
  
@@ -156,18 +157,18 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
     }, 4000, 'La requête n\'a pas abouti', 500)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/staffmodif?name=Georges_Tel")
+    var hasItem = false
     await driver.wait( async ()=>{
       MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
           db.db('site').collection("timetable").find({time : listHour[Hourindex]}).toArray((err,doc)=>{
             //vérifie que ajouté à la DB
-            assert(doc.length>0,"Requête non aboutie : l'objet n'a pas été ajouté")
+            if (doc.length>0){
+              hasItem = true
+            }
           })
       })
-      return true
+      return hasItem
     }, 4000, "Requête non aboutie : l'objet n'a pas été ajouté", 500)
-
-
-    
   });
 
 
@@ -231,7 +232,7 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
   test("Vérifie que l'on peut soumettre et que la tâche est ajoutée à Timetable (animal)", async () => {
     await driver.get( url + "/animalmodif?name=Lion");
 
-    //choisi un employé
+    //choisi une tâche
     await driver.wait( async ()=>{
       try{
         let selection = driver.findElement(By.id("taskList07:30"));
@@ -242,9 +243,9 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
       catch{
         return false
       }
-    }, 2000, 'La requête n\'a pas abouti', 500)
+    }, 5000, 'La requête n\'a pas abouti', 500)
 
-    //choisi une tâche
+    //choisi un employé
     await driver.wait( async ()=>{
       try{
         let selection = driver.findElement(By.id("nameSelection07:30"));
@@ -255,7 +256,7 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
       catch{
         return false
       }
-    }, 2000, 'La requête n\'a pas abouti', 500)
+    }, 5000, 'La requête n\'a pas abouti', 500)
 
     //envoie la requête
     await driver.wait( async () =>{
@@ -270,20 +271,16 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
     }, 2000, 'La requête n\'a pas abouti', 500)
     urlDestination = await driver.getCurrentUrl()
     expect(urlDestination).toContain(url + "/animalmodif?name=Lion")
+    var hasItem = false
     await driver.wait( async ()=>{
-      try{
-        MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
-            db.db('site').collection("timetable").find({time : "07:30"}).toArray((err,doc)=>{
-              
-                assert(doc.length>0, "Requête non aboutie : l'objet n'a pas été ajouté")
-
-            })
-        })
-        return true
-      }catch{
-        return false
-      }
-
-    }, 6000, "Requête non aboutie : l'objet n'a pas été ajouté", 500)
+      MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
+          db.db('site').collection("timetable").find({time : "07:30"}).toArray((err,doc)=>{
+            if (doc.length>0){
+              hasItem = true
+            }
+          })
+      })
+      return hasItem
+    }, 5000, "Requête non aboutie : l'objet n'a pas été ajouté", 500)
   });
 });

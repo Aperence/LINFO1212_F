@@ -29,11 +29,11 @@ describe('Tests des pages de connexion, inscription, profil', () => {
 
   beforeAll(async () => {    
     driver = new Builder().forBrowser("chrome").build();   
-    await driver.get(urlConnect)
+    await driver.get(url + '/tools/importEmployee')
     await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
     await driver.findElement(By.id("proceed-link")).click()
-    await driver.get(url + '/tools/importEmployee')
     await driver.get(url + '/tools/importAnimal')
+    await driver.get(urlConnect)
     return true
   }, 10000);
 

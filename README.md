@@ -71,5 +71,5 @@ La liste des commandes est la suivante :
 
 Nous avons également réalisés des fichiers de test Jest pour tester de manière plus approfondie les fonctionnalités de notre site.
 Pour lancer ces tests et s'assurer du bon fonctionnement du site, vous n'avez qu'à lancer la commande suivante en vous trouvant dans le dossier LINFO1212_F : 
-```npm test```.
+```npm test```. Nous vous invitons à lancer plusieurs fois les tests car il se peut dans de rare cas que ceux-ci échouent pour des raisons indépendantes de notre volonté (par exemple car un élément prend un peu trop de temps à charger).
 

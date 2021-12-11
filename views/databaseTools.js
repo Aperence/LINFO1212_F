@@ -43,7 +43,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.get('/importEmployee', (req,res)=>{
         var lstEmployee = [{
-            "name" : "Georges",
+            "name" : "Georges_Tel",
             "password" : "$2a$08$R27f0iKs4H2ziBqPC9BMD.vKZq5sTinaG/OMm56zWN/3tgjJXqZ9e", 
             "description" : "En vacances",
             "admin" : true,
