@@ -35,28 +35,7 @@ input{
     border-radius: 5px;
     border: 2px solid rgb(105, 202, 105);
     height: 50px;
-    padding : 0px 40px;
-    background-color: lightgray;
-}
-
-/** barre de recherche quand on met sa souris dessus */
-input:hover{
-    background-color: white;
-}
-
-/** icône de recherche */
-.loupe{
-    position: absolute;
-    left: 1.7%;
-    top: 30.5%;
-    cursor: pointer;
-}
-
-/** icône de suppression de la recherche */
-.suppress{
-    position: absolute;
-    left: 94.3%;
-    top: 30.5%
+    padding : 0px 10px;
 }
 
 a{

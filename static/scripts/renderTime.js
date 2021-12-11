@@ -55,6 +55,17 @@ function loadTime(){
    */
   renderTime()
   setInterval(()=>renderTime(), 1000)
+
+  $("body").keydown(function (e){ 
+    switch (e.which){
+        case 37: // flèche de gauche du clavier <--
+            window.location = "/schedule/decreaseNum";
+            break;
+        case 39: // flèche de droite du clavier -->
+            window.location = "/schedule/increaseNum";
+            break;
+    }
+});
 }
 
 function loadTableAnimalEmployee(){

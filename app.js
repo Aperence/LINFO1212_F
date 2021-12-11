@@ -13,6 +13,7 @@ var AniSchRouter = require('./views/animalScheduleRouter')
 
 
 var searchHelp = require('./server_scripts/search');
+const { calc_pagenum } = require("./server_scripts/displayTable");
 
 var app = express ();
 
@@ -49,7 +50,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     app.get("/upnavSite",(req,res)=>{
         var icon = "<i class='bx bxs-user-account bx-md' style='color:white'></i>"
         if (req.session.connected){
-            console.log("Photo", req.session.picture)
             if (req.session.picture){
                icon = `<img style="height:40px; width:40px; background-image:url(${req.session.picture}); background-size: cover;">`
             }
@@ -79,6 +79,9 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     })
 
     app.get("/search", (req,res)=>{
+        req.session.sort = undefined
+        req.session.cat = undefined
+        req.session.num = undefined
         dbo.collection("animal").find({ $text : { $search : req.query.search,  $language: "french"}}).toArray((err,docAnimal)=>{
             dbo.collection("employee").find({ $text : { $search : req.query.search,  $language: "french"}}).toArray((err,docEmployee)=>{
                 dbo.collection("animal").find().toArray((err,docAnimalTF)=>{
@@ -93,6 +96,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                                 return res.redirect("/")
                             }
                             else{
+                                req.session.numberPages = calc_pagenum(finalResult)
                                 req.session.searchResult = finalResult
                                 req.session.searched = req.query.search
                                 return res.redirect("/")

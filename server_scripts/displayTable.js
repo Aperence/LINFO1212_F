@@ -3,12 +3,13 @@ const modifHelp = require("./modifierMethods")
 
 const length = 20    //nombre d'animaux affiché par page
 
-function calc_pagenum(list,length){
+function calc_pagenum(list){
     /**
      * @pre : list : liste des incidents
      * @pre : length : la longueur d'une page (le nombre d'incidents affiché par page)
      * @post : le nombre total de page nécessaire pour afficher tous les incidents
      */
+
     num_page = (list.length - list.length%length)/length
     if (list.length%length!=0){
         num_page+=1
@@ -217,7 +218,7 @@ function returnPages(doc, req, timetable, sorted=null){
             return sorted*(o1.sortIndex - o2.sortIndex)
         })
     }
-    doc = doc.slice((req.query.num-1)*length,(req.query.num-1)*length+length)   //prend les éléments de [numéro_page: numéro_page+length_claims]  => affiche seulement 1 page (nombre incident arbitraire) et pas toute base données
+    doc = doc.slice((req.session.num-1)*length,(req.session.num-1)*length+length)   //prend les éléments de [numéro_page: numéro_page+length_claims]  => affiche seulement 1 page (nombre incident arbitraire) et pas toute base données
     var error = ""
     if (req.session.error){
         error = req.session.error

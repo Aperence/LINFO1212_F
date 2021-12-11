@@ -16,8 +16,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         if (req.session.name){
         req.session.theme = req.session.theme || "light"
         req.session.lastpage = prefix + "/animalSchedule"
-        req.query.num = req.query.num || req.session.num || 1   
-        req.session.num = req.session.num || 1    // si pas de numéro de page défini, charge la première page
+        req.session.num = parseInt(req.query.num) || req.session.num || 1       // si pas de numéro de page défini, charge la première page
         if (req.query.modifIsAnimal){
             req.session.isAnimal =  req.query.isAnimal === "true"
         }
@@ -62,12 +61,12 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     })
 
     router.get("/increaseNum", (req,res)=>{
-        req.session.num = req.session.num + 1 > req.session.numberPages ? req.session.num : req.session.num + 1   // dépasse pas la valeur max du nombre de page
+        req.session.num = parseInt(req.session.num) + 1 > req.session.numberPages ? req.session.num : parseInt(req.session.num) + 1   // dépasse pas la valeur max du nombre de page
         return res.redirect('/')
     })
 
     router.get("/decreaseNum", (req,res)=>{
-        req.session.num = req.session.num - 1 > 0 ? req.session.num - 1 : req.session.num   // dépasse pas la valeur minimale du nombre de page
+        req.session.num = parseInt(req.session.num) - 1 > 0 ? parseInt(req.session.num) - 1 : req.session.num   // dépasse pas la valeur minimale du nombre de page
         return res.redirect('/')
     })
 
