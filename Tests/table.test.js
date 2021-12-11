@@ -26,7 +26,7 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
     await driver.get(urlConnect)
     await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
     await driver.findElement(By.id("proceed-link")).click()
-    await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+    await driver.findElement(By.id("nameEmployee")).sendKeys("Georges_Tel")
     await driver.findElement(By.id("connmdp")).sendKeys("test")
     await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
     await driver.get('https://localhost:8080/tools/importEmployee')
@@ -44,7 +44,7 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
   
 
   test("Vérifie que l'on ne peut soumettre sans avoir rempli le nom (employé)", async () => {
-    await driver.get( url + "/staffmodif?name=Georges");
+    await driver.get( url + "/staffmodif?name=Georges_Tel");
     var Hourindex = 0
     await driver.wait( async ()=>{
       try{
@@ -73,12 +73,12 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
 
     }, 4000, 'La requête n\'a pas abouti', 5000)
     urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
+    expect(urlDestination).toContain(url + "/staffmodif?name=Georges_Tel")
   });
 
 
   test("Vérifie que l'on ne peut soumettre sans avoir rempli la tâche (employé)", async () => {
-    await driver.get( url + "/staffmodif?name=Georges");
+    await driver.get( url + "/staffmodif?name=Georges_Tel");
     var Hourindex = 0
     await driver.wait( async ()=>{
       try{
@@ -107,11 +107,11 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
 
     }, 4000, 'La requête n\'a pas abouti', 500)
     urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
+    expect(urlDestination).toContain(url + "/staffmodif?name=Georges_Tel")
   });
 
   test("Vérifie que l'on peut soumettre et que la tâche est ajoutée à Timetable (employé)", async () => {
-    await driver.get( url + "/staffmodif?name=Georges");
+    await driver.get( url + "/staffmodif?name=Georges_Tel");
 
     //choisi un animal
     var Hourindex = 0
@@ -155,7 +155,7 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
 
     }, 4000, 'La requête n\'a pas abouti', 500)
     urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
+    expect(urlDestination).toContain(url + "/staffmodif?name=Georges_Tel")
     await driver.wait( async ()=>{
       MongoClient.connect("mongodb://localhost:27017",(err,db)=>{
           db.db('site').collection("timetable").find({time : listHour[Hourindex]}).toArray((err,doc)=>{

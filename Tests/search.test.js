@@ -26,7 +26,7 @@
      await driver.findElement(By.id("proceed-link")).click()
      await driver.get(url + '/tools/importAnimal')
      await driver.get(urlConnect)
-     await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+     await driver.findElement(By.id("nameEmployee")).sendKeys("Georges_Tel")
      await driver.findElement(By.id("connmdp")).sendKeys("test")
      await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
 

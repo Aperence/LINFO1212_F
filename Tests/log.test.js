@@ -54,7 +54,7 @@ describe('Tests des pages de connexion, inscription, profil', () => {
 
             await driver.get(urlDeleteOne + '?coll=employee&name=test_')
             await driver.get(urlConnect)
-            await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+            await driver.findElement(By.id("nameEmployee")).sendKeys("Georges_Tel")
             await driver.findElement(By.id("connmdp")).sendKeys("test")
             await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
             await driver.get(urlInscription)
@@ -94,7 +94,7 @@ describe('Tests des pages de connexion, inscription, profil', () => {
 
         await driver.get(urlDeleteOne + '?coll=animal&name=Pingouin')
         await driver.get(urlConnect)
-        await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+        await driver.findElement(By.id("nameEmployee")).sendKeys("Georges_Tel")
         await driver.findElement(By.id("connmdp")).sendKeys("test")
         await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
         await driver.get(urlInscription)
@@ -123,7 +123,7 @@ describe('Tests des pages de connexion, inscription, profil', () => {
       test("Vérifie la fonctionnalité du profil des employés (modification de la description)", async () => {
 
         await driver.get(urlConnect)
-        await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+        await driver.findElement(By.id("nameEmployee")).sendKeys("Georges_Tel")
         await driver.findElement(By.id("connmdp")).sendKeys("test")
         await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
         await driver.get(urlProfil)
@@ -132,7 +132,7 @@ describe('Tests des pages de connexion, inscription, profil', () => {
         await driver.findElement(By.id("descModifTest")).click()
         MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             dbo = db.db("site")
-            dbo.collection("employee").find({name : "Georges"}).toArray((err,doc)=>{
+            dbo.collection("employee").find({name : "Georges_Tel"}).toArray((err,doc)=>{
               assert(doc[0].description === desc + " pendant une semaine", `La description n'a pas été modifiée : obtenu ${doc[0].description} , attendu ${desc + " pendant une semaine"}`)
             })
         })
@@ -141,7 +141,7 @@ describe('Tests des pages de connexion, inscription, profil', () => {
       test("Vérifie la fonctionnalité du profil des employés (modification du mot de passe)", async () => {
 
         await driver.get(urlConnect)
-        await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+        await driver.findElement(By.id("nameEmployee")).sendKeys("Georges_Tel")
         await driver.findElement(By.id("connmdp")).sendKeys("test")
         await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
         await driver.get(urlProfil)
@@ -150,7 +150,7 @@ describe('Tests des pages de connexion, inscription, profil', () => {
         var hasResult = false
         MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
             dbo = db.db("site")
-            dbo.collection("employee").find({name : "Georges"}).toArray((err,doc)=>{
+            dbo.collection("employee").find({name : "Georges_Tel"}).toArray((err,doc)=>{
               assert(bcrypt.compareSync("test2", doc[0].password), `Le mot de passe n'a pas été modifiée`)
               hasResult = true
             })
