@@ -28,7 +28,7 @@ describe('Tests de la modifications des caractéristiques des employés/animaux'
     await driver.get(urlConnect)
     await driver.findElement(By.id("details-button")).click()   //accepte les danger HTTPS
     await driver.findElement(By.id("proceed-link")).click()
-    await driver.findElement(By.id("nameEmployee")).sendKeys("Georges")
+    await driver.findElement(By.id("nameEmployee")).sendKeys("Georges_Tel")
     await driver.findElement(By.id("connmdp")).sendKeys("test")
     await driver.findElement(By.className("buttonModif")).click()   // se connecte en admin
     return true
@@ -47,17 +47,17 @@ describe('Tests de la modifications des caractéristiques des employés/animaux'
    * 
    */
   test("Vérifie que la description est modifiée (employé)", async () => {
-    await driver.get( url + "/staffmodif?name=Georges");
+    await driver.get( url + "/staffmodif?name=Georges_Tel");
     await driver.findElement(By.id("descModifier")).click()
     var defaultdesc = await driver.findElement(By.id("desc")).getAttribute("value")
     var append = "rajoutons du texte"
     await driver.findElement(By.id("desc")).sendKeys(append)
     await driver.findElement(By.id("submitButton")).click()
     var urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
+    expect(urlDestination).toContain(url + "/staffmodif?name=Georges_Tel")
     MongoClient.connect("mongodb://localhost:27017", (err,db)=>{
         dbo = db.db("site")
-        dbo.collection("employee").find({name : "Georges"}).toArray((err,doc)=>{
+        dbo.collection("employee").find({name : "Georges_Tel"}).toArray((err,doc)=>{
             assert(doc[0].description === defaultdesc+append, `La description n'a pas bien été modifiée : attendu : ${defaultdesc+append}, reçu ${doc[0].description}`)
         })
     })
@@ -65,15 +65,15 @@ describe('Tests de la modifications des caractéristiques des employés/animaux'
 
 
   test("Vérifie que l'heure de début est modifiée", async () => {
-    await driver.get( url + "/staffmodif?name=Georges");
+    await driver.get( url + "/staffmodif?name=Georges_Tel");
     await driver.findElement(By.id("descModifier")).click()
     await driver.executeScript("document.getElementById('rangeStart').value = '10.5'")  // met l'heure à 10:30
     await driver.findElement(By.id("submitButton")).click()
     var urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
+    expect(urlDestination).toContain(url + "/staffmodif?name=Georges_Tel")
     MongoClient.connect("mongodb://localhost:27017", (err,db)=>{
         dbo = db.db("site")
-        dbo.collection("employee").find({name : "Georges"}).toArray((err,doc)=>{
+        dbo.collection("employee").find({name : "Georges_Tel"}).toArray((err,doc)=>{
             assert(doc[0].startHour === modifHelp.formatHourString([10,30]), `L'heure de début n'a pas été correctement modifiée : ${modifHelp.formatHourString([10,30])} attendu et l'heure est ${doc[0].endHour}`)
         })
     })
@@ -81,24 +81,24 @@ describe('Tests de la modifications des caractéristiques des employés/animaux'
 
 
   test("Vérifie que l'heure de fin est modifiée", async () => {
-    await driver.get( url + "/staffmodif?name=Georges");
+    await driver.get( url + "/staffmodif?name=Georges_Tel");
     await driver.findElement(By.id("descModifier")).click()
     await driver.executeScript("document.getElementById('rangeEnd').value =  '4.0'")  // met l'heure à 04:00
     await driver.findElement(By.id("submitButton")).click()
     MongoClient.connect("mongodb://localhost:27017", (err,db)=>{
         dbo = db.db("site")
-        dbo.collection("employee").find({name : "Georges"}).toArray((err,doc)=>{
+        dbo.collection("employee").find({name : "Georges_Tel"}).toArray((err,doc)=>{
             assert(doc[0].endHour === modifHelp.formatHourString([4,0]), `L'heure de fin n'a pas été correctement modifiée : ${modifHelp.formatHourString([4,0])} attendu et l'heure est ${doc[0].endHour}`)
         })
     })
     var urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
+    expect(urlDestination).toContain(url + "/staffmodif?name=Georges_Tel")
   });
 
 
 
   test("Vérifie que la base de données est mise à jour quand on modifie les horaires", async () => {
-    await driver.get( url + "/staffmodif?name=Georges");
+    await driver.get( url + "/staffmodif?name=Georges_Tel");
 
     //choisi un animal
     var Hourindex = 0
@@ -151,7 +151,7 @@ describe('Tests de la modifications des caractéristiques des employés/animaux'
     var finished = false
     MongoClient.connect("mongodb://localhost:27017", (err,db)=>{
         dbo = db.db("site")
-        dbo.collection("timetable").find({name : "Georges"}).toArray((err,doc)=>{
+        dbo.collection("timetable").find({name : "Georges_Tel"}).toArray((err,doc)=>{
             for (let item of doc){
                 var actualHour = modifHelp.formatHour(item.time)
                 assert(modifHelp.comprisedBetween(startHourArray, endHourArray, actualHour), 
@@ -164,7 +164,7 @@ describe('Tests de la modifications des caractéristiques des employés/animaux'
         return finished
     }, 10000, 'La  requête n\'a pas abouti', 1000)
     var urlDestination = await driver.getCurrentUrl()
-    expect(urlDestination).toContain(url + "/staffmodif?name=Georges")
+    expect(urlDestination).toContain(url + "/staffmodif?name=Georges_Tel")
   });
 
   
