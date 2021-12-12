@@ -4,7 +4,8 @@
   "description": "projet final du cours de projet d'approfondissement en sciences informatiques",
   "main": "app.js",
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "globalTeardown": "./Tests/teardown.js"
   },
   "scripts": {
     "prestart": "mongod --dbpath database&",

@@ -69,7 +69,7 @@ describe('Tests des pages de connexion, inscription, profil', () => {
             await driver.findElement(By.id("confmdp")).sendKeys("d")
             await driver.findElement(By.id("employeeSubTest")).click()
             urlDestination = await driver.getCurrentUrl()
-            assert(urlDestination === urlInscription, "Problème")
+            expect(urlDestination).toContain(urlInscription)
             var hasElement = false
             await driver.wait(()=>{
               MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
