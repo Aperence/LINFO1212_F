@@ -44,13 +44,13 @@ Pour tester le bon fonctionnement de notre site, nous avons utilisé divers moye
 ### Fichiers d'exemple
 
 Dans le dossier database_example, vous pourrez trouver 3 fichiers JSON contenant des exemples basiques d'éléments de la base de données.
-Pour la ajouter à la base de données, il vous suffit de lancer les commandes suivantes dans votre invite de commande à partir du dossier database_example: 
+Pour l'ajouter à la base de données, il vous suffit de lancer les commandes suivantes dans votre invite de commande à partir du dossier database_example: 
 ```bash
 mongoimport -d site -c animal exampleAnimal.json
 mongoimport -d site -c employee exampleEmployee.json
 mongoimport -d site -c timetable exampleTimeTable.json 
 ```
-Vous aurez ainsi inséré quelques petits examples pour tester le site.
+Vous aurez ainsi inséré quelques petits exemples pour tester le site.
 
 ### Fonctions de gestion de la base de données et de débuggage
 
@@ -62,10 +62,10 @@ La liste des commandes est la suivante :
 - append : rajoute un certain nombre d'employés, d'animaux et d'affectations aléatoires dans la base de données.
 - clear : supprime tous les éléments, de toutes les bases de données utilisées par le site
 - serialize : sauvegarde l'entièreté des documents se trouvant dans la base de données dans les 3 fichiers suivant se trouvant dans le dossier database_save: 
-    - sauvegarde la collection animal dans animalSave.json
-    - sauvegarde la collection employee dans employeeSave.json
-    - sauvegarde la collection timetable dans timetableSave.json
-- deserialize : recrée la base de données à partir de 3 fichiers tels que ceux cités dans serialize (JSON avec un attribut list : ensemble des document JSON de la collection). Passez l'argument auto=true pour charger la dernière sauvegarde automatique réalisée (```ex : tools/deserialize?auto=true```)
+    - sauvegarde la collection ```animal``` dans animalSave.json
+    - sauvegarde la collection ```employee``` dans employeeSave.json
+    - sauvegarde la collection ```timetable``` dans timetableSave.json
+- deserialize : recrée la base de données à partir de 3 fichiers tels que ceux cités dans serialize (JSON avec un attribut list : ensemble des documents JSON de la collection). Passez l'argument auto=true pour charger la dernière sauvegarde automatique réalisée (```ex : tools/deserialize?auto=true```)
 
 ### Fichiers de tests Jest
 
