@@ -94,6 +94,24 @@
      assert(length > 0, `Au moins un résultat aurait dû être trouvé : ${length} éléments trouvés` )
   });
 
+  test("Vérifie que l'on trouve bien un résultat en tapant plusieurs mots et que cela supprime la ponctuation", async () => {
+    await driver.get(url)
+    await driver.wait(async ()=>{
+     try{
+       await driver.findElement(By.id("search")).sendKeys("Lion.? Colère", Key.RETURN)
+       return true
+     }catch{
+       return false
+     }
+    }, 1000, "Erreur : la page n'a pas chargé à temps", 100)
+    var elements = await driver.findElements(By.css(".ElementForTest"))
+    var length = 0
+    for (let elem of elements){
+        length ++
+    }
+    assert(length > 0, `Au moins un résultat aurait dû être trouvé : ${length} éléments trouvés` )
+  });
+
   test("Vérifie que l'on a bien une alerte en ayant aucun résultat", async () => {
     await driver.get(url)
     await driver.get(url)

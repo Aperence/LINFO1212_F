@@ -36,7 +36,6 @@ describe('Tests de la modifications des horaires des employés/animaux', () => {
   }, 10000);
  
   afterAll(async () => {
-    await driver.get(urlClear)
     await driver.quit();
     return true
   }, 15000);
