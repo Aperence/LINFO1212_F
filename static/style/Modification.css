@@ -88,6 +88,10 @@ td{
     width: 80%;
 }
 
+textarea{
+    resize : none;
+}
+
 @media (max-width: 767px){
 
     .Maincontent{
