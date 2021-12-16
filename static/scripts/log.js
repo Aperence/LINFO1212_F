@@ -1,4 +1,4 @@
-/** Fichier contenant le code côté client des pages connexion, inscription et profil.html */
+/** Fichier contenant le code côté client des pages connexion, inscription et profil */
 
 function loadError(){
     /**
@@ -12,14 +12,18 @@ function loadError(){
 }
 
 function loadUpnav(){
-  /**
-   * @pre : -
-   * @post : charge la barre de navigation supérieure dans l'élément ayant l'id "upnav"
-   */
+   /**
+    * @pre : -
+    * @post : charge la barre de navigation supérieure dans l'élément ayant l'id "upnav"
+    */
    $("#upnav").load("/upnavSite")
 }
 
 function loadHour(){
+    /**
+     * @pre : -
+     * @post : charge l'heure sous le format "hh:mm  hh:mm"
+     */
     var startHour = document.getElementById("startHour").value;
     var endHour = document.getElementById("endHour").value;
     var heureDebut = startHour%1*60;
@@ -59,7 +63,7 @@ function checkmdp(){
 function AfficherMDP(){
     /**
      * @pre : -
-     * @post : permet d'afficher le mot de passe quand on clique sur le bouton pour l'afficher (cadre d'inscription)
+     * @post : affiche les deux mots de passe quand on clique sur le bouton
      */
     var me = document.getElementById("connmdp");
     var mf = document.getElementById("confmdp");
