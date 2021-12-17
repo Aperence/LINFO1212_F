@@ -16,8 +16,12 @@ Vous n'aurez ensuite qu'à télécharger l'archive zip se trouvant sur le [githu
 Pour lancer notre site, il vous suffit de lancer les commandes suivantes dans votre invite de commande : 
 ```bash
 mongod --dbpath (chemin/au/fichier/LINFO1212_F)/database*
+```
+```bash 
+// dans un nouveau terminal
 cd database_example                     // se rendre dans les fichiers avec les exemples
 mongoimport -d site -c employee originalAdmin.json
+cd ..
 node app.js
 ```
 
