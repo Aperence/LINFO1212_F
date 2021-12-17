@@ -78,7 +78,7 @@ label, input{
     }
 
     .box{
-        width: 70%;
+        width: 90%;
         margin-top: 20px;
         margin-bottom: 20px;
         min-width: var(--min);
