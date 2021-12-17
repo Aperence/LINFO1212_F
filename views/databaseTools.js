@@ -25,7 +25,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         dbo.collection("timetable").deleteMany({});
         dbo.collection("employee").deleteMany({});
         dbo.collection("animal").deleteMany({});
-        res.redirect("/")
+        res.redirect("/log/deconnexion")
     })
 
     router.get("/deleteOne", (req,res)=>{

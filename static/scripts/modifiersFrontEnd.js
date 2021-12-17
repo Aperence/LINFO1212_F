@@ -198,7 +198,6 @@ function changeAnimalStaff(){
   if (isAnimal === "false"){
     var ids = ["rangeStart", "rangeEnd", "rangeResult", "checkLabel", "hideLabel"]
     for (let id of ids){
-      console.log(id)
       document.getElementById(id).style.display = "inline";
     }
   }

@@ -1,6 +1,10 @@
 /** Fichier css pour les pages de connexion, d'inscription et du profil */
 
 /* code relatif aux inputs (contenant toute la page html sauf la barre de navigation) */
+:root{
+    --min : 300px;
+}
+
 .border{
     flex-direction: row;
 }
@@ -53,6 +57,12 @@ label, input{
     width: 100%;
 }
 
+.marginLR{
+    margin-left: 5px;
+    margin-right : 5px;
+    float : none;
+}
+
 
 @media (max-width: 767px){
 
@@ -61,14 +71,27 @@ label, input{
     }
     
     .midbox{
-        width: 70%;
+        width: 90%;
         margin-top: 20px;
         margin-bottom: 20px;
+        min-width: var(--min);
     }
 
     .box{
         width: 70%;
         margin-top: 20px;
         margin-bottom: 20px;
+        min-width: var(--min);
+    }
+
+    #upnav{
+        min-width: var(--min);
+    }
+}
+
+@media (max-width: 368px){
+    .moveRight{
+        position: relative;
+        left: 40%;
     }
 }

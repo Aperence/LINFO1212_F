@@ -21,6 +21,10 @@
     margin-bottom: 20px;
 }
 
+#upnav{
+    min-width: 500px;
+}
+
 table, th, td{
     border: solid 2px black;
     border-collapse: collapse;
@@ -92,4 +96,8 @@ input[type='range']::-webkit-slider-thumb{
 
 a{
     text-decoration: none;
+}
+
+.dropdown-menu{
+    min-width : 225px;
 }

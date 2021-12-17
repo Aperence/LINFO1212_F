@@ -175,7 +175,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     countElement = files.length;   // regarde le nombre d'images dans le dossier
 
                     var tempPath = req.file.path;
-                    console.log(tempPath)
                     if (doc[0].picture ){
                         var targetPath = path.join(__dirname, `.././static/` + doc[0].picture);  // si il y a déjà une image => écrase l'ancienne pour économiser le stockage
                     }else{
@@ -183,11 +182,9 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     }
 
                     var urlDestination = doc[0].picture || `./uploads/${countElement+1}image.png`
-                    console.log(targetPath)
 
                     fs.rename(tempPath, targetPath, err =>{   //ajoute l'image au dossier upload se trouvant dans static
                         if (err) return err
-                        console.log("uploaded")
                         fs.readdir("./dbimages", (err, files) => {
                             // supprime les fichiers temporaires quand on a fini avec cette image
                             for (const file of files){

@@ -99,9 +99,7 @@ function changeSort(sort){
    * croissant et décroissant)
    */
   if (document.getElementById("cat").value === sort){
-    console.log(document.getElementById("cat").value)
     var sortOrder = parseInt(document.getElementById("sort").value)
-    console.log((-sortOrder || 1))
     return window.location = "/schedule/changesort?cat=" + sort + `&sort=${(-sortOrder || 1)}`
   }
   window.location = "/schedule/changesort?cat=" + sort + "&sort=1" 

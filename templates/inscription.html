@@ -54,7 +54,13 @@
     <label for="descriptionEmployee"><b>Description</b></label>
     <input type="text" id="descriptionEmployee" name="descriptionEmployee" required>
 
-    <label for="startHour"><b>Horaire<span id="horaire"></span></b></label>
+    <label for="startHour">
+        <b>Horaire
+            <span class="marginLR">
+                De <span id="startText" class="marginLR"></span> à <span id="endText" class="marginLR"></span>
+            </span>
+        </b>
+    </label>
     <input type="range" id="startHour" name="startHour" value="12" min="0" max="23.5" step="0.5" oninput="loadHour()"> <!-- Sélection de l'heure -->
     <input type="range" id="endHour" name="endHour" value="12" min="0" max="23.5" step="0.5" oninput="loadHour()"> <!-- Sélection de l'heure -->
 

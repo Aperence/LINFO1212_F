@@ -73,7 +73,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                 }
                 else{
                     dbo.collection("animal").insertOne({name : req.body.nameAnimal, description : req.body.descriptionAnimal})
-                    console.log("Animal créé : ", req.body.nameAnimal, req.body.descriptionAnimal)
                     res.redirect(req.session.lastpage)
                 }
             });
@@ -87,7 +86,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         if (req.body.nameEmployee != null && req.body.descriptionEmployee != null && req.body.connmdp != null && req.body.confmdp != null && req.body.startHour != null && req.body.endHour != null){
             dbo.collection("employee").find({name : req.body.nameEmployee}).toArray((err,doc)=>{
                 if (doc.length!=0){
-                    console.log("Employé déjà existant");
                     req.session.error = "Employé déjà existant.";
                     res.redirect(req.session.lastpage)
                 }
@@ -119,8 +117,13 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                     }
                     var defStartHour = startHour + ":" + heureDebut
                     var defEndHour = endHour + ":" + heureFin
-                    dbo.collection("employee").insertOne({name : req.body.nameEmployee, password : hashedPassword, description : req.body.descriptionEmployee, admin : req.body.admin, startHour : defStartHour, endHour : defEndHour})
-                    console.log("Employé créé : ", req.body.nameEmployee, req.body.descriptionEmployee, hashedPassword, req.body.connmdp, req.body.admin, defStartHour, defEndHour)
+                    dbo.collection("employee").insertOne({name : req.body.nameEmployee, 
+                        password : hashedPassword, 
+                        description : req.body.descriptionEmployee, 
+                        admin : req.body.admin, 
+                        startHour : defStartHour, 
+                        endHour : defEndHour
+                    })
                     res.redirect(req.session.lastpage)
                 }
             });
@@ -133,7 +136,6 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
     // fonction du formulaire de connexion
     router.post('/connexion.html', function(req,res,next){
         if (req.body.nameEmployee != null && req.body.connmdp != null){
-            console.log("Compte cherché : ", req.body.nameEmployee, req.body.connmdp)
             dbo.collection("employee").find({name : req.body.nameEmployee}).toArray((err,doc)=>{
                 if (doc.length===0){
                   req.session.error = "Utilisateur inexistant.";
@@ -142,13 +144,11 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
                 else{
                     pwd = doc[0].password;
                     const verifPassword =  bcrypt.compareSync(req.body.connmdp, pwd);
-                    console.log("Connected" , req.body.nameEmployee , pwd)
                     if (verifPassword){
                         req.session.connected = true;
                         req.session.name = req.body.nameEmployee;
                         req.session.isAdmin = doc[0].admin;
                         req.session.picture = doc[0].picture;
-                        console.log(req.session.name)
                         res.redirect('/');
                     }
                     else{
@@ -166,19 +166,16 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
     router.post('/modifDescription.html', function(req,res,next){
         dbo.collection("employee").updateOne({name : req.session.name},{$set: {description : req.body.descriptionEmployee}});
-        console.log("Description modifiée")
         res.redirect(req.session.lastpage)
     })
 
     router.post('/modifPassword.html', function(req,res,next){
         var hashedPassword = bcrypt.hashSync(req.body.connmdp, 8);
         dbo.collection("employee").updateOne({name : req.session.name},{$set: {password : hashedPassword}});
-        console.log("Mot de passe modifié")
         res.redirect(req.session.lastpage)
     })
 
     router.post('/modifPicture.html', upload.single('picture'), function(req,res,next){
-        console.log("-----",req.session.name)
         dbo.collection("employee").find({name : req.session.name}).toArray((err,doc)=>{
             if (req.file){
                 var countElement;
@@ -194,12 +191,10 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
 
                     var urlDestination = doc[0].picture || `./uploads/${countElement+1}image.png`
                     req.session.picture = urlDestination
-                    console.log("Uploadé : ", urlDestination,"\t", req.session.picture)
 
                     fs.rename(tempPath, targetPath, err =>{   //ajoute l'image au dossier upload se trouvant dans static
                         if (err) return err
                             fs.readdir("./dbimages", (err, files) => {
-                                console.log(files)
                                 for (const file of files){
                                     try{
                                         fs.unlinkSync( path.join(__dirname, "../dbimages/" + file))
@@ -219,7 +214,7 @@ MongoClient.connect('mongodb://localhost:27017', (err,db)=>{
         });
     })
 
-    router.get('/deconnection.html', function(req,res,next){
+    router.get(['/deconnection.html', "/deconnexion"], function(req,res,next){
         req.session.isAdmin = false;
         req.session.connected = false;
         req.session.name = null;

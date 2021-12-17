@@ -42,7 +42,8 @@ function loadHour(){
     if (heureFin == 0){
         heureFin = heureFin.toString() + "0";
     }
-    document.getElementById("horaire").innerHTML = "&nbsp&nbsp&nbspde&nbsp&nbsp&nbsp" + startHour + ":" + heureDebut + "&nbsp&nbsp&nbspà&nbsp&nbsp&nbsp" + endHour + ":" + heureFin;
+    document.getElementById("startText").innerHTML = startHour + ":" + heureDebut 
+    document.getElementById("endText").innerHTML = endHour + ":" + heureFin;
 }
 
 function checkmdp(){
